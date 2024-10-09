@@ -1,0 +1,11 @@
+.layout {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	// background-image: url('/bg.png');
+	align-items: center;
+	background-position: center;
+	height: 100%;
+	overflow: auto;
+	background-size: cover;
+}

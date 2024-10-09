@@ -1,0 +1,26 @@
+.react-switch-bg {
+	position: relative !important;
+	margin: 0 !important;
+
+	& > svg {
+		padding: 10px !important;
+	}
+}
+
+.react-switch-handle {
+	height: 12px !important;
+	width: 12px !important;
+	background: rgb(255, 255, 255) !important;
+	display: inline-block !important;
+	cursor: pointer !important;
+
+	position: absolute !important;
+	transform: translateX(2px) !important;
+	top: 2px !important;
+	outline: 0px !important;
+	box-shadow: none !important;
+	border: 0px !important;
+	transition: background-color 0.25s, transform 0.25s, box-shadow 0.15s !important;
+	box-shadow: 1px 1px 1px #7f86a8, -0.5px -0.5px 1px #a8acc4 !important;
+	border-radius: 3px !important;
+}

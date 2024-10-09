@@ -1,0 +1,138 @@
+.wrapper {
+	flex: 1 0 auto;
+	flex-direction: column;
+	display: flex;
+	background: #fcfcfe url('/assets/img/interface/main-bg.png') no-repeat fixed
+		center bottom;
+	background-size: 100%;
+
+	&::before {
+		content: '';
+		position: absolute;
+		width: 532px;
+		height: 532px;
+		background: rgba(237, 218, 230, 0.5);
+		opacity: 0.6;
+		right: -180px;
+		top: -120px;
+		border-radius: 50%;
+		pointer-events: none;
+	}
+}
+
+.inner {
+	position: relative;
+	display: flex;
+	flex: 1 0 auto;
+}
+
+.content {
+	max-width: 1440px;
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto 20px;
+	width: 100%;
+	z-index: 1;
+}
+
+.lesson {
+	padding: 5px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	flex: 1 0 auto;
+}
+
+.lesson__inner {
+	display: flex;
+	flex: 1 0 auto;
+	margin: 0 -8px 20px;
+}
+
+.panel {
+	position: fixed;
+	z-index: 10;
+	padding-bottom: 50px;
+	top: -5px;
+	bottom: -5px;
+	padding-top: 10px;
+	overflow-y: auto;
+
+	&__inner {
+		height: 100%;
+		width: 366px;
+		padding: 0 8px;
+	}
+
+	&__content {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+// top
+
+.top {
+	background: #fff;
+	padding: 16px;
+	margin-bottom: 16px;
+	background: #fff;
+	box-shadow: 0 0px 10px rgba(46, 77, 95, 0.15);
+	border-radius: 10;
+}
+
+.info {
+	padding: 15px 0;
+
+	& span {
+		font-weight: bold;
+		color: #5e72d9;
+	}
+	&__text {
+		margin-bottom: 10px;
+		line-height: 120%;
+
+		&_active {
+			& span {
+				font-weight: bold;
+				color: #5e72d9;
+			}
+		}
+	}
+
+	&__status {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		margin-left: 6px;
+		background: #29e820;
+	}
+}
+
+// bottom
+
+.bottom {
+	position: relative;
+
+	&__buttonWrapper {
+		position: absolute;
+		left: 50%;
+		top: -30px;
+		margin-right: -50%;
+		transform: translateX(-50%);
+	}
+
+	&__button {
+		border-radius: 20px;
+		background: #5e72d9;
+		font-size: 20px;
+		line-height: 120%;
+		width: 317px;
+		height: 51px;
+		color: #dee2ff;
+		padding: 0 14px;
+		transition: all 0.3s;
+	}
+}
