@@ -1,0 +1,47 @@
+.panel {
+    position: fixed;
+    z-index: 10;
+    padding-bottom: 50px;
+    top: -5px;
+    bottom: -5px;
+    padding-top: 10px;
+    overflow-y: auto;
+
+    &__inner {
+        height: 100%;
+        width: 366px;
+        padding: 0 8px;
+    }
+
+    &__content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+// bottom
+
+.bottom {
+    position: relative;
+
+    &__buttonWrapper {
+        position: absolute;
+        left: 50%;
+        top: -30px;
+        margin-right: -50%;
+        transform: translateX(-50%);
+    }
+
+    &__button {
+        border-radius: 20px;
+        background: #5e72d9;
+        font-size: 20px;
+        line-height: 120%;
+        width: 317px;
+        height: 51px;
+        color: #dee2ff;
+        padding: 0 14px;
+        transition: all 0.3s;
+    }
+}

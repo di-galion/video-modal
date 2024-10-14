@@ -1,70 +1,38 @@
-import classNames from 'classnames'
-import { useState } from 'react'
-import PanelItems from '../panel-items/PanelItems'
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
+import { isTeacher } from '../../utils/roles';
+import { useCurrentRole } from '../../hooks/roles';
+import { TeacherBlock } from './components/TeacherBlock';
+import { EnumSectionTypes } from '../../constants/sectionTypes.constants';
+import { StudentBlock } from './components/StudentBlock';
+import { PlanBlock } from './components/PlanBlock';
+import { ListBlock } from './components/ListBlock';
+import { useCurrentSection } from '../../hooks/sections';
+import { useActions } from '../../hooks/useActions';
+import { isSectionPlan } from '../../utils/sections';
 
-enum EnumSectionTypes {
-	PLAN = 'plan',
-	LIST = 'list',
-}
-const PanelSectionMiddle = ({ isTeacher }) => {
-	const [section, setSection] = useState(EnumSectionTypes.PLAN)
+const PanelSectionMiddle = () => {
+    const section = useCurrentSection();
+    const { setSection } = useActions();
+    const role = useCurrentRole();
 
-	const onClickChangeSection = value => {
-		setSection(value)
-	}
-	return (
-		<div className={styles.middle}>
-			{isTeacher ? (
-				<div className={styles.middle__buttonWrapper}>
-					<div className={styles.middle__buttons}>
-						<button
-							onClick={() => onClickChangeSection(EnumSectionTypes.PLAN)}
-							className={classNames(styles.middle__button, {
-								[styles.middle__button_active]:
-									section === EnumSectionTypes.PLAN,
-							})}
-						>
-							<span>План занятия</span>
-						</button>
-						<button
-							onClick={() => onClickChangeSection(EnumSectionTypes.LIST)}
-							className={classNames(styles.middle__button, {
-								[styles.middle__button_active]:
-									section === EnumSectionTypes.LIST,
-							})}
-						>
-							<span> Список студентов</span>
-						</button>
-					</div>
-				</div>
-			) : (
-				<span className={styles.middle__title}>План занятия</span>
-			)}
+    const onClickChangeSection = (value: EnumSectionTypes) => {
+        setSection(value);
+    };
 
-			{section === EnumSectionTypes.PLAN ? (
-				<div className={styles.middle__main}>
-					<div className={styles.wrapper}>
-						<PanelItems />
-					</div>
-				</div>
-			) : (
-				<div className={styles.list__margin10}>
-					<div className={styles.list__items}>
-						<button className={styles.list__button}>
-							<span className={styles.list__ratio}></span>
-							Игорь Крутой
-						</button>
-						<span
-							className={classNames(styles.list__status, {
-								[styles.list__status_red]: true,
-							})}
-						></span>
-					</div>
-				</div>
-			)}
-		</div>
-	)
-}
+    return (
+        <div className={styles.middle}>
+            {isTeacher(role) ? (
+                <TeacherBlock
+                    onClickChangeSection={onClickChangeSection}
+                    section={section}
+                />
+            ) : (
+                <StudentBlock />
+            )}
 
-export default PanelSectionMiddle
+            {isSectionPlan(section) ? <PlanBlock /> : <ListBlock />}
+        </div>
+    );
+};
+
+export default PanelSectionMiddle;

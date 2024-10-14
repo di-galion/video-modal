@@ -1,17 +1,11 @@
-import styles from './styles.module.scss'
+import { Image } from '../../../controls/image/Image';
 
 const Lesson1 = () => {
-	return (
-		<div>
-			<div className={styles.imgWrapper}>
-				<img
-					className={styles.imgWrapper__img}
-					src='/assets/img/ma/hello/hello.jpg'
-					alt=''
-				/>
-			</div>
-		</div>
-	)
-}
+    return (
+        <div>
+            <Image src="/assets/img/ma/hello/hello.jpg" />
+        </div>
+    );
+};
 
-export default Lesson1
+export default Lesson1;

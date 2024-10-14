@@ -1,0 +1,61 @@
+.wrapper {
+    flex: 1 0 auto;
+    flex-direction: column;
+    display: flex;
+    background: #fcfcfe url('/assets/img/interface/main-bg.png') no-repeat fixed
+        center bottom;
+    background-size: 100%;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 532px;
+        height: 532px;
+        background: rgba(237, 218, 230, 0.5);
+        opacity: 0.6;
+        right: -180px;
+        top: -120px;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+}
+
+.inner {
+    position: relative;
+    display: flex;
+    flex: 1 0 auto;
+}
+
+.content {
+    max-width: 1440px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 20px;
+    width: 100%;
+    z-index: 1;
+}
+
+.lesson {
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.lesson__inner {
+    display: flex;
+    flex: 1 0 auto;
+    margin: 0 -8px 20px;
+}
+
+// top
+
+.top {
+    background: #fff;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: #fff;
+    box-shadow: 0 0px 10px rgba(46, 77, 95, 0.15);
+    border-radius: 10;
+}

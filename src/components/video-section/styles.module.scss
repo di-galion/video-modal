@@ -1,0 +1,28 @@
+.info {
+    padding: 15px 0;
+
+    & span {
+        font-weight: bold;
+        color: #5e72d9;
+    }
+    &__text {
+        margin-bottom: 10px;
+        line-height: 120%;
+
+        &_active {
+            & span {
+                font-weight: bold;
+                color: #5e72d9;
+            }
+        }
+    }
+
+    &__status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-left: 6px;
+        background: #29e820;
+    }
+}

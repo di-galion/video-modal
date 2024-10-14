@@ -1,79 +1,27 @@
 .bottom {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-	&__button {
-		padding: 12px 15px;
-		background: #fff;
-		border-radius: 5px;
-		box-shadow: 0 1px 4px rgba(193, 205, 254, 0.3);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 25px;
-		color: #000;
-		transition: all 0.3s;
+    &__button {
+        &_left {
+            margin-right: auto;
+        }
 
-		&_left {
-			margin-right: auto;
-		}
-
-		&_right {
-			margin-left: 15px;
-		}
-	}
+        &_right {
+            margin-left: 15px;
+        }
+    }
 }
 
 .buttonSave {
-	padding: 12px 15px;
-	font-size: 25px;
-	box-shadow: none;
-	background: none;
-	background: #fff;
-	border-radius: 5px;
-	box-shadow: 0 1px 4px rgba(193, 205, 254, 0.3);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 25px;
-	color: #000;
-	transition: all 0.3s;
-	margin-left: 15px;
-
-	&:disabled {
-		opacity: 0.5;
-		filter: grayscale(0.5);
-		pointer-events: none;
-		cursor: not-allowed;
-		position: relative;
-
-		// &::after {
-		// 	pointer-events: none;
-		// 	cursor: not-allowed;
-		// }
-	}
-
-	& span {
-		margin-left: 5px;
-	}
-	// &::after {
-	// 	position: absolute;
-	// 	content: '';
-	// 	left: 0;
-	// 	right: 0;
-	// 	top: 0;
-	// 	bottom: 0;
-	// 	background: rgba(0, 0, 0, 0);
-	// 	z-index: 100;
-	// 	font-size: 25px;
-	// }
+    margin-left: 15px;
 }
 
 .icon {
-	&_right {
-		margin-left: 5px;
-	}
-	&_left {
-		margin-right: 5px;
-	}
+    &_right {
+        margin-left: 5px;
+    }
+    &_left {
+        margin-right: 5px;
+    }
 }
