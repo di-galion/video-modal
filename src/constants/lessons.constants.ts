@@ -13,11 +13,11 @@ export interface ILesson {
 
 export const LESSONS: ILesson[] = [
     {
-        title: 'Приветствие',
+        title: 'Проверка знаний',
         secondTitle: '',
         status: true,
         index: 0,
-        name: EnumLessonName.Lesson1,
+        name: EnumLessonName.Laboratory,
     },
     {
         title: 'Знакомство с Ментальной арифметикой',

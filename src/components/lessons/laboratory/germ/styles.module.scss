@@ -1,0 +1,44 @@
+.germ {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+        transform-origin: center;
+        transition: all 0.3s;
+    }
+
+    &__text {
+        display: inline-flex;
+        margin-top: 40px;
+        color: white;
+        font-size: 24px;
+    }
+
+    &[data-num='0'] {
+        background-image: url(./images/germ_0.png);
+    }
+
+    &[data-num='1'] {
+        background-image: url(./images/germ_1.png);
+    }
+
+    &[data-num='2'] {
+        background-image: url(./images/germ_2.png);
+    }
+
+    &[data-num='3'] {
+        background-image: url(./images/germ_3.png);
+    }
+
+    &[data-num='4'] {
+        background-image: url(./images/germ_4.png);
+    }
+}

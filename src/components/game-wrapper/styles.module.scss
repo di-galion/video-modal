@@ -1,0 +1,99 @@
+.content {
+    &__inner {
+        transform: scale(0.8);
+        height: 700px;
+        transform-origin: center top;
+    }
+
+    &__game_resolver {
+        position: relative;
+        min-height: 750px;
+    }
+
+    &__game_container {
+        width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        border-top-left-radius: 70px 40px;
+        border-top-right-radius: 70px 40px;
+        border-bottom-left-radius: 70px 40px;
+        border-bottom-right-radius: 70px 40px;
+        border: 10px solid #ebbb31;
+    }
+
+    &__game_wrapper {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-grow: 1;
+        position: relative;
+        overflow: hidden;
+        min-height: 750px;
+        border-top-left-radius: 50px 30px;
+        border-top-right-radius: 50px 30px;
+        border-bottom-left-radius: 50px 30px;
+        border-bottom-right-radius: 50px 30px;
+        background: url(./images/bg.png);
+    }
+
+    &__bottom {
+        display: flex;
+        justify-content: center;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 15px 80px 40px;
+        background: url(./images/buttons.png) no-repeat center top;
+        background-size: 100% 100%;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    &__bottom_button_wrapper {
+        position: relative;
+    }
+
+    &__bottom_button {
+        background: linear-gradient(
+            to bottom,
+            rgb(255, 237, 199) 0%,
+            rgb(235, 188, 49) 15%,
+            rgb(235, 188, 49) 51%,
+            rgb(219, 162, 19) 51%,
+            rgb(251, 188, 21) 100%
+        );
+        font-size: 35px;
+        border-radius: 10px;
+        box-shadow: 0 3px 0 0 #543632;
+        padding: 5px 0;
+        line-height: 30px;
+        min-width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 0 10px;
+        border: 3px solid #5d2816;
+
+        & span {
+            font-weight: 500;
+            padding: 3px;
+            color: rgba(0, 0, 0, 0.65);
+        }
+
+        &:hover [data-settings] {
+            transition: all 0.5s ease;
+            animation: rotate 1s linear infinite;
+        }
+
+        & [data-settings] {
+            padding: 3px 10px;
+        }
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(-360deg);
+    }
+}

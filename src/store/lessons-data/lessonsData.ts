@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EnumLessonName, ILesson } from '../../constants/lessons.constants';
+import { ILesson, LESSONS } from '../../constants/lessons.constants';
 
 interface ILessonState {
     status: 'settings';
@@ -10,11 +10,7 @@ interface ILessonState {
 const initialState: ILessonState = {
     status: 'settings',
     currentLesson: {
-        title: 'Приветствие',
-        secondTitle: '',
-        status: true,
-        index: 0,
-        name: EnumLessonName.Lesson1,
+        ...LESSONS[0],
     },
     currentIndex: 0,
 };
