@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
 import { useTypedSelector } from './useTypedSelector';
-import {
-    ILesson,
-    LESSON_COUNT,
-    LESSONS,
-    LESSONS_MAP,
-} from '../constants/lessons.constants';
+import { ILesson, LESSONS_MAP } from '../constants/lessons.constants';
 import { useActions } from '../hooks/useActions';
+import { useTheme } from './theme';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -31,10 +27,11 @@ export function useCurrentLessonIndex() {
 
 export function useLessonSwitcher() {
     const { addNewLesson } = useActions();
+    const { lessons } = useTheme();
 
     const switchLesson = useCallback(
         (index: number) => {
-            addNewLesson(LESSONS[index]);
+            addNewLesson(lessons[index]);
         },
         [addNewLesson]
     );
@@ -45,9 +42,10 @@ export function useLessonSwitcher() {
 export function useLessonPager() {
     const change = useLessonSwitcher();
     const index = useCurrentLessonIndex();
+    const { lessons } = useTheme();
 
     const next = useCallback(
-        () => index < LESSON_COUNT - 1 && change(index + 1),
+        () => index < lessons.length - 1 && change(index + 1),
         [index]
     );
     const prev = useCallback(() => index > 0 && change(index - 1), [index]);

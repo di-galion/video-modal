@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 import { isTeacher } from '../../utils/roles';
-import { useCurrentRole } from '../../hooks/roles';
+import { useCurrentRole } from '../../hooks/account';
 import { TeacherBlock } from './components/TeacherBlock';
 import { EnumSectionTypes } from '../../constants/sectionTypes.constants';
 import { StudentBlock } from './components/StudentBlock';

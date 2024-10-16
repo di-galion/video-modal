@@ -2,7 +2,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { MdOutlineCheck } from 'react-icons/md';
 import styles from './styles.module.scss';
 import { useCurrentLessonIndex, useLessonPager } from '../../../hooks/lessons';
-import { useCurrentRole } from '../../../hooks/roles';
+import { useCurrentRole } from '../../../hooks/account';
 import { isTeacher } from '../../../utils/roles';
 import { LESSON_COUNT } from '../../../constants/lessons.constants';
 import { BottomButton } from '../bottom-button/BottomButton';

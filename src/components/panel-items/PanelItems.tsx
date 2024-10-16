@@ -1,7 +1,7 @@
-import { LESSONS } from '../../constants/lessons.constants';
 import styles from './styles.module.scss';
 import { PanelItem } from './components/PanelItem';
 import { useCurrentLessonIndex, useLessonSwitcher } from '../../hooks/lessons';
+import { useTheme } from '../../hooks/theme';
 /*
 const ITEMS = [
   {
@@ -57,6 +57,7 @@ const ITEMS = [
 const PanelItems = () => {
     const current = useCurrentLessonIndex();
     const changeLesson = useLessonSwitcher();
+    const { lessons } = useTheme();
 
     const onItemClick = (index: number) => {
         changeLesson(index);
@@ -64,7 +65,7 @@ const PanelItems = () => {
 
     return (
         <div className={styles.content}>
-            {LESSONS.map((item, index) => {
+            {lessons.map((item, index) => {
                 return (
                     <PanelItem
                         onItemClick={onItemClick}

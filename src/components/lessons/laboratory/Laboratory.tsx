@@ -14,9 +14,11 @@ function generateGerms(
     length: number
 ) {
     const full = new Array(length).fill(null);
-    const one = generateRandomNumberFillArray(from, to);
-    const two = generateRandomNumberFillArray(from, to);
-    const inner = [...one, ...two].slice(0, count);
+    let one: number[] = [];
+    while (one.length < count) {
+        one = [...one, ...generateRandomNumberFillArray(from, to)];
+    }
+    const inner = one.slice(0, count);
     full.splice(0, inner.length, ...inner);
     const out = shuffle(full);
     return out;

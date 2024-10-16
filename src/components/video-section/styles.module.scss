@@ -25,4 +25,13 @@
         margin-left: 6px;
         background: #29e820;
     }
+
+    &__status_red {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-left: 6px;
+        background: #e82920;
+    }
 }

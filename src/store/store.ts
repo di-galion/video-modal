@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { lessonsDataReducer } from './lessons-data/lessonsData';
-import { roleDataReducer } from './role-data/roleData';
+import { accountDataReducer } from './account-data/accountData';
 import { sectionDataReducer } from './section-data/sectionData';
+import { themeDataReducer } from './theme-data/themeData';
 
 export const store = configureStore({
     reducer: {
         lessonsData: lessonsDataReducer,
-        roleData: roleDataReducer,
+        accountData: accountDataReducer,
         sectionData: sectionDataReducer,
+        themeData: themeDataReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
