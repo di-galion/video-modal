@@ -4,5 +4,5 @@ export const toTimeFormat = (seconds: number) => {
 
     let addZero = '';
     if (secondsPart < 10) addZero = '0';
-    return minutesPart + ':' + addZero + secondsPart;
+    return `${minutesPart}:${addZero}${secondsPart}`;
 };

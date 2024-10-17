@@ -1,15 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { apiMiddleware } from './apiMiddleware';
 import { lessonsDataReducer } from './lessons-data/lessonsData';
 import { accountDataReducer } from './account-data/accountData';
 import { sectionDataReducer } from './section-data/sectionData';
-import { themeDataReducer } from './theme-data/themeData';
+import { apiDataReducer } from './api-status-data/apiStatusData';
 
 export const store = configureStore({
     reducer: {
         lessonsData: lessonsDataReducer,
         accountData: accountDataReducer,
         sectionData: sectionDataReducer,
-        themeData: themeDataReducer,
+        apiData: apiDataReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -17,7 +18,7 @@ export const store = configureStore({
             // serializableCheck: {
             //     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
             // }
-        }),
+        }).concat(apiMiddleware),
 });
 
 export type TypeRootState = ReturnType<typeof store.getState>;

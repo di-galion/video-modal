@@ -1,4 +1,4 @@
-import { EnumRole } from '../constants/roles.constants';
+import { Role } from '../constants/roles.constants';
 
-export const isTeacher = (role: EnumRole) => role === EnumRole.Teacher;
-export const isStudent = (role: EnumRole) => role === EnumRole.Student;
+export const isTeacher = (role: Role) => role === 'teacher';
+export const isStudent = (role: Role) => role === 'student';

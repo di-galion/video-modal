@@ -2,11 +2,14 @@ import classNames from 'classnames';
 import { useAccount } from '../../hooks/account';
 import Video from '../video/Video';
 import styles from './styles.module.scss';
+import { useThemeName } from '../../hooks/theme';
 
 export const VideoSection = () => {
     const {
-        me: { name, online },
+        me: { name: userName, online },
     } = useAccount();
+
+    const themeName = useThemeName();
 
     return (
         <div className={styles.top}>
@@ -14,7 +17,7 @@ export const VideoSection = () => {
 
             <div className={styles.info}>
                 <p className={styles.info__text}>
-                    {name}
+                    {userName}
                     <span
                         className={classNames(styles.info__status, {
                             [styles.info__status_red]: !online,
@@ -22,7 +25,7 @@ export const VideoSection = () => {
                     ></span>
                 </p>
                 <p>
-                    <span>Тема:</span> Просто 0 - 4
+                    <span>Тема:</span> {themeName}
                 </p>
             </div>
         </div>

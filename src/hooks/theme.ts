@@ -1,6 +1,6 @@
 import { useTypedSelector } from './useTypedSelector';
 
-export function useTheme() {
-    const data = useTypedSelector((state) => state.themeData);
+export function useThemeName() {
+    const data = useTypedSelector((state) => state.lessonsData.themeName);
     return data;
 }

@@ -54,8 +54,8 @@ export const Laboratory = () => {
         <GameWrapper>
             <div className={styles.level__left}>
                 <div className={styles.level__left_row}>
-                    {germs.map((value) => (
-                        <Germ index={value} />
+                    {germs.map((value, index) => (
+                        <Germ key={`${value} ${index}`} index={value} />
                     ))}
                 </div>
             </div>
@@ -63,6 +63,7 @@ export const Laboratory = () => {
                 <div className={styles.level__right_row}>
                     {count.map((value, ind) => (
                         <Flask
+                            key={`${value} ${ind}`}
                             count={value}
                             index={index[ind]}
                             onClick={handleClick}

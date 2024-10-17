@@ -29,4 +29,17 @@
         -moz-user-select: none;
         user-select: none;
     }
+
+    &__top_panel {
+        pointer-events: none;
+        z-index: 5;
+        top: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+        padding: 32px 40px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }

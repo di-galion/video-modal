@@ -3,8 +3,14 @@ html {
     width: 100%;
 }
 
+@font-face {
+    font-family: 'Roboto'; /*a name to be used later*/
+    src: url('/assets/font/Roboto-Regular.ttf'); /*URL to font*/
+}
+
 body {
     max-width: 1500px;
+    font-family: Roboto, Arial, sans-serif;
 }
 
 #root {

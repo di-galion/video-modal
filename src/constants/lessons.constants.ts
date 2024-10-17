@@ -3,7 +3,8 @@ export type LessonName =
     | 'lesson2'
     | 'lesson3'
     | 'lesson4'
-    | 'laboratory';
+    | 'game'
+    | 'empty';
 
 export { LESSONS_MAP } from './lessonsMap';
 
@@ -16,13 +17,21 @@ export interface ILesson {
     name: LessonName;
 }
 
+export const DEFAULT_LESSON: ILesson = {
+    title: 'Загрузка...',
+    secondTitle: '',
+    status: false,
+    index: 0,
+    name: 'empty',
+};
+
 export const LESSONS: ILesson[] = [
     {
         title: 'Проверка знаний',
         secondTitle: '',
         status: true,
         index: 0,
-        name: 'laboratory',
+        name: 'game',
     },
     {
         title: 'Знакомство с Ментальной арифметикой',

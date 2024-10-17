@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EnumRole } from '../../constants/roles.constants';
+import { Role } from '../../constants/roles.constants';
 
 type IUser = {
     name: string;
@@ -8,14 +8,14 @@ type IUser = {
 };
 
 interface IAccountState {
-    role: EnumRole;
+    role: Role;
     teacher: IUser;
     students: IUser[];
     me: IUser;
 }
 
 const initialState: IAccountState = {
-    role: EnumRole.Student,
+    role: 'student',
     teacher: { id: 1, name: 'Иван Михайлов', online: false },
     me: { id: 1, name: 'Иван Михайлов', online: true },
     students: [

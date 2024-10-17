@@ -1,0 +1,46 @@
+.timer {
+    border-color: rgb(24, 122, 16);
+    background: linear-gradient(rgb(255, 255, 255) 0%, rgb(143, 250, 148) 100%);
+    padding-left: 36px;
+    width: 144px;
+    height: 44px;
+    padding: 6px 10px;
+    border-radius: 22px;
+    border: 1px solid rgb(23, 127, 77);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+
+    & span {
+        background: url(./img/timer.svg) no-repeat center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 72px;
+        height: 72px;
+        position: absolute;
+        left: -19px;
+        top: -19px;
+        z-index: 1;
+        background-size: contain !important;
+    }
+
+    &__value {
+        pointer-events: none;
+        color: rgb(23, 127, 77);
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: 100%;
+        font-weight: 600;
+        -webkit-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: rgba(20, 23, 28, 0);
+        font-size: 20px;
+        margin-left: 20px;
+    }
+}
