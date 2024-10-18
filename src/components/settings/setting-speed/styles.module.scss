@@ -1,0 +1,32 @@
+.wrapper {
+	max-width: 185px;
+	margin: 0 auto 15px;
+	width: 100%;
+}
+
+.inputWrapper {
+	margin-top: 10px;
+	margin-bottom: 60px;
+	display: flex;
+	justify-content: center;
+}
+
+.inputContent {
+	border: 3px solid #5d2816;
+	border-radius: 10px;
+	font-size: 20px;
+	overflow: hidden;
+	display: inline-flex;
+	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4);
+	max-width: 200px;
+}
+
+.block {
+	border: 3px solid #5d2816;
+	display: inline-flex;
+	padding: 0 10px;
+	margin: 0 5px;
+	align-items: center;
+	border-radius: 10px;
+	font-weight: bolder;
+}

@@ -1,0 +1,101 @@
+.wrapper {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 20px;
+    width: 100%;
+    z-index: 1;
+    scale: 0.8;
+}
+
+.settings {
+    padding: 120px 20px 10px;
+    background: #e2d5d0;
+    width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    border-top-left-radius: 70px 40px;
+    border-top-right-radius: 70px 40px;
+    border-bottom-left-radius: 70px 40px;
+    border-bottom-right-radius: 70px 40px;
+    border: 10px solid #ebbb31;
+}
+
+.titleWrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-right: -50%;
+    transform: translateX(-50%);
+    width: 660px;
+    height: 100px;
+    padding: 5px 5px 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-image: url('./img/bg.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    box-sizing: border-box;
+}
+
+.settingsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-around;
+}
+
+.title {
+    color: #ebbb31;
+    font-size: 40px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: bold;
+    font-family: Roboto, Arial, sans-serif;
+    width: 300px;
+    text-align: center;
+}
+
+.titleBtn {
+    position: absolute;
+    right: 40px;
+    border-radius: 50%;
+
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+
+    & span {
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.83);
+        border: 4px solid #ebbb31;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 0 5px;
+        background: #d5652c url('./img/blick.png') no-repeat !important;
+        background-size: contain !important;
+    }
+}
+
+.bottom {
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 15px 80px 40px;
+    background: url('./img/buttons.png') no-repeat center top;
+    background-size: 100% 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+// start

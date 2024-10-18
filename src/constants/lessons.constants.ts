@@ -17,14 +17,6 @@ export interface ILesson {
     name: LessonName;
 }
 
-export const DEFAULT_LESSON: ILesson = {
-    title: 'Загрузка...',
-    secondTitle: '',
-    status: false,
-    index: 0,
-    name: 'empty',
-};
-
 export const LESSONS: ILesson[] = [
     {
         title: 'Проверка знаний',

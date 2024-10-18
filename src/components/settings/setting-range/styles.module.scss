@@ -1,0 +1,40 @@
+.wrapper {
+	max-width: 185px;
+	margin: 0 auto 15px;
+	width: 100%;
+}
+
+.input {
+	font-weight: 700;
+	font-size: 48px;
+	line-height: 1em;
+	color: #fff;
+	min-width: 122px;
+	min-height: 59px;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+	padding: 5px 10px 4px;
+	margin-bottom: 10px;
+	background: #4b4f62;
+	border: 1px solid #041a43;
+	box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.6), inset 2px 2px 2px #000;
+	border-radius: 10px;
+}
+
+.marks {
+	display: flex;
+	justify-content: space-between;
+	height: 30px;
+}
+
+.mark {
+	font-size: 40px;
+	color: #5d2816;
+	font-weight: bold;
+	opacity: 0.5;
+	pointer-events: auto;
+	display: block;
+	margin-top: -25px;
+}

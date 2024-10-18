@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DEFAULT_LESSON, ILesson } from '../../constants/lessons.constants';
+import { ILesson } from '../../constants/lessons.constants';
 import { ApiStatus } from '../api-status-data/apiStatusData';
 import api from '../../api/api';
 
@@ -11,6 +11,14 @@ interface ILessonState {
     lessons: ILesson[];
     themeName: string;
 }
+
+const DEFAULT_LESSON: ILesson = {
+    title: 'Загрузка...',
+    secondTitle: '',
+    status: false,
+    index: 0,
+    name: 'empty',
+};
 
 const initialState: ILessonState = {
     status: 'settings',

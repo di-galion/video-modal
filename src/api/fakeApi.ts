@@ -3,7 +3,7 @@ import { BaseApi } from './baseApi';
 import { URL_LESSONS } from './urls';
 
 const fakeData: Record<string, () => Promise<any>> = {
-    [URL_LESSONS]: () => Promise.reject(LESSONS),
+    [URL_LESSONS]: () => Promise.resolve(LESSONS),
 };
 
 export class FakeApi implements BaseApi {

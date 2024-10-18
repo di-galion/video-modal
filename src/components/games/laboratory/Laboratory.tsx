@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { GameWrapper } from '../../game-wrapper/GameWrapper';
 import { Flask } from './flask/Flask';
 import { Germ } from './germ/Germ';
 import { generateRandomNumberFillArray, shuffle, random } from '../../../utils';
 import styles from './styles.module.scss';
-
-const MAX_COUNT_GERMS = 5;
 
 function generateGerms(
     from: number,
@@ -24,10 +21,20 @@ function generateGerms(
     return out;
 }
 
+const MAX_GERMS = 5;
+
+/*const LEVEL_GERMS: Record<number, number> = {
+    1: 4,
+    2: 6,
+    3: 9,
+};*/
+
 export const Laboratory = () => {
     const [step, setStep] = useState(0);
 
-    const [germCount, setGermCount] = useState(random(1, MAX_COUNT_GERMS));
+    const maxGermCount = useMemo(() => MAX_GERMS, []);
+
+    const [germCount, setGermCount] = useState(random(1, maxGermCount));
 
     const { count, index, germs } = useMemo(() => {
         const count = generateRandomNumberFillArray(1, 9);
@@ -43,15 +50,15 @@ export const Laboratory = () => {
     };
 
     useEffect(() => {
-        let newValue = random(1, MAX_COUNT_GERMS);
+        let newValue = random(1, maxGermCount);
         while (newValue === germCount) {
-            newValue = random(1, MAX_COUNT_GERMS);
+            newValue = random(1, maxGermCount);
         }
         setGermCount(newValue);
     }, [step]);
 
     return (
-        <GameWrapper>
+        <>
             <div className={styles.level__left}>
                 <div className={styles.level__left_row}>
                     {germs.map((value, index) => (
@@ -71,6 +78,6 @@ export const Laboratory = () => {
                     ))}
                 </div>
             </div>
-        </GameWrapper>
+        </>
     );
 };

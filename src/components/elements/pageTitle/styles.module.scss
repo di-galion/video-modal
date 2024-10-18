@@ -1,0 +1,29 @@
+.pageTitleWrapper {
+	display: flex;
+	justify-content: center;
+
+	&:before {
+		content: '';
+		width: 110px;
+		background: url('_assets/img/elements/pageTitle/bgLeft.png');
+	}
+
+	&:after {
+		content: '';
+		width: 110px;
+		background: url('_assets/img/elements/pageTitle/bgRight.png');
+	}
+
+	.pageTitle {
+		background: url('_assets/img/elements/pageTitle/bgCenter.png');
+		display: flex;
+		height: 114px;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-weight: 500;
+		font-size: 36px;
+		letter-spacing: 3px;
+		color: #424242;
+	}
+}
