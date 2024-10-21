@@ -3,8 +3,8 @@ import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import classNames from 'classnames';
 import styles from './styles.module.scss';
-import { ControlPropsOf } from '../../game/game/Settings.module';
-import { useChangeGameSetting } from '../../../hooks/game';
+import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsRatioProps extends ControlPropsOf<'ratios'> {
     title: string;
@@ -18,13 +18,19 @@ export const SettingRatios: FC<SettingsRatioProps> = ({
     reduxKey,
     disabled,
 }) => {
+    const gameSettings = useGameSettings();
+
     const [value, setValue] = useState(
-        settings.defaultValue || (settings.values && settings.values[0]) || 1
+        Number(gameSettings[reduxKey]) ||
+            settings.defaultValue ||
+            (settings.values && settings.values[0]) ||
+            1
     );
 
     useEffect(() => {
         setValue(
-            settings.defaultValue ||
+            Number(gameSettings[reduxKey]) ||
+                settings.defaultValue ||
                 (settings.values && settings.values[0]) ||
                 1
         );

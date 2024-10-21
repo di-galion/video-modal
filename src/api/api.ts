@@ -1,4 +1,4 @@
-import { ILesson } from '../constants/lessons.constants';
+import { ILesson } from '../typings/lesson.module';
 import { BaseApi } from './baseApi';
 import { FakeApi } from './fakeApi';
 import { URL_LESSONS } from './urls';

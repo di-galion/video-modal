@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useTypedSelector } from './useTypedSelector';
-import { ILesson, LESSONS_MAP } from '../constants/lessons.constants';
 import { useActions } from '../hooks/useActions';
+import { LESSONS_MAP } from '../constants/lessonsMap';
+import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -57,4 +58,21 @@ export function useLessonPager() {
     );
 
     return [prev, next];
+}
+
+export function useGameLessonMode(): [
+    GameLessonMode,
+    (mode: GameLessonMode) => void
+] {
+    const { mode } = useTypedSelector((state) => state.lessonsData);
+    const { setLessonMode } = useActions();
+
+    return [mode, setLessonMode];
+}
+
+export function useLessonGameList() {
+    const { games } = useTypedSelector(
+        (state) => state.lessonsData.currentLesson as IGameLesson
+    );
+    return games || [];
 }

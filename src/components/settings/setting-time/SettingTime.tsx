@@ -3,8 +3,8 @@ import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import classNames from 'classnames';
 import { toTimeFormat } from '../../../utils';
 import styles from './styles.module.scss';
-import { ControlPropsOf } from '../../game/game/Settings.module';
 import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsTimeProps extends ControlPropsOf<'time'> {
     title: string;

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IGameState, IStateSettings } from './GameData.module';
+import { GameStatus, IGameState, IStateSettings } from './GameData.module';
 
 const initialState: IGameState = {
     status: 'settings',
@@ -17,6 +17,7 @@ const initialState: IGameState = {
     spriteChange: undefined,
     section: '',
     state: {},
+    currentTime: 0,
 };
 
 const gameData = createSlice({
@@ -32,7 +33,7 @@ const gameData = createSlice({
         setGameName: (state, action) => {
             state.gameName = action.payload;
         },
-        setPageStatus: (state, action) => {
+        setPageStatus: (state, action: PayloadAction<GameStatus>) => {
             state.status = action.payload;
         },
         setGameSection: (state, action) => {
@@ -41,13 +42,16 @@ const gameData = createSlice({
         addCorrectAnswer: (state) => {
             state.result.correctAnswers = state.result.correctAnswers + 1;
         },
-        addAnswer: (state) => {
+        addAllAnswers: (state) => {
             state.result.allAnswers = state.result.allAnswers + 1;
         },
-        addTime: (state, action) => {
+        setTime: (state, action) => {
             state.result.time = action.payload;
         },
-        addStars: (state, action) => {
+        setCurrentTime: (state, action) => {
+            state.currentTime = action.payload;
+        },
+        setStars: (state, action) => {
             state.result.stars = action.payload;
         },
         clearResult: (state) => {

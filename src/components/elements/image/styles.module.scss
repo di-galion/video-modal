@@ -1,0 +1,14 @@
+.imgWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &__img {
+        max-width: 100%;
+        background: #fff;
+        box-shadow: 0 10px 15px rgba(237, 240, 254, 0.8);
+        border-radius: 10px;
+        object-fit: contain;
+    }
+}

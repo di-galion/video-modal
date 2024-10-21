@@ -1,36 +1,29 @@
-export type LessonName =
-    | 'lesson1'
-    | 'lesson2'
-    | 'lesson3'
-    | 'lesson4'
-    | 'game'
-    | 'empty';
-
-export { LESSONS_MAP } from './lessonsMap';
-
-export interface ILesson {
-    title: string;
-    secondTitle: string;
-    status: boolean;
-    index: number;
-    bad?: boolean;
-    name: LessonName;
-}
+import { ILesson } from '../typings/lesson.module';
 
 export const LESSONS: ILesson[] = [
     {
         title: 'Проверка знаний',
-        secondTitle: '',
+        secondTitle: 'Реши задачи с микробами на состав числа 10',
         status: true,
         index: 0,
         name: 'game',
+        games: [
+            {
+                name: 'laboratory',
+                title: 'Лаборатория',
+                imgUrl: '/assets/img/gameCovers/laboratory.png',
+            },
+        ],
+        gameStatus: {
+            laboratory: 'notStarted',
+        },
     },
     {
-        title: 'Знакомство с Ментальной арифметикой',
-        secondTitle: 'Видеопрезентация',
+        title: 'Приветствие',
+        secondTitle: '',
         status: true,
         index: 1,
-        name: 'lesson2',
+        name: 'welcome',
     },
     {
         title: 'Знакомство со счетами',

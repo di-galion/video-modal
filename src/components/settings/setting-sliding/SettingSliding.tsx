@@ -3,8 +3,8 @@ import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import classNames from 'classnames';
 import styles from './styles.module.scss';
-import { ControlPropsOf } from '../../game/game/Settings.module';
-import { useChangeGameSetting } from '../../../hooks/game';
+import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsSliderProps extends ControlPropsOf<'sliding'> {
     title: string;
@@ -20,29 +20,32 @@ export const SettingSliding: FC<SettingsSliderProps> = ({
     reduxKey,
     disabled,
 }) => {
+    const gameSettings = useGameSettings();
+
     const [value, setValue] = useState(
-        settings.defaultValue || settings.values[0]
+        Number(gameSettings[reduxKey]) || settings.defaultValue || 0
     );
 
     useChangeGameSetting(reduxKey, value);
 
     const onPrevClick = () => {
-        const index = settings.values.indexOf(value as never);
-        if (index !== 0) {
-            setValue(settings.values[index - 1]);
+        if (value !== 0) {
+            setValue(value - 1);
         }
     };
 
     const onNextClick = () => {
-        const index = settings.values.indexOf(value as never);
-        if (index !== settings.values.length - 1) {
-            setValue(settings.values[index + 1]);
+        if (value !== settings.values.length - 1) {
+            setValue(value + 1);
         }
     };
 
     useEffect(() => {
-        setValue(settings.defaultValue || settings.values[0]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (settings.update) {
+            setValue(
+                Number(gameSettings[reduxKey]) || settings.defaultValue || 0
+            );
+        }
     }, [settings.update]);
 
     return (
@@ -50,19 +53,20 @@ export const SettingSliding: FC<SettingsSliderProps> = ({
             <div className={styles.wrapper}>
                 <button
                     className={classNames(styles.icon, {
-                        [styles.icon_disabled]: value == settings.values[0],
+                        [styles.icon_disabled]: value == 0,
                     })}
                     onClick={onPrevClick}
                 />
                 <div className={styles.input}>
-                    <span className={styles.input__time}>{value}</span>
+                    <span className={styles.input__time}>
+                        {settings.values[value]}
+                    </span>
                 </div>
                 <button
                     className={classNames(styles.icon, {
                         [styles.icon_right]: true,
                         [styles.icon_disabled]:
-                            value ==
-                            settings.values[settings.values.length - 1],
+                            value == settings.values.length - 1,
                     })}
                     onClick={onNextClick}
                 />

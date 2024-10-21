@@ -1,6 +1,6 @@
-export type SettingValue = string | number;
+export type SettingValue = number;
 
-export type GameStatus = 'start' | 'settings' | 'finish';
+export type GameStatus = 'start' | 'settings' | 'finish' | 'info';
 
 export interface IStateSettings {
     [reduxKey: string]: SettingValue;
@@ -22,4 +22,5 @@ export interface IGameState {
     spriteChange: undefined;
     section: string;
     state: object;
+    currentTime: number;
 }

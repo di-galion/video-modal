@@ -2,9 +2,9 @@ import Slider from 'rc-slider';
 import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import './styles.scss';
-import { ISettingsOf } from '../../game/game/Settings.module';
+import { SettingsOf } from '../../../typings/settings.module';
 
-interface SliderCustomProps extends Partial<ISettingsOf<'level'>> {
+interface SliderCustomProps extends Partial<SettingsOf<'level'>> {
     onChange: (value: number) => void;
 }
 

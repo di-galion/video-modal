@@ -3,6 +3,7 @@ import { Flask } from './flask/Flask';
 import { Germ } from './germ/Germ';
 import { generateRandomNumberFillArray, shuffle, random } from '../../../utils';
 import styles from './styles.module.scss';
+import { useGameSettings } from '../../../hooks/game';
 
 function generateGerms(
     from: number,
@@ -21,18 +22,19 @@ function generateGerms(
     return out;
 }
 
-const MAX_GERMS = 5;
-
-/*const LEVEL_GERMS: Record<number, number> = {
-    1: 4,
-    2: 6,
+const LEVEL_GERMS: Record<number, number> = {
+    0: 4,
+    1: 5,
+    2: 7,
     3: 9,
-};*/
+};
 
 export const Laboratory = () => {
     const [step, setStep] = useState(0);
 
-    const maxGermCount = useMemo(() => MAX_GERMS, []);
+    const settings = useGameSettings();
+
+    const maxGermCount = useMemo(() => LEVEL_GERMS[settings.mode], []);
 
     const [germCount, setGermCount] = useState(random(1, maxGermCount));
 

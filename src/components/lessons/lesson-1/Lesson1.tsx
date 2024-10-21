@@ -1,4 +1,4 @@
-import { Image } from '../../../controls/image/Image';
+import { Image } from '../../elements/image/Image';
 
 const Lesson1 = () => {
     return (

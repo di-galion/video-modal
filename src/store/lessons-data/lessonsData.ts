@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ILesson } from '../../constants/lessons.constants';
-import { ApiStatus } from '../api-status-data/apiStatusData';
 import api from '../../api/api';
+import { GameLessonMode, ILesson } from '../../typings/lesson.module';
 
 interface ILessonState {
     status: 'settings';
     currentLesson: ILesson;
     currentIndex: number;
-    apiStatus: ApiStatus;
     lessons: ILesson[];
     themeName: string;
+    mode: GameLessonMode;
 }
 
 const DEFAULT_LESSON: ILesson = {
@@ -25,8 +24,8 @@ const initialState: ILessonState = {
     currentLesson: DEFAULT_LESSON,
     lessons: [DEFAULT_LESSON],
     currentIndex: 0,
-    apiStatus: 'unset',
     themeName: 'Загрузка...',
+    mode: 'list',
 };
 
 export const fetchLessons = createAsyncThunk('api/fetchLessons', async () => {
@@ -44,6 +43,9 @@ const lessonsData = createSlice({
     reducers: {
         addNewLesson: (state, action: PayloadAction<ILesson>) => {
             state.currentLesson = action.payload;
+        },
+        setLessonMode: (state, action: PayloadAction<GameLessonMode>) => {
+            state.mode = action.payload;
         },
     },
     extraReducers: (builder) => {

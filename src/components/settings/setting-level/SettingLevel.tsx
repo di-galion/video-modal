@@ -3,8 +3,8 @@ import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import SliderCustom from '../slider/Slider';
 import styles from './styles.module.scss';
-import { ControlPropsOf } from '../../game/game/Settings.module';
-import { useChangeGameSetting } from '../../../hooks/game';
+import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { ControlPropsOf } from '../../../typings/settings.module';
 
 type SettingsProps = ControlPropsOf<'level'>;
 
@@ -14,7 +14,11 @@ export const SettingLevel: FC<SettingsProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const [value, setValue] = useState(settings.defaultValue || 1);
+    const gameSettings = useGameSettings();
+
+    const [value, setValue] = useState(
+        gameSettings[reduxKey] || settings.defaultValue || 1
+    );
 
     useChangeGameSetting(reduxKey, value);
 

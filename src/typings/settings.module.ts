@@ -6,19 +6,19 @@ export type ControlType =
     | 'sliding'
     | 'speed';
 
-export interface IGameDataSettings {
+export interface IControlSetting {
     defaultValue?: number;
     value?: number;
 }
 
-export interface IGameDataSettingsLevel extends IGameDataSettings {
+export interface IControlSettingLevel extends IControlSetting {
     max: number;
     min: number;
     step: number;
     variant: string;
 }
 
-export interface IGameDataSettingsRange extends IGameDataSettings {
+export interface IControlSettingRange extends IControlSetting {
     update?: boolean;
     max: number;
     min: number;
@@ -26,45 +26,45 @@ export interface IGameDataSettingsRange extends IGameDataSettings {
     variant: string;
 }
 
-export interface IGameDataSettingsRatios extends IGameDataSettings {
-    values: number[] | string[] | undefined;
+export interface IControlSettingRatios extends IControlSetting {
+    values: number[] | undefined;
 }
 
-export interface IGameDataSettingsTime extends IGameDataSettings {
+export interface IControlSettingTime extends IControlSetting {
     max: number;
     min: number;
     step: number;
     update?: boolean;
 }
 
-export interface IGameDataSettingsSpeed extends IGameDataSettings {
+export interface IControlSettingSpeed extends IControlSetting {
     max: number;
     min: number;
     step: number;
     update?: boolean;
 }
 
-export interface IGameDataSettingsSliding extends IGameDataSettings {
+export interface IControlSettingSliding extends IControlSetting {
     values: string[];
     update?: boolean;
 }
 
-interface EnumSettingsByType extends Record<ControlType, IGameDataSettings> {
-    level: IGameDataSettingsLevel;
-    range: IGameDataSettingsRange;
-    ratios: IGameDataSettingsRatios;
-    time: IGameDataSettingsTime;
-    sliding: IGameDataSettingsSliding;
-    speed: IGameDataSettingsSpeed;
+interface SettingsByType extends Record<ControlType, IControlSetting> {
+    level: IControlSettingLevel;
+    range: IControlSettingRange;
+    ratios: IControlSettingRatios;
+    time: IControlSettingTime;
+    sliding: IControlSettingSliding;
+    speed: IControlSettingSpeed;
 }
 
-export type ISettingsOf<T extends ControlType> = EnumSettingsByType[T];
+export type SettingsOf<T extends ControlType> = SettingsByType[T];
 
 export interface ControlPropsOf<T extends ControlType> {
     type: T;
     title: string;
     reduxKey: string;
-    settings: ISettingsOf<T>;
+    settings: SettingsOf<T>;
     disabled?: boolean;
     defaultValue?: number;
     value?: number;

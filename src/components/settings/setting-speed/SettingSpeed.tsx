@@ -4,8 +4,8 @@ import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import SliderCustom from '../slider/Slider';
 import './styles.css';
 import styles from './styles.module.scss';
-import { useChangeGameSetting } from '../../../hooks/game';
-import { ControlPropsOf } from '../../game/game/Settings.module';
+import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsSpeedProps extends ControlPropsOf<'speed'> {
     title: string;
@@ -23,7 +23,11 @@ export const SettingSpeed: FC<SettingsSpeedProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const [value, setValue] = useState(settings.defaultValue || 1);
+    const gameSettings = useGameSettings();
+
+    const [value, setValue] = useState(
+        Number(gameSettings[reduxKey]) || settings.defaultValue || 1
+    );
 
     useChangeGameSetting(reduxKey, value);
 
@@ -31,7 +35,11 @@ export const SettingSpeed: FC<SettingsSpeedProps> = ({
         setValue(v || 1);
     };
     useEffect(() => {
-        setValue(settings.defaultValue || 1);
+        if (settings.update) {
+            setValue(
+                Number(gameSettings[reduxKey]) || settings.defaultValue || 1
+            );
+        }
     }, [settings.update]);
 
     return (

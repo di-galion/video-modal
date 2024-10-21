@@ -16,6 +16,12 @@ export const useGame = () => {
     return data;
 };
 
+export const useGameName: () => [string, (gameName: string) => void] = () => {
+    const { gameName } = useTypedSelector((state) => state.gameData);
+    const { setGameName } = useActions();
+    return [gameName, setGameName];
+};
+
 export const useGameSettings = () => {
     const { settings } = useGame();
     return settings;
@@ -28,4 +34,13 @@ export const useGameStatus: () => [
     const { status } = useGame();
     const { setPageStatus } = useActions();
     return [status, setPageStatus];
+};
+
+export const useGameCurrentTime: () => [
+    number,
+    (time: number) => void
+] = () => {
+    const { currentTime } = useGame();
+    const { setCurrentTime } = useActions();
+    return [currentTime, setCurrentTime];
 };
