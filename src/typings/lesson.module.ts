@@ -4,7 +4,8 @@ export type SimpleLessonName =
     | 'lesson3'
     | 'lesson4'
     | 'welcome'
-    | 'empty';
+    | 'empty'
+    | 'task';
 
 export type GameLessonName = 'game';
 

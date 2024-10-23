@@ -4,6 +4,8 @@ import { Germ } from './germ/Germ';
 import { generateRandomNumberFillArray, shuffle, random } from '../../../utils';
 import styles from './styles.module.scss';
 import { useGameSettings } from '../../../hooks/game';
+import { useActions } from '../../../hooks/useActions';
+import classNames from 'classnames';
 
 function generateGerms(
     from: number,
@@ -34,6 +36,8 @@ export const Laboratory = () => {
 
     const settings = useGameSettings();
 
+    const { addAllAnswers, addCorrectAnswer } = useActions();
+
     const maxGermCount = useMemo(() => LEVEL_GERMS[settings.mode], []);
 
     const [germCount, setGermCount] = useState(random(1, maxGermCount));
@@ -45,9 +49,19 @@ export const Laboratory = () => {
         return { count, index, germs };
     }, [germCount]);
 
+    const [animated, setAnimated] = useState(false);
+
     const handleClick = (cnt: number) => {
         if (cnt + germCount === 10) {
             setStep((step) => step + 1);
+            addAllAnswers();
+            addCorrectAnswer();
+        } else {
+            addAllAnswers();
+            setAnimated(true);
+            setTimeout(() => {
+                setAnimated(false);
+            }, 310);
         }
     };
 
@@ -62,7 +76,11 @@ export const Laboratory = () => {
     return (
         <>
             <div className={styles.level__left}>
-                <div className={styles.level__left_row}>
+                <div
+                    className={classNames(styles.level__left_row, {
+                        [styles.animated]: animated,
+                    })}
+                >
                     {germs.map((value, index) => (
                         <Germ key={`${value} ${index}`} index={value} />
                     ))}

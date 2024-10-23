@@ -44,3 +44,8 @@ export const useGameCurrentTime: () => [
     const { setCurrentTime } = useActions();
     return [currentTime, setCurrentTime];
 };
+
+export const useGameResult = () => {
+    const { result } = useGame();
+    return result;
+};

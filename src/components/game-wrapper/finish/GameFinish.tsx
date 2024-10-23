@@ -1,3 +1,5 @@
+import { useGameResult, useGameStatus } from '../../../hooks/game';
+import { useLessonCurrentGame } from '../../../hooks/lessons';
 import styles from './styles.module.scss';
 
 const Star = () => (
@@ -41,9 +43,19 @@ const Star = () => (
 );
 
 export const GameFinish = () => {
+    const result = useGameResult();
+
+    const [, setStatus] = useGameStatus();
+
+    const handleClick = () => {
+        setStatus('start');
+    };
+
+    const { title = '' } = useLessonCurrentGame() || {};
+
     return (
         <div className={styles.finish}>
-            <p className={styles.finish__title}>Лаборатория</p>
+            <p className={styles.finish__title}>{title}</p>
             <p className={styles.finish__level}>Уровень 2</p>
             <div
                 className={styles.finish__innerBlock}
@@ -63,19 +75,23 @@ export const GameFinish = () => {
                     <div>
                         <p className={styles.finish__right_answers}>
                             <span>Количество верных ответов: </span>
-                            <span className={styles.finish__value}>8/9</span>
+                            <span className={styles.finish__value}>
+                                {result.correctAnswers}/{result.allAnswers}
+                            </span>
                         </p>
                     </div>
                     <span className={styles.finish__info_time}>
                         Время игры:{' '}
-                        <span className={styles.finish__value}>0:30</span>
+                        <span className={styles.finish__value}>
+                            {result.time}
+                        </span>
                     </span>
                     <div className={styles.finish__text}>
                         Результат сохранен<span>.</span>
                     </div>
                 </div>
             </div>
-            <button className={styles.finish__buttons}>
+            <button className={styles.finish__buttons} onClick={handleClick}>
                 <span>Ок</span>
             </button>
         </div>

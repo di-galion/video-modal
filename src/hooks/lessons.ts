@@ -3,6 +3,7 @@ import { useTypedSelector } from './useTypedSelector';
 import { useActions } from '../hooks/useActions';
 import { LESSONS_MAP } from '../constants/lessonsMap';
 import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
+import { useGame, useGameName } from './game';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -75,4 +76,10 @@ export function useLessonGameList() {
         (state) => state.lessonsData.currentLesson as IGameLesson
     );
     return games || [];
+}
+
+export function useLessonCurrentGame() {
+    const games = useLessonGameList();
+    const [gameName] = useGameName();
+    return games.find((game) => game.name === gameName);
 }

@@ -1,0 +1,38 @@
+.row {
+    width: auto;
+    margin-bottom: 5px;
+    display: flex;
+    color: #014c5c;
+}
+
+.symbol {
+    width: 25px;
+    display: inline-block;
+    text-align: center;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 50px;
+    line-height: 60px;
+}
+
+.input {
+    width: 110px;
+    font-size: 50px;
+    line-height: 50px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    padding: 0 10px;
+    color: #6500e4;
+    text-align: center;
+    font-family: Roboto, Arial, sans-serif;
+
+    &__wrong {
+        box-shadow: inset 0 0 20px red;
+    }
+
+    &__right {
+        box-shadow: inset 0 0 20px #14ff00;
+    }
+}

@@ -10,12 +10,12 @@ import { SettingsButton } from '../settings-button/SettingsButton';
 export const Game: FC<PropsWithChildren> = ({ children }) => {
     const { time = 30 } = useGameSettings();
 
-    const { setPageStatus, setCurrentTime } = useActions();
+    const { setPageStatus, setTime } = useActions();
     const [status, setStatus] = useGameStatus();
 
     const handleTimeout = () => {
         setPageStatus('finish');
-        setCurrentTime(time);
+        setTime(time);
     };
 
     const handleSettings = () => {

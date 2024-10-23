@@ -3,9 +3,16 @@ import { ILesson } from '../typings/lesson.module';
 export const LESSONS: ILesson[] = [
     {
         title: 'Проверка знаний',
-        secondTitle: 'Реши задачи с микробами на состав числа 10',
+        secondTitle: '',
         status: true,
         index: 0,
+        name: 'task',
+    },
+    {
+        title: 'Проверка знаний',
+        secondTitle: 'Реши задачи с микробами на состав числа 10',
+        status: true,
+        index: 1,
         name: 'game',
         games: [
             {
@@ -22,15 +29,8 @@ export const LESSONS: ILesson[] = [
         title: 'Приветствие',
         secondTitle: '',
         status: true,
-        index: 1,
-        name: 'welcome',
-    },
-    {
-        title: 'Знакомство со счетами',
-        secondTitle: 'Цифры 0-4 на счетах. Однозначные',
-        status: false,
         index: 2,
-        name: 'lesson3',
+        name: 'welcome',
     },
     {
         title: 'Знакомство с цифрами',

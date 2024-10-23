@@ -45,13 +45,13 @@ const gameData = createSlice({
         addAllAnswers: (state) => {
             state.result.allAnswers = state.result.allAnswers + 1;
         },
-        setTime: (state, action) => {
+        setTime: (state, action: PayloadAction<number>) => {
             state.result.time = action.payload;
         },
-        setCurrentTime: (state, action) => {
+        setCurrentTime: (state, action: PayloadAction<number>) => {
             state.currentTime = action.payload;
         },
-        setStars: (state, action) => {
+        setStars: (state, action: PayloadAction<number>) => {
             state.result.stars = action.payload;
         },
         clearResult: (state) => {
