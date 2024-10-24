@@ -1,0 +1,26 @@
+.content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-sizing: border-box;
+}
+
+.textArea {
+    color: #1c1c1c;
+    resize: none;
+    font-size: 61px;
+    line-height: 60px;
+    display: flex;
+    background: #fefefe;
+    box-shadow: 0 0 20px rgba(6, 58, 22, 0.3);
+    font-weight: bold;
+    border-radius: 10px;
+    padding-left: 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+}

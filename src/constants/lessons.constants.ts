@@ -2,11 +2,11 @@ import { ILesson } from '../typings/lesson.module';
 
 export const LESSONS: ILesson[] = [
     {
-        title: 'Проверка знаний',
+        title: 'Приветствие',
         secondTitle: '',
         status: true,
         index: 0,
-        name: 'task',
+        name: 'welcome',
     },
     {
         title: 'Проверка знаний',
@@ -21,58 +21,45 @@ export const LESSONS: ILesson[] = [
                 imgUrl: '/assets/img/gameCovers/laboratory.png',
             },
         ],
-        gameStatus: {
-            laboratory: 'notStarted',
-        },
     },
     {
-        title: 'Приветствие',
+        title: 'Проверка знаний',
         secondTitle: '',
         status: true,
         index: 2,
-        name: 'welcome',
+        name: 'task',
     },
     {
-        title: 'Знакомство с цифрами',
-        secondTitle: 'Изучение элементов абакуса',
-        status: false,
+        title: 'Что такое Умножение',
+        secondTitle:
+            'В аквариуме 5 стаек с рыбками. В каждой стайке - 3 рыбки. Запиши решение с помощью сложения и реши задачу.',
+        status: true,
         index: 3,
-        name: 'lesson4',
+        name: 'simpleTask',
+        task: 'mult',
     },
     {
-        title: 'Игра с Флешкартами',
+        title: 'Арифметические знаки',
         secondTitle: '',
-        status: false,
+        status: true,
         index: 4,
-        name: 'lesson1',
+        name: 'signs',
     },
     {
-        title: 'Знакомство со счетами',
-        secondTitle: 'Изучение элементов абакуса',
-        status: false,
+        title: 'Реши задачу',
+        secondTitle:
+            'Айти в затерянном городе нашел площадь с тотемами. Всего тотемов было 5. Каждый тотем состоял из двух камней, и каждый камень - это изображение животного. Помоги АйТи узнать, сколько животных спряталось в тотемах всего?',
+        status: true,
         index: 5,
-        name: 'lesson1',
+        name: 'simpleTask',
+        task: 'taskMult',
     },
     {
-        title: 'Знакомство со счетами',
-        secondTitle: 'Изучение элементов абакуса',
-        status: false,
+        title: 'Разбор задач',
+        secondTitle: '',
+        status: true,
         index: 6,
-        name: 'lesson1',
-    },
-    {
-        title: 'Знакомство со счетами',
-        secondTitle: 'Изучение элементов абакуса',
-        status: false,
-        index: 7,
-        name: 'lesson1',
-    },
-    {
-        title: 'Знакомство со счетами',
-        secondTitle: 'Изучение элементов абакуса',
-        status: false,
-        index: 8,
-        name: 'lesson1',
+        name: 'canvas',
     },
 ];
 

@@ -46,6 +46,13 @@
     justify-content: space-around;
 }
 
+.infoList {
+    display: flex;
+    flex-wrap: wrap;
+    background: #ede5e2;
+    border-radius: 30px;
+}
+
 .title {
     color: #ebbb31;
     font-size: 40px;

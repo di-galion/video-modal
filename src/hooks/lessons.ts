@@ -3,7 +3,7 @@ import { useTypedSelector } from './useTypedSelector';
 import { useActions } from '../hooks/useActions';
 import { LESSONS_MAP } from '../constants/lessonsMap';
 import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
-import { useGame, useGameName } from './game';
+import { useGameName } from './game';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);

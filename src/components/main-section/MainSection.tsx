@@ -13,9 +13,9 @@ const MainSection = () => {
                     <TopPart />
                     <div className={styles.contentInner}>
                         <p className={styles.title}>{currentLesson.title}</p>
-                        <p className={styles.secondTitle}>
+                        {/*<p className={styles.secondTitle}>
                             {currentLesson.secondTitle}
-                        </p>
+                        </p>*/}
                         {renderLesson()}
                     </div>
                 </div>

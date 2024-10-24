@@ -1,8 +1,11 @@
+import { CanvasLesson } from '../components/lessons/canvas-lesson/CanvasLesson';
 import { GameLesson } from '../components/lessons/game-lesson/GameLesson';
 import Lesson1 from '../components/lessons/lesson-1/Lesson1';
 import Lesson2 from '../components/lessons/lesson-2/Lesson2';
 import Lesson3 from '../components/lessons/lesson-3/Lesson3';
 import Lesson4 from '../components/lessons/lesson-4/Lesson4';
+import { SignsLesson } from '../components/lessons/signs-lesson/SignsLesson';
+import { SimpleTaskLesson } from '../components/lessons/simple-task-lesson/SimpleTaskLesson';
 import { TaskLesson } from '../components/lessons/task-lesson/TaskLesson';
 import LessonWelcome from '../components/lessons/welcome-lesson/LessonWelcome';
 import { LessonName } from '../typings/lesson.module';
@@ -16,4 +19,7 @@ export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     empty: () => <></>,
     welcome: () => <LessonWelcome />,
     task: () => <TaskLesson />,
+    simpleTask: () => <SimpleTaskLesson />,
+    signs: () => <SignsLesson />,
+    canvas: () => <CanvasLesson />,
 };

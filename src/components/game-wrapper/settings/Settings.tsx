@@ -63,7 +63,9 @@ export const Settings = () => {
         if (status === 'settings')
             return <>{renderSettings(gameName, settings)}</>;
         if (status === 'info')
-            return INFO_SETTINGS().map((item) => <SettingInfo {...item} />);
+            return INFO_SETTINGS(gameName).map((item) => (
+                <SettingInfo {...item} />
+            ));
         return null;
     }, [status, gameName, settings]);
 
@@ -82,7 +84,15 @@ export const Settings = () => {
                             </span>
                         </button>
                     </div>
-                    <div className={styles.settingsList}>{contol}</div>
+                    <div
+                        className={
+                            status === 'settings'
+                                ? styles.settingsList
+                                : styles.infoList
+                        }
+                    >
+                        {contol}
+                    </div>
                 </div>
                 <div className={styles.bottom}>
                     <SettingsButton

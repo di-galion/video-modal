@@ -5,9 +5,13 @@ export type SimpleLessonName =
     | 'lesson4'
     | 'welcome'
     | 'empty'
-    | 'task';
+    | 'task'
+    | 'signs'
+    | 'canvas';
 
 export type GameLessonName = 'game';
+
+export type SimpleTaskLessonName = 'simpleTask';
 
 export type GameLessonItem = {
     name: string;
@@ -15,7 +19,10 @@ export type GameLessonItem = {
     imgUrl: string;
 };
 
-export type LessonName = SimpleLessonName | GameLessonName;
+export type LessonName =
+    | SimpleLessonName
+    | GameLessonName
+    | SimpleTaskLessonName;
 
 interface IBaseLesson {
     title: string;
@@ -36,7 +43,11 @@ export type GameLessonMode = 'list' | 'game';
 export interface IGameLesson extends IBaseLesson {
     name: GameLessonName;
     games: GameLessonItem[];
-    gameStatus: Record<string, LessonGameStatus>;
 }
 
-export type ILesson = IGameLesson | ISimpleLesson;
+export interface ISimpleTaskLesson extends IBaseLesson {
+    name: SimpleTaskLessonName;
+    task: string;
+}
+
+export type ILesson = IGameLesson | ISimpleLesson | ISimpleTaskLesson;

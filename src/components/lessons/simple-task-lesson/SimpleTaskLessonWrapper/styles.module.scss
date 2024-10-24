@@ -1,0 +1,103 @@
+.content {
+    overflow: hidden;
+    color: #666;
+    padding: 0 16px;
+    background-color: #fff;
+    max-height: 800px;
+    transition: all 0.3s;
+    box-sizing: border-box;
+
+    &__box {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    &__wrap {
+        position: relative;
+    }
+
+    &__text {
+        font-size: 18px;
+        margin-bottom: 20px;
+        max-width: calc(100% - 200px);
+        min-height: 27px;
+    }
+
+    &__container {
+        width: 980px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+
+    &__component_wrapper {
+        position: relative;
+        height: 730px;
+        border-radius: 10px;
+        border: 1px solid rgba(2, 27, 157, 0.15);
+        box-shadow: inset 0 0 10px rgba(2, 27, 157, 0.18);
+        background-position: left bottom;
+        background-repeat: no-repeat;
+        background-size: 100% 100% !important;
+    }
+
+    &__table {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__table_content {
+        max-width: 280px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        max-height: 728px;
+        flex: 1 1 auto;
+        align-items: flex-end;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.7);
+        border: 3px solid rgba(255, 255, 255, 0);
+        border-radius: 10px;
+        padding: 7px 10px;
+        box-sizing: border-box;
+    }
+
+    &__btn_wrap {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &__btn {
+        padding: 5px 15px;
+        font-size: 16px;
+        box-shadow: 0 3px 10px rgba(122, 135, 168, 0.2);
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(193, 205, 254, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        transition: all 0.3s;
+        margin-left: 15px;
+
+        &:disabled {
+            filter: grayscale(0.5);
+            pointer-events: none;
+            cursor: not-allowed;
+            position: relative;
+        }
+    }
+
+    &__btn_text {
+        margin-left: 5px;
+    }
+}
+
+.collapse {
+    max-height: 0;
+    transition: all 0.3s;
+}
