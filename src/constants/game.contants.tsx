@@ -10,6 +10,7 @@ import { SettingSliding } from '../components/settings/setting-sliding/SettingSl
 import { SettingSpeed } from '../components/settings/setting-speed/SettingSpeed';
 import { SettingTime } from '../components/settings/setting-time/SettingTime';
 import { Laboratory } from '../components/games/laboratory/Laboratory';
+import { MultTable } from '../components/games/mult-table/MultTable';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -74,6 +75,29 @@ export const GAME_SETTINGS_MAP: (
             },
         },
     ],
+    multTable: [
+        {
+            type: 'range',
+            title: 'Количество ответов',
+            reduxKey: 'count',
+            settings: {
+                max: 30,
+                min: 10,
+                step: 1,
+                update: false,
+                variant: 'speed',
+                defaultValue: 10,
+            },
+        },
+        {
+            type: 'sliding',
+            title: 'Выбор действия',
+            reduxKey: 'actionType',
+            settings: {
+                values: ['Умножение', 'Деление', 'Случайно'],
+            },
+        },
+    ],
 });
 
 export const INFO_SETTINGS = (gameName: string) => {
@@ -112,4 +136,5 @@ export const INFO_SETTINGS = (gameName: string) => {
 
 export const GAME_MAP: Record<string, () => React.ReactElement> = {
     laboratory: () => <Laboratory />,
+    multTable: () => <MultTable />,
 };

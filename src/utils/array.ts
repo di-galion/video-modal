@@ -1,4 +1,4 @@
-export function shuffle(arr: number[]) {
+export function shuffle<T>(arr: T[]) {
     let array = Array.from(arr);
     let currentIndex = array.length;
     while (currentIndex != 0) {

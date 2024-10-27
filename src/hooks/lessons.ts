@@ -83,3 +83,8 @@ export function useLessonCurrentGame() {
     const [gameName] = useGameName();
     return games.find((game) => game.name === gameName);
 }
+
+export function useTimeDirection() {
+    const { timeDirection = 'left' } = useLessonCurrentGame() || {};
+    return timeDirection;
+}

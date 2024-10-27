@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GameStatus, IGameState, IStateSettings } from './GameData.module';
+import {
+    GameStatus,
+    IGameState,
+    IStateSettings,
+    TimeDirection,
+} from './GameData.module';
 
 const initialState: IGameState = {
     status: 'settings',
@@ -18,6 +23,7 @@ const initialState: IGameState = {
     section: '',
     state: {},
     currentTime: 0,
+    timeDirection: 'left',
 };
 
 const gameData = createSlice({
@@ -47,6 +53,9 @@ const gameData = createSlice({
         },
         setTime: (state, action: PayloadAction<number>) => {
             state.result.time = action.payload;
+        },
+        setTimeDirection: (state, action: PayloadAction<TimeDirection>) => {
+            state.timeDirection = action.payload;
         },
         setCurrentTime: (state, action: PayloadAction<number>) => {
             state.currentTime = action.payload;

@@ -1,3 +1,5 @@
+import { TimeDirection } from '../store/game-data/GameData.module';
+
 export type SimpleLessonName =
     | 'lesson1'
     | 'lesson2'
@@ -17,6 +19,7 @@ export type GameLessonItem = {
     name: string;
     title: string;
     imgUrl: string;
+    timeDirection: TimeDirection;
 };
 
 export type LessonName =

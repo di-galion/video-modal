@@ -19,6 +19,7 @@ export const LESSONS: ILesson[] = [
                 name: 'laboratory',
                 title: 'Лаборатория',
                 imgUrl: '/assets/img/gameCovers/laboratory.png',
+                timeDirection: 'left',
             },
         ],
     },
@@ -60,6 +61,21 @@ export const LESSONS: ILesson[] = [
         status: true,
         index: 6,
         name: 'canvas',
+    },
+    {
+        title: 'Игра на счет',
+        secondTitle: 'Таблица умножения',
+        status: true,
+        index: 7,
+        name: 'game',
+        games: [
+            {
+                name: 'multTable',
+                title: 'Таблица умножения',
+                imgUrl: '/assets/img/gameCovers/multTable.png',
+                timeDirection: 'right',
+            },
+        ],
     },
 ];
 

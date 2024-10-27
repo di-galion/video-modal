@@ -2,6 +2,8 @@ export type SettingValue = number;
 
 export type GameStatus = 'start' | 'settings' | 'finish' | 'info';
 
+export type TimeDirection = 'right' | 'left';
+
 export interface IStateSettings {
     [reduxKey: string]: SettingValue;
 }
@@ -23,4 +25,5 @@ export interface IGameState {
     section: string;
     state: object;
     currentTime: number;
+    timeDirection: TimeDirection;
 }

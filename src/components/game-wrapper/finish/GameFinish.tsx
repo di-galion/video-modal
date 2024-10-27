@@ -1,5 +1,6 @@
 import { useGameResult, useGameStatus } from '../../../hooks/game';
 import { useLessonCurrentGame } from '../../../hooks/lessons';
+import { toTimeFormat } from '../../../utils';
 import styles from './styles.module.scss';
 
 const Star = () => (
@@ -83,7 +84,7 @@ export const GameFinish = () => {
                     <span className={styles.finish__info_time}>
                         Время игры:{' '}
                         <span className={styles.finish__value}>
-                            {result.time}
+                            {toTimeFormat(result.time)}
                         </span>
                     </span>
                     <div className={styles.finish__text}>

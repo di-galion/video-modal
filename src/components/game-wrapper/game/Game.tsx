@@ -1,19 +1,28 @@
 import { FC, PropsWithChildren } from 'react';
 import { Timer } from '../../timer/Timer';
 import { Star } from '../../star/Star';
-import { useGameSettings, useGameStatus } from '../../../hooks/game';
+import {
+    useGameName,
+    useGameSettings,
+    useGameStatus,
+} from '../../../hooks/game';
 import styles from './styles.module.scss';
 import { useTicker } from '../../../utils/ticker';
 import { useActions } from '../../../hooks/useActions';
 import { SettingsButton } from '../settings-button/SettingsButton';
+import { useTimeDirection } from '../../../hooks/lessons';
 
 export const Game: FC<PropsWithChildren> = ({ children }) => {
-    const { time = 30 } = useGameSettings();
+    const { time = 0 } = useGameSettings();
 
     const { setPageStatus, setTime } = useActions();
     const [status, setStatus] = useGameStatus();
 
-    const handleTimeout = () => {
+    const [gameName] = useGameName();
+
+    const timeDirection = useTimeDirection();
+
+    const handleTimeout = (time: number) => {
         setPageStatus('finish');
         setTime(time);
     };
@@ -22,14 +31,21 @@ export const Game: FC<PropsWithChildren> = ({ children }) => {
         setStatus('settings');
     };
 
-    const currentTime = useTicker({ time, onFinish: handleTimeout });
+    const currentTime = useTicker({
+        time,
+        timeDirection,
+        onFinish: handleTimeout,
+    });
 
     return (
         <div className={styles.content}>
             <div className={styles.content__inner}>
                 <div className={styles.content__game_resolver}>
                     <div className={styles.content__game_container}>
-                        <div className={styles.content__game_wrapper}>
+                        <div
+                            className={styles.content__game_wrapper}
+                            data-game={gameName}
+                        >
                             <div className={styles.level}>
                                 <div className={styles.level__inner}>
                                     {status === 'start' ? (

@@ -1,21 +1,30 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGameCurrentTime } from '../hooks/game';
+import { TimeDirection } from '../store/game-data/GameData.module';
 
 interface TickerProps {
     time: number;
-    onFinish: () => void;
+    timeDirection: TimeDirection;
+    onFinish: (time: number) => void;
 }
 
 export const useTicker = (props: TickerProps) => {
     const seconds = useRef(props.time);
     const [value, setValue] = useGameCurrentTime();
+    const [started, setStarted] = useState(false);
 
     const change = useCallback(() => {
-        if (!seconds.current) {
-            props.onFinish();
+        if (props.timeDirection === 'left' && !seconds.current) {
+            props.onFinish(props.time);
+            setStarted(false);
             return false;
         }
-        seconds.current--;
+        if (props.timeDirection === 'left') {
+            seconds.current--;
+        } else {
+            seconds.current++;
+        }
+        setStarted(true);
         setValue(seconds.current);
         return true;
     }, []);
@@ -32,5 +41,5 @@ export const useTicker = (props: TickerProps) => {
         };
     }, [props.time]);
 
-    return value;
+    return started ? value : props.timeDirection === 'left' ? props.time : 0;
 };

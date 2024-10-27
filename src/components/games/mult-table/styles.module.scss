@@ -1,0 +1,199 @@
+.content {
+    position: relative;
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: -200px;
+    align-items: center;
+}
+
+.numberWrap {
+    display: flex;
+    justify-content: center;
+    padding-top: 82px;
+}
+
+.number {
+    text-align: center;
+    font-weight: bold;
+    font-size: 90pt;
+}
+
+.calculator {
+    max-width: 300px;
+}
+
+.input {
+    margin: 10px 0;
+    text-align: center;
+    font-size: 60px;
+    border: 3px solid #b8b5d6;
+    padding: 10px;
+    color: #000;
+    width: 100%;
+    display: block;
+    background-color: #fff;
+    border-radius: 4px;
+    line-height: 39px;
+    height: 64px !important;
+}
+
+.btn {
+    background: #fcbd11;
+    font-weight: bold;
+    color: #c4521c;
+    margin: 30px auto 0;
+    display: block;
+    padding: 10px 30px;
+    font-size: 25px;
+    width: 90%;
+    max-width: 240px;
+    border-radius: 15px;
+    transition: all 0.2s;
+
+    &:disabled {
+        filter: grayscale(1);
+        pointer-events: none;
+    }
+}
+
+.button_big {
+    min-width: 70px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+
+    > * {
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.83);
+        border: 4px solid #ebbb31;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        padding: 0 5px;
+        box-sizing: border-box;
+        background: #d5652c url(./img/blick.png) no-repeat !important;
+        background-size: contain !important;
+    }
+}
+
+.buttons {
+    display: flex;
+    width: 340px;
+    justify-content: space-around;
+    margin-left: -90px;
+    padding-left: 30px;
+}
+
+.result {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    background: url(./img/result-text-bg.png) no-repeat center;
+    background-size: contain;
+    height: 120px;
+    width: 311px;
+    margin: -26px 40px -15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &::after {
+        background: url(./img/right.png) no-repeat center;
+        background-size: contain;
+        position: absolute;
+        content: '';
+        width: 246px;
+        height: 99px;
+        left: 32px;
+        top: 11px;
+    }
+
+    &[data-correct='0']::after {
+        background: url(./img/wrong.png) no-repeat center;
+        background-size: contain;
+    }
+
+    > span {
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        font-weight: 500;
+    }
+}
+
+.resultInner {
+    display: flex;
+    border-radius: 50px;
+    border: 5px solid #ebbb31;
+    background: #b25830;
+    position: relative;
+    justify-content: space-between;
+    padding: 5px;
+    z-index: 1;
+}
+
+.resultBlock {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 82px;
+
+    &__number {
+        text-align: center;
+        font-weight: bold;
+        font-family: 'Fregat', Roboto, Arial, sans-serif;
+        font-size: 40pt;
+    }
+
+    &__value {
+        text-align: center;
+        font-size: 60px;
+        height: 64px;
+        line-height: 39px;
+        border: 3px solid #b8b5d6;
+        padding: 10px;
+        color: #000;
+        border-radius: 4px;
+        margin: 10px auto 50px;
+        width: 300px;
+        background: #fff;
+        box-sizing: border-box;
+        border-color: #d4652c;
+
+        &[data-correct='1'] {
+            border-color: green;
+        }
+    }
+}
+
+.example {
+    background: #fff;
+    border: 2px solid #5d2816;
+    position: relative;
+    padding: 20px;
+    margin: -10px 30px 0;
+    max-height: 314px;
+    overflow-y: auto;
+    text-align: center;
+    padding: 13px 13px 5px;
+    font-size: 35px;
+    box-sizing: border-box;
+
+    &::after {
+        position: absolute;
+        content: '';
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 15px;
+        opacity: 0.5;
+        background: #7d3e22;
+    }
+}

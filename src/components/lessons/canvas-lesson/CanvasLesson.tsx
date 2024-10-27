@@ -9,7 +9,6 @@ export const CanvasLesson = () => {
 
     useEffect(() => {
         context.current = ref.current?.getContext('2d') || undefined;
-
         document.addEventListener('mouseup', handleMouseUp);
         return () => document.removeEventListener('mouseup', handleMouseUp);
     }, []);
