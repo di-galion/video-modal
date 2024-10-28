@@ -1,0 +1,107 @@
+.wrapper {
+    user-select: none;
+    flex: 1 0 auto;
+    display: flex;
+    position: relative;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.elements {
+    position: relative;
+    display: flex;
+    flex: 1 0 auto;
+    background: url(./img/im.png);
+    background-position-x: -78px !important;
+    background-position-y: -145px !important;
+}
+
+.wall {
+    position: absolute;
+    left: 50px;
+    bottom: 130px;
+    width: 640px;
+    height: 500px;
+    transition: all 0.4s;
+    background: url(./img/wall.png);
+    background-size: 100% !important;
+    background-position-y: 10px !important;
+    background-position-x: -13px !important;
+    background-repeat: no-repeat !important;
+}
+
+.bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -100px;
+    bottom: 0;
+    background: url(./img/bg.png);
+    background-size: cover !important;
+    background-position-x: -13px !important;
+}
+
+.persons {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.shapes {
+    position: absolute;
+    left: 0;
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+
+    &.run {
+        animation: down 3s linear infinite;
+    }
+}
+
+@keyframes down {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(700px);
+    }
+}
+
+.elemWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 98px;
+    cursor: pointer;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background: url(./img/stone.png);
+
+    &.crush {
+        background: url(./img/stone-crush.png);
+    }
+}
+
+.elem {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 90%;
+    cursor: default;
+    pointer-events: none;
+}
+
+.number {
+    width: 100%;
+    text-align: center;
+    text-shadow: #fff 1px 1px 0, #fff -1px -1px 0, #fff -1px 1px 0,
+        #fff 1px -1px 0;
+    font-size: 30px;
+    color: #360738;
+    font-weight: bold;
+}

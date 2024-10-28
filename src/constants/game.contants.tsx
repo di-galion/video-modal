@@ -11,6 +11,7 @@ import { SettingSpeed } from '../components/settings/setting-speed/SettingSpeed'
 import { SettingTime } from '../components/settings/setting-time/SettingTime';
 import { Laboratory } from '../components/games/laboratory/Laboratory';
 import { MultTable } from '../components/games/mult-table/MultTable';
+import { MountainTrail } from '../components/games/mountain-trail/MountainTrail';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -98,6 +99,21 @@ export const GAME_SETTINGS_MAP: (
             },
         },
     ],
+    mountainTrail: [
+        {
+            type: 'range',
+            title: 'Количество ответов',
+            reduxKey: 'count',
+            settings: {
+                max: 20,
+                min: 3,
+                step: 1,
+                update: false,
+                variant: 'speed',
+                defaultValue: 3,
+            },
+        },
+    ],
 });
 
 export const INFO_SETTINGS = (gameName: string) => {
@@ -109,6 +125,7 @@ export const INFO_SETTINGS = (gameName: string) => {
                     texts: [
                         'В каждой пробирке хранится несколько микробов, сколько – на ней написано. Найди ту пробирку, которой не хватает до 10 микробов в лаборатории.',
                     ],
+                    fullRow: true,
                 },
                 {
                     title: 'Уровень',
@@ -129,6 +146,33 @@ export const INFO_SETTINGS = (gameName: string) => {
                     ],
                 },
             ];
+        case 'multTable':
+            return [
+                {
+                    title: 'Уровень',
+                    texts: [
+                        'В зависимости от уровня изменяются правила игры',
+                        '1 - Решение примеров не на скорость. Решаем примеры и клавишей Enter включаем следующий.',
+                        '2 - Решение примеров на скорость. Скорость - это время появления следующего примера. Если решили быстрее, можно включить кнопкой Entr следующий пример.',
+                    ],
+                },
+                {
+                    title: 'Количество ответов',
+                    texts: ['Общее количество примеров для одной игры'],
+                },
+                {
+                    title: 'Тема',
+                    texts: ['Выбор множителя для табличных случаев умножения'],
+                },
+                {
+                    title: 'Скорость',
+                    texts: ['Скорость игры'],
+                },
+                {
+                    title: 'Выбор действия',
+                    texts: ['Выбор множителя для табличных случаев умножения'],
+                },
+            ];
         default:
             return [];
     }
@@ -137,4 +181,5 @@ export const INFO_SETTINGS = (gameName: string) => {
 export const GAME_MAP: Record<string, () => React.ReactElement> = {
     laboratory: () => <Laboratory />,
     multTable: () => <MultTable />,
+    mountainTrail: () => <MountainTrail />,
 };

@@ -1,12 +1,27 @@
 import { ILesson } from '../typings/lesson.module';
 
 export const LESSONS: ILesson[] = [
-    {
+    /*{
         title: 'Приветствие',
         secondTitle: '',
         status: true,
         index: 0,
         name: 'welcome',
+    },*/
+    {
+        title: 'Игры',
+        secondTitle: 'Таблица умножения',
+        status: true,
+        index: 0,
+        name: 'game',
+        games: [
+            {
+                name: 'mountainTrail',
+                title: 'Горная тропа',
+                imgUrl: '/assets/img/gameCovers/mountainTrail.png',
+                timeDirection: 'right',
+            },
+        ],
     },
     {
         title: 'Проверка знаний',

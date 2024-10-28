@@ -6,10 +6,11 @@ import styles from './styles.module.scss';
 interface SettingInfoProps {
     title: string;
     texts: string[];
+    fullRow?: boolean;
 }
-const SettingInfo: FC<SettingInfoProps> = ({ title, texts = [] }) => {
+const SettingInfo: FC<SettingInfoProps> = ({ title, texts = [], fullRow }) => {
     return (
-        <SettingsWrapper variant={'info'} title={title}>
+        <SettingsWrapper variant={'info'} title={title} fullRow={fullRow}>
             <div className={styles.wrapper}>
                 {texts.map((text) => {
                     if (!text) {

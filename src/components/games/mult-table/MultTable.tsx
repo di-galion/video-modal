@@ -26,7 +26,7 @@ export const MultTable = () => {
     const { count } = useGameSettings();
     const [step, setStep] = useState(0);
 
-    const data = useMemo(() => createArray(count, 2, 9, 1), [count]);
+    const data = useMemo(() => createArray(count, 2, 10, 1), [count]);
     const currentData = useMemo(() => data[step], [step, data]);
     const [value, setValue] = useState('');
     const [checking, setChecking] = useState(false);
@@ -43,8 +43,8 @@ export const MultTable = () => {
         if (step < count - 1) {
             setStep((step) => step + 1);
         } else {
-            setPageStatus('finish');
             setTime(time);
+            setPageStatus('finish');
         }
     };
 
@@ -69,6 +69,11 @@ export const MultTable = () => {
         setValue('');
     };
 
+    const handeSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        check();
+    };
+
     return (
         <div className={styles.content}>
             {!checking ? (
@@ -79,18 +84,20 @@ export const MultTable = () => {
                         </span>
                     </div>
                     <div className={styles.calculator}>
-                        <input
-                            className={styles.input}
-                            value={value}
-                            onChange={handleChange}
-                        />
-                        <button
-                            className={styles.btn}
-                            disabled={!value}
-                            onClick={() => check()}
-                        >
-                            Проверить
-                        </button>
+                        <form onSubmit={handeSubmit}>
+                            <input
+                                className={styles.input}
+                                value={value}
+                                onChange={handleChange}
+                            />
+                            <button
+                                className={styles.btn}
+                                disabled={!value}
+                                type="submit"
+                            >
+                                Проверить
+                            </button>
+                        </form>
                     </div>
                 </>
             ) : (

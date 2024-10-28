@@ -74,7 +74,7 @@ export const Laboratory = () => {
     }, [step]);
 
     return (
-        <>
+        <div className={styles.wrap}>
             <div className={styles.level__left}>
                 <div
                     className={classNames(styles.level__left_row, {
@@ -98,6 +98,6 @@ export const Laboratory = () => {
                     ))}
                 </div>
             </div>
-        </>
+        </div>
     );
 };

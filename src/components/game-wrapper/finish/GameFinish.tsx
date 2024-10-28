@@ -1,5 +1,6 @@
 import { useGameResult, useGameStatus } from '../../../hooks/game';
 import { useLessonCurrentGame } from '../../../hooks/lessons';
+import { useActions } from '../../../hooks/useActions';
 import { toTimeFormat } from '../../../utils';
 import styles from './styles.module.scss';
 
@@ -45,10 +46,11 @@ const Star = () => (
 
 export const GameFinish = () => {
     const result = useGameResult();
-
+    const { clearResult } = useActions();
     const [, setStatus] = useGameStatus();
 
     const handleClick = () => {
+        clearResult();
         setStatus('start');
     };
 

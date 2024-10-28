@@ -51,8 +51,8 @@ const gameData = createSlice({
         addAllAnswers: (state) => {
             state.result.allAnswers = state.result.allAnswers + 1;
         },
-        setTime: (state, action: PayloadAction<number>) => {
-            state.result.time = action.payload;
+        setTime: (state, action: PayloadAction<number | undefined>) => {
+            state.result.time = action.payload || state.currentTime;
         },
         setTimeDirection: (state, action: PayloadAction<TimeDirection>) => {
             state.timeDirection = action.payload;

@@ -6,12 +6,14 @@ interface SettingsWrapperProps extends PropsWithChildren {
     title: string;
     disabled?: boolean;
     variant?: string;
+    fullRow?: boolean;
 }
 
 const SettingsWrapper: FC<SettingsWrapperProps> = ({
     children,
     title,
     disabled,
+    fullRow,
     variant = 'settings',
 }) => {
     return (
@@ -20,6 +22,7 @@ const SettingsWrapper: FC<SettingsWrapperProps> = ({
                 [styles.wrapper]: variant === 'settings',
                 [styles.wrapperInfo]: variant === 'info',
                 [styles.wrapper_disabled]: disabled,
+                [styles.fullRow]: fullRow,
             })}
         >
             <div className={styles.title}>{title}</div>

@@ -11,23 +11,25 @@
     &__inner {
         width: 100%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
         align-items: center;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+        flex: 1 0 100%;
     }
 
     &__content {
         width: 100%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
-        align-items: center;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+        flex-direction: column;
+        flex: 1 0 100%;
     }
 
     &__top_panel {
@@ -88,6 +90,13 @@
                     rgba(145, 207, 223, 0.6) 100%
                 ),
                 url(./images/mult-table-bg.png);
+        }
+
+        &[data-game='mountainTrail'] {
+            background: url(./images/mountainTrail.png);
+            background-repeat: no-repeat !important;
+            background-position: center bottom !important;
+            background-size: cover !important;
         }
     }
 

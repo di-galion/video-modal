@@ -65,7 +65,7 @@
     flex-direction: column;
     box-sizing: border-box;
 
-    &:nth-child(1) {
+    &.fullRow {
         flex: 1 0 100%;
     }
 }

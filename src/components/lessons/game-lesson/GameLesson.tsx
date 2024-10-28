@@ -3,14 +3,18 @@ import { useActions } from '../../../hooks/useActions';
 import { useGameName, useGameStatus } from '../../../hooks/game';
 import { GameWrapper } from '../../game-wrapper/GameWrapper';
 import { GAME_MAP } from '../../../constants/game.contants';
-import { useGameLessonMode } from '../../../hooks/lessons';
+import {
+    useCurrentLessonIndex,
+    useGameLessonMode,
+} from '../../../hooks/lessons';
 import { GameList } from './game-list/GameList';
 
 export const GameLesson = () => {
-    const { clearSettings } = useActions();
+    const { clearSettings, clearResult } = useActions();
     const [, setStatus] = useGameStatus();
     const [gameName, setGameName] = useGameName();
     const [mode, setMode] = useGameLessonMode();
+    const lessonIndex = useCurrentLessonIndex();
 
     const game = useMemo(
         () => (GAME_MAP[gameName] ? GAME_MAP[gameName]() : null),
@@ -23,9 +27,11 @@ export const GameLesson = () => {
     };
 
     useEffect(() => {
+        clearResult();
         clearSettings();
         setStatus('settings');
-    }, []);
+        setMode('list');
+    }, [lessonIndex]);
 
     return mode === 'game' ? (
         <GameWrapper>{game}</GameWrapper>
