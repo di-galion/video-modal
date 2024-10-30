@@ -46,4 +46,9 @@ export interface IGameState {
     currentTime: number;
     timeDirection: TimeDirection;
     data: Partial<GameData>;
+    syncStorage: Record<string, any>;
+    syncAction: Partial<{
+        name: string;
+        increment: number;
+    }>;
 }

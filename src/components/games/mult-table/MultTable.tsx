@@ -1,32 +1,54 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGameFinish, useGameSettings } from '../../../hooks/game';
 import { createArray } from './functions';
 import styles from './styles.module.scss';
 import { useActions } from '../../../hooks/useActions';
 import { register } from '../../../providers/game/register';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
+import { useAccount } from '../../../hooks/account';
 
 const MultTableGame = () => {
     const { count } = useGameSettings();
     const [step, setStep] = useState(0);
 
-    const data = useMemo(() => createArray(count, 2, 10, 1), [count]);
-    const currentData = useMemo(() => data[step], [step, data]);
+    const {
+        storage: { data = [] },
+        sendMessage,
+        sendAction,
+    } = useWebSocket();
+
+    const currentData = useMemo(() => data[step] || [], [step, data]);
     const [value, setValue] = useState('');
     const [checking, setChecking] = useState(false);
     const [correct, setCorrect] = useState(true);
     const [showExample, setShowExample] = useState(false);
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const finishGame = useGameFinish();
+    const { role } = useAccount();
+
+    useEffect(() => {
+        if (role === 'teacher') {
+            sendMessage('data', createArray(count, 2, 10, 1));
+        }
+    }, []);
+
+    useWsAction((name) => {
+        switch (name) {
+            case 'next':
+                setValue('');
+                setChecking(false);
+                setShowExample(false);
+                if (step < count - 1) {
+                    setStep((step) => step + 1);
+                } else {
+                    finishGame();
+                }
+                break;
+        }
+    });
 
     const next = () => {
-        setValue('');
-        setChecking(false);
-        setShowExample(false);
-        if (step < count - 1) {
-            setStep((step) => step + 1);
-        } else {
-            finishGame();
-        }
+        sendAction('next');
     };
 
     const check = () => {

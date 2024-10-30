@@ -15,7 +15,7 @@ interface IAccountState {
 }
 
 const initialState: IAccountState = {
-    role: 'student',
+    role: 'teacher',
     teacher: { id: 1, name: 'Иван Михайлов', online: false },
     me: { id: 1, name: 'Иван Михайлов', online: true },
     students: [

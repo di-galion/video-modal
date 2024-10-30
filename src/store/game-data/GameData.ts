@@ -26,6 +26,8 @@ const initialState: IGameState = {
     currentTime: 0,
     timeDirection: 'left',
     data: {},
+    syncStorage: {},
+    syncAction: {},
 };
 
 const gameData = createSlice({
@@ -76,8 +78,24 @@ const gameData = createSlice({
         register: (state, action: PayloadAction<GameData>) => {
             state.data = action.payload;
         },
+
+        updateSyncStorage: (
+            state,
+            action: PayloadAction<Record<string, any>>
+        ) => {
+            state.syncStorage = { ...state.syncStorage, ...action.payload };
+        },
+
+        updateSyncAction: (
+            state,
+            action: PayloadAction<{ name: string; increment: number }>
+        ) => {
+            state.syncAction = action.payload;
+        },
     },
 });
+
+export const { updateSyncStorage, updateSyncAction } = gameData.actions;
 
 export const gameDataReducer = gameData.reducer;
 
