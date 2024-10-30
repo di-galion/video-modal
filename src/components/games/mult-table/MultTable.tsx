@@ -1,28 +1,11 @@
 import { useMemo, useState } from 'react';
-import { useGameCurrentTime, useGameSettings } from '../../../hooks/game';
-import { generateRandomNumberFillArray, shuffle } from '../../../utils';
+import { useGameFinish, useGameSettings } from '../../../hooks/game';
+import { createArray } from './functions';
 import styles from './styles.module.scss';
 import { useActions } from '../../../hooks/useActions';
+import { register } from '../../../providers/game/register';
 
-function createArray(
-    count: number,
-    from: number,
-    to: number,
-    constant: number
-) {
-    const arr1 = generateRandomNumberFillArray(from, to).map((item) => [
-        item,
-        constant,
-    ]);
-    const arr2 = generateRandomNumberFillArray(from, to).map((item) => [
-        constant,
-        item,
-    ]);
-    const arr = shuffle([...arr1, ...arr2]).slice(0, count);
-    return arr;
-}
-
-export const MultTable = () => {
+const MultTableGame = () => {
     const { count } = useGameSettings();
     const [step, setStep] = useState(0);
 
@@ -32,9 +15,8 @@ export const MultTable = () => {
     const [checking, setChecking] = useState(false);
     const [correct, setCorrect] = useState(true);
     const [showExample, setShowExample] = useState(false);
-    const { setPageStatus, setTime, addAllAnswers, addCorrectAnswer } =
-        useActions();
-    const [time] = useGameCurrentTime();
+    const { addAllAnswers, addCorrectAnswer } = useActions();
+    const finishGame = useGameFinish();
 
     const next = () => {
         setValue('');
@@ -43,8 +25,7 @@ export const MultTable = () => {
         if (step < count - 1) {
             setStep((step) => step + 1);
         } else {
-            setTime(time);
-            setPageStatus('finish');
+            finishGame();
         }
     };
 
@@ -225,3 +206,63 @@ export const MultTable = () => {
         </div>
     );
 };
+
+export const MultTable = register(MultTableGame, {
+    timeDirection: 'right',
+    title: 'Таблица умножения',
+    infoSettings: [
+        {
+            title: 'Уровень',
+            texts: [
+                'В зависимости от уровня изменяются правила игры',
+                '1 - Решение примеров не на скорость. Решаем примеры и клавишей Enter включаем следующий.',
+                '2 - Решение примеров на скорость. Скорость - это время появления следующего примера. Если решили быстрее, можно включить кнопкой Entr следующий пример.',
+            ],
+        },
+        {
+            title: 'Количество ответов',
+            texts: ['Общее количество примеров для одной игры'],
+        },
+        {
+            title: 'Тема',
+            texts: ['Выбор множителя для табличных случаев умножения'],
+        },
+        {
+            title: 'Скорость',
+            texts: ['Скорость игры'],
+        },
+        {
+            title: 'Выбор действия',
+            texts: ['Выбор множителя для табличных случаев умножения'],
+        },
+    ],
+    settings: () => [
+        {
+            type: 'range',
+            title: 'Количество ответов',
+            reduxKey: 'count',
+            settings: {
+                max: 30,
+                min: 10,
+                step: 1,
+                defaultValue: 10,
+            },
+        },
+        {
+            type: 'sliding',
+            title: 'Выбор действия',
+            reduxKey: 'actionType',
+            settings: {
+                values: ['Умножение', 'Деление', 'Случайно'],
+            },
+        },
+    ],
+    start: () => ({
+        title: 'Таблица умножения',
+        subTitle1: 'Решай каждый пример и записывай ответ.',
+        subTitle2:
+            'Будь внимателен! После ввода ответа нажми кнопку Enter для решения следующего примера.',
+        subTitle3: '',
+        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+    }),
+});

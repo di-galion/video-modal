@@ -4,13 +4,14 @@ import personGood from './img/persons/p-good.png';
 import personBad from './img/persons/p-bad.png';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { generateRandomNumberFillArray, random, shuffle } from '../../../utils';
 import {
     useGameFinish,
     useGameResult,
     useGameSettings,
 } from '../../../hooks/game';
 import { useActions } from '../../../hooks/useActions';
+import { createShapeData, getCount } from './functions';
+import { register } from '../../../providers/game/register';
 
 type PersonLook = 'normal' | 'good' | 'bad';
 
@@ -28,9 +29,9 @@ const Shape: FC<{
     text: string;
     right: boolean;
     crush: boolean;
-    order: number;
+    order?: number;
     onClick: (right: boolean) => void;
-}> = ({ text, right, crush, onClick, order }) => (
+}> = ({ text, right, crush, onClick, order = 1 }) => (
     <span
         className={classNames(styles.elemWrap, { [styles.crush]: crush })}
         onMouseDown={() => onClick(right)}
@@ -42,99 +43,102 @@ const Shape: FC<{
     </span>
 );
 
-function createRightArray(count: number, from: number, constant: number) {
-    const arr = new Array(count)
-        .fill(null)
-        .map((_, index) =>
-            random(0, 1) ? [index + from, constant] : [constant, index + from]
-        );
-    return arr;
-}
+const COUNT = 10;
 
-function createFailArray(count: number, from: number, to: number) {
-    const arr1 = generateRandomNumberFillArray(from, to).map((item) => [
-        item,
-        random(from, to),
-    ]);
-    const arr2 = generateRandomNumberFillArray(from, to).map((item) => [
-        random(from, to),
-        item,
-    ]);
-    const arr = shuffle([...arr1, ...arr2]).slice(0, count);
-    return arr;
-}
-
-export const MountainTrail = () => {
+const MountainTrailGame = () => {
     const [look, setLook] = useState<PersonLook>('normal');
+    const [mode, setMode] = useState<PersonLook>('normal');
     const [crush, setCrush] = useState(false);
-    const [step, setStep] = useState(0);
-    const [order, setOrder] = useState(random(0, 1));
+    const [step, setStep] = useState(-1);
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const { allAnswers, correctAnswers } = useGameResult();
     const [runned, setRunned] = useState(true);
-    const { count = 3 } = useGameSettings();
+
+    const { speed = 3 } = useGameSettings();
+
     const finishGame = useGameFinish();
 
-    const rightData = useMemo(() => createRightArray(count, 2, 1), [count]);
-    const failData = useMemo(() => createFailArray(count, 2, 10), [count]);
+    const shapes = useMemo(
+        () => createShapeData(step + 1, 1, getCount(step)),
+        [step]
+    );
 
     const interval = useRef<NodeJS.Timeout>();
 
     const height = useMemo(() => {
         const fail = allAnswers - correctAnswers;
-        return (fail / count) * 500;
-    }, [count, allAnswers, correctAnswers]);
-
-    const finish = () => {
-        if (step == count - 1) {
-            finishGame();
-        }
-    };
+        return (fail / COUNT) * 500;
+    }, [COUNT, allAnswers, correctAnswers]);
 
     useEffect(() => {
-        if (look === 'normal') {
-            clearInterval(interval.current);
-            if (step <= count - 1) {
-                setRunned(true);
-                interval.current = setInterval(() => {
-                    setLook('bad');
-                }, 3000);
-            }
-        } else {
-            setRunned(false);
-            addAllAnswers();
-            next();
-            stop();
-
-            if (look === 'bad') {
-                setTimeout(() => {
-                    setLook('normal');
-                    finish();
-                }, 500);
-            } else {
-                setCrush(true);
-                addCorrectAnswer();
-                setTimeout(() => {
-                    setLook('normal');
-                    setCrush(false);
-                    finish();
-                }, 500);
-            }
+        if (look !== 'normal') {
+            setTimeout(() => {
+                setLook('normal');
+            }, 500);
         }
     }, [look]);
 
+    useEffect(() => {
+        if (crush) {
+            setTimeout(() => {
+                setCrush(false);
+            }, 500);
+        }
+    }, [crush]);
+
+    useEffect(() => {
+        if (runned) {
+            clearInterval(interval.current);
+            if (step <= COUNT - 1) {
+                interval.current = setInterval(() => {
+                    setMode('bad');
+                }, speed * 1000);
+            }
+        } else {
+            clearInterval(interval.current);
+        }
+    }, [runned]);
+
+    useEffect(() => {
+        if (mode === 'normal') {
+            setRunned(true);
+            next();
+        } else {
+            addAllAnswers();
+
+            if (mode === 'bad') {
+                setLook('bad');
+                setRunned(false);
+                setTimeout(() => {
+                    setMode('normal');
+                }, 100);
+            } else {
+                setLook('good');
+                setCrush(true);
+                addCorrectAnswer();
+                setTimeout(() => {
+                    setRunned(false);
+                }, 500);
+                setTimeout(() => {
+                    setMode('normal');
+                }, 600);
+            }
+        }
+    }, [mode]);
+
     const next = () => {
-        if (step <= count - 1) {
-            setOrder(random(0, 1));
+        if (step < COUNT - 1) {
             setStep((step) => step + 1);
+        } else {
+            finishGame();
         }
     };
 
     const handleClick = (right: boolean) => {
         if (right) {
-            setLook('good');
+            setMode('good');
         } else {
-            setLook('bad');
+            setMode('bad');
         }
     };
 
@@ -146,29 +150,52 @@ export const MountainTrail = () => {
                 <div className={styles.persons}>
                     <Persons look={look} />
                 </div>
-                {step <= count - 1 ? (
+                {step <= COUNT - 1 ? (
                     <div
                         className={classNames(styles.shapes, {
                             [styles.run]: runned,
                         })}
+                        style={{ animationDuration: `${speed}s` }}
                     >
-                        <Shape
-                            order={order}
-                            text={`${failData[step][0]}•${failData[step][1]}`}
-                            crush={crush}
-                            right={false}
-                            onClick={handleClick}
-                        />
-                        <Shape
-                            order={Number(!order)}
-                            text={`${rightData[step][0]}•${rightData[step][1]}`}
-                            crush={crush}
-                            right={true}
-                            onClick={handleClick}
-                        />
+                        {shapes.map((shape) => (
+                            <Shape
+                                {...shape}
+                                key={shape.text}
+                                crush={crush}
+                                onClick={handleClick}
+                            />
+                        ))}
                     </div>
                 ) : null}
             </div>
         </div>
     );
 };
+
+export const MountainTrail = register(MountainTrailGame, {
+    timeDirection: 'right',
+    title: 'Таблица умножения',
+    infoSettings: [],
+    settings: () => [
+        {
+            type: 'range',
+            title: 'Скорость',
+            reduxKey: 'speed',
+            settings: {
+                max: 5,
+                min: 1,
+                step: 0.5,
+                defaultValue: 3,
+            },
+        },
+    ],
+    start: () => ({
+        title: 'Горная тропа',
+        subTitle1:
+            'Лови камни с правильными примерами, чтоб помочь Витаминке и Айти выбраться из пещеры',
+        subTitle2:
+            'Будь внимателен! Количество камней постепенно увеличивается',
+        subTitle3: '',
+        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+    }),
+});

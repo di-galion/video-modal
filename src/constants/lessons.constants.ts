@@ -16,10 +16,14 @@ export const LESSONS: ILesson[] = [
         name: 'game',
         games: [
             {
-                name: 'mountainTrail',
                 title: 'Горная тропа',
+                name: 'mountainTrail',
                 imgUrl: '/assets/img/gameCovers/mountainTrail.png',
-                timeDirection: 'right',
+            },
+            {
+                title: 'Таблица умножения',
+                name: 'multTable',
+                imgUrl: '/assets/img/gameCovers/multTable.png',
             },
         ],
     },
@@ -32,9 +36,8 @@ export const LESSONS: ILesson[] = [
         games: [
             {
                 name: 'laboratory',
-                title: 'Лаборатория',
                 imgUrl: '/assets/img/gameCovers/laboratory.png',
-                timeDirection: 'left',
+                title: 'Лаборатория',
             },
         ],
     },
@@ -86,9 +89,8 @@ export const LESSONS: ILesson[] = [
         games: [
             {
                 name: 'multTable',
-                title: 'Таблица умножения',
                 imgUrl: '/assets/img/gameCovers/multTable.png',
-                timeDirection: 'right',
+                title: 'Таблица умножения',
             },
         ],
     },

@@ -1,0 +1,42 @@
+.table {
+    position: relative;
+    margin: 10px;
+}
+
+.content {
+    display: block;
+}
+
+.inner {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.item {
+    flex: 1 0 100%;
+    margin-bottom: 0;
+    display: flex;
+    text-align: left;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #222221 !important;
+    }
+}
+
+.name {
+    color: #000;
+    flex: 0 0 60%;
+    font-size: 25px;
+    font-weight: 450;
+    line-height: 35px;
+}
+
+.value {
+    color: #b25830;
+    flex: 1 1 50%;
+    font-size: 20px;
+    font-weight: bold;
+}

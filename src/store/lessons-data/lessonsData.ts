@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import api from '../../api/api';
+import api from '../../api/http/api';
 import { GameLessonMode, ILesson } from '../../typings/lesson.module';
 
 interface ILessonState {

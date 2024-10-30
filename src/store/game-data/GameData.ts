@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+    GameData,
     GameStatus,
     IGameState,
-    IStateSettings,
+    IGameStateSettings,
     TimeDirection,
-} from './GameData.module';
+} from '../../typings/game.module';
 
 const initialState: IGameState = {
     status: 'settings',
@@ -24,6 +25,7 @@ const initialState: IGameState = {
     state: {},
     currentTime: 0,
     timeDirection: 'left',
+    data: {},
 };
 
 const gameData = createSlice({
@@ -33,7 +35,7 @@ const gameData = createSlice({
         clearSettings: (state) => {
             state.settings = {};
         },
-        addNewSetting: (state, action: PayloadAction<IStateSettings>) => {
+        addNewSetting: (state, action: PayloadAction<IGameStateSettings>) => {
             state.settings = { ...state.settings, ...action.payload };
         },
         setGameName: (state, action) => {
@@ -70,6 +72,9 @@ const gameData = createSlice({
                 time: 0,
                 stars: 0,
             };
+        },
+        register: (state, action: PayloadAction<GameData>) => {
+            state.data = action.payload;
         },
     },
 });

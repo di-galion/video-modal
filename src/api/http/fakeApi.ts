@@ -1,4 +1,4 @@
-import { LESSONS } from '../constants/lessons.constants';
+import { LESSONS } from '../../constants/lessons.constants';
 import { BaseApi } from './baseApi';
 import { URL_LESSONS } from './urls';
 

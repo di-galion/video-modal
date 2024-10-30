@@ -7,6 +7,7 @@ import { useGameName } from './game';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
+
     const render = useCallback(() => {
         return LESSONS_MAP[currentLesson.name]();
     }, [currentLesson]);
@@ -82,9 +83,4 @@ export function useLessonCurrentGame() {
     const games = useLessonGameList();
     const [gameName] = useGameName();
     return games.find((game) => game.name === gameName);
-}
-
-export function useTimeDirection() {
-    const { timeDirection = 'left' } = useLessonCurrentGame() || {};
-    return timeDirection;
 }

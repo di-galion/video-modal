@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useGameCurrentTime } from '../hooks/game';
-import { TimeDirection } from '../store/game-data/GameData.module';
+import { TimeDirection } from '../typings/game.module';
 
 interface TickerProps {
     time: number;

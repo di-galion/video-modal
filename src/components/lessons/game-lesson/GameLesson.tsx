@@ -1,25 +1,19 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useActions } from '../../../hooks/useActions';
 import { useGameName, useGameStatus } from '../../../hooks/game';
-import { GameWrapper } from '../../game-wrapper/GameWrapper';
-import { GAME_MAP } from '../../../constants/game.contants';
 import {
     useCurrentLessonIndex,
     useGameLessonMode,
 } from '../../../hooks/lessons';
 import { GameList } from './game-list/GameList';
+import { Game } from '../../game/Game';
 
 export const GameLesson = () => {
     const { clearSettings, clearResult } = useActions();
     const [, setStatus] = useGameStatus();
-    const [gameName, setGameName] = useGameName();
+    const [, setGameName] = useGameName();
     const [mode, setMode] = useGameLessonMode();
     const lessonIndex = useCurrentLessonIndex();
-
-    const game = useMemo(
-        () => (GAME_MAP[gameName] ? GAME_MAP[gameName]() : null),
-        [gameName]
-    );
 
     const handleSelectGame = (name: string) => {
         setGameName(name);
@@ -34,7 +28,7 @@ export const GameLesson = () => {
     }, [lessonIndex]);
 
     return mode === 'game' ? (
-        <GameWrapper>{game}</GameWrapper>
+        <Game />
     ) : (
         <GameList onSelect={handleSelectGame} />
     );

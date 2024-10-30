@@ -54,6 +54,7 @@
     width: 70%;
     display: flex;
     justify-content: space-around;
+    transform: translateY(-200px);
 
     &.run {
         animation: down 3s linear infinite;
@@ -62,7 +63,7 @@
 
 @keyframes down {
     from {
-        transform: translateY(0);
+        transform: translateY(-200px);
     }
     to {
         transform: translateY(700px);

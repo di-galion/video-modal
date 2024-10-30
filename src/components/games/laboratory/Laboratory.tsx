@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 import { useGameSettings } from '../../../hooks/game';
 import { useActions } from '../../../hooks/useActions';
 import classNames from 'classnames';
+import { register } from '../../../providers/game/register';
 
 function generateGerms(
     from: number,
@@ -31,7 +32,7 @@ const LEVEL_GERMS: Record<number, number> = {
     3: 9,
 };
 
-export const Laboratory = () => {
+const LaboratoryGame = () => {
     const [step, setStep] = useState(0);
 
     const settings = useGameSettings();
@@ -101,3 +102,63 @@ export const Laboratory = () => {
         </div>
     );
 };
+
+export const Laboratory = register(LaboratoryGame, {
+    title: 'Лаборатория',
+    timeDirection: 'left',
+    infoSettings: [
+        {
+            title: 'Правила игры',
+            texts: [
+                'В каждой пробирке хранится несколько микробов, сколько – на ней написано. Найди ту пробирку, которой не хватает до 10 микробов в лаборатории.',
+            ],
+            fullRow: true,
+        },
+        {
+            title: 'Уровень',
+            texts: [
+                'В зависимости от уровня изменяются правила игры:',
+                '1 - Тема "Братья"',
+                '2 - Тема "Друзья"',
+            ],
+        },
+        {
+            title: 'Время игры',
+            texts: ['Общая продолжительность игры'],
+        },
+        {
+            title: 'Режим',
+            texts: [
+                'В зависимости от режима изменяется количество правильных ответов, необходимое для успешного завершения игры',
+            ],
+        },
+    ],
+    settings: () => [
+        {
+            type: 'time',
+            title: 'Время игры',
+            reduxKey: 'time',
+            settings: {
+                max: 300,
+                min: 30,
+                step: 30,
+            },
+        },
+        {
+            type: 'sliding',
+            title: 'Режим',
+            reduxKey: 'mode',
+            settings: {
+                values: ['Легкий', 'Средний', 'Сложный', 'Экстрим'],
+            },
+        },
+    ],
+    start: () => ({
+        title: 'Лаборатория',
+        subTitle1:
+            'Всего должно быть 10 микробов, найди пробирку с недостающим количеством.',
+        subTitle2: '',
+        subTitle3: '',
+        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+    }),
+});

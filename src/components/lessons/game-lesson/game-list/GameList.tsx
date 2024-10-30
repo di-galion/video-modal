@@ -11,7 +11,7 @@ export const GameList: FC<GameListProps> = ({ onSelect }) => {
     return (
         <div className={styles.list}>
             {games.map((game) => (
-                <div className={styles.game}>
+                <div className={styles.game} key={game.name}>
                     <div className={styles.game__wrap}>
                         <div
                             className={styles.game__link}

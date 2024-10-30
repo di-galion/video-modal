@@ -35,7 +35,9 @@ export const SettingRange: FC<SettingsRangeProps> = ({
     };
 
     useEffect(() => {
-        setValue(settings.defaultValue || 1);
+        if (settings.update) {
+            setValue(gameSettings[reduxKey] || settings.defaultValue || 1);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [settings.update]);
 

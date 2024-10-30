@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useActions } from './useActions';
-import { GameStatus, SettingValue } from '../store/game-data/GameData.module';
+import { GameStatus, SettingValue } from '../typings/game.module';
 import { useTypedSelector } from './useTypedSelector';
-import { GAME_SETTINGS_MAP } from '../constants/game.contants';
-import { useTimeDirection } from './lessons';
+import { useTimer } from '../components/timer/useTimer';
 
 export const useChangeGameSetting = (reduxKey: string, value: SettingValue) => {
     const { addNewSetting } = useActions();
@@ -52,38 +51,24 @@ export const useGameResult = () => {
     return result;
 };
 
-export const useDefaultSettings = () => {
-    const { addNewSetting, clearSettings } = useActions();
-    const [gameName] = useGameName();
-
-    return () => {
-        clearSettings();
-
-        if (gameName) {
-            const gameSettings = GAME_SETTINGS_MAP({});
-            if (gameSettings) {
-                const gameSetting = gameSettings[gameName];
-                if (gameSetting) {
-                    gameSetting.forEach((controlSettings) => {
-                        addNewSetting({
-                            [controlSettings.reduxKey]:
-                                controlSettings.defaultValue || 0,
-                        });
-                    });
-                }
-            }
-        }
-    };
-};
-
 export const useGameFinish = () => {
     const timeDirection = useTimeDirection();
     const { setPageStatus, setTime } = useActions();
     const { time: settingsTime } = useGameSettings();
-    const [currentTime] = useGameCurrentTime();
+    const { time } = useTimer();
 
     return () => {
-        setTime(timeDirection === 'left' ? settingsTime : currentTime);
+        setTime(timeDirection === 'left' ? settingsTime : time);
         setPageStatus('finish');
     };
 };
+
+export function useGameData() {
+    const { data } = useGame();
+    return data || {};
+}
+
+export function useTimeDirection() {
+    const { timeDirection = 'left' } = useGameData();
+    return timeDirection;
+}

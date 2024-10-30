@@ -4,11 +4,10 @@ import { SettingsWrapper } from '../settings-wrapper/SettingsWrapper';
 import { Button } from '../../elements/button';
 import styles from './styles.module.scss';
 import { SettingsButtonProps } from './Settings.module';
-import { GameStatus } from '../../../store/game-data/GameData.module';
+import { GameStatus } from '../../../typings/game.module';
 import { useGameLessonMode } from '../../../hooks/lessons';
 import { useMemo } from 'react';
-import { INFO_SETTINGS } from '../../../constants/game.contants';
-import { useGame, useGameSettings, useGameStatus } from '../../../hooks/game';
+import { useGame, useGameData, useGameStatus } from '../../../hooks/game';
 import SettingInfo from '../../settings/setting-info/SettingInfo';
 import { renderSettings } from '../../../utils/settings';
 
@@ -43,6 +42,7 @@ const SettingsButton: FC<SettingsButtonProps> = ({
 export const Settings = () => {
     const [status, setStatus] = useGameStatus();
     const [, setMode] = useGameLessonMode();
+    const { infoSettings = [] } = useGameData();
 
     const onClickChangeSection = () => {
         setStatus(status == 'info' ? 'settings' : 'info');
@@ -57,17 +57,17 @@ export const Settings = () => {
     };
 
     const { gameName } = useGame();
-    const settings = useGameSettings();
+    const { settings: controls } = useGameData();
 
     const contol = useMemo(() => {
         if (status === 'settings')
-            return <>{renderSettings(gameName, settings)}</>;
+            return <>{controls ? renderSettings(controls) : null}</>;
         if (status === 'info')
-            return INFO_SETTINGS(gameName).map((item) => (
-                <SettingInfo {...item} />
+            return infoSettings.map((item) => (
+                <SettingInfo key={item.title} {...item} />
             ));
         return null;
-    }, [status, gameName, settings]);
+    }, [status, gameName, controls]);
 
     return (
         <SettingsWrapper>

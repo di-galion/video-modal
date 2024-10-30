@@ -4,18 +4,28 @@ export type ControlType =
     | 'ratios'
     | 'time'
     | 'sliding'
-    | 'speed';
+    | 'tips'
+    | 'numberOfRows'
+    | 'speed'
+    | 'items';
 
 export interface IControlSetting {
     defaultValue?: number;
     value?: number;
 }
 
+export interface IControlSettingItems extends IControlSetting {
+    min?: number;
+    max?: number;
+    step?: number;
+    defaultValue: number;
+}
+
 export interface IControlSettingLevel extends IControlSetting {
     max: number;
     min: number;
     step: number;
-    variant: string;
+    variant?: string;
 }
 
 export interface IControlSettingRange extends IControlSetting {
@@ -23,7 +33,14 @@ export interface IControlSettingRange extends IControlSetting {
     max: number;
     min: number;
     step: number;
-    variant: string;
+    variant?: string;
+}
+
+export interface IControlSettingNumberOfRows extends IControlSetting {
+    max: number;
+    min: number;
+    step: number;
+    update?: boolean;
 }
 
 export interface IControlSettingRatios extends IControlSetting {
@@ -49,13 +66,20 @@ export interface IControlSettingSliding extends IControlSetting {
     update?: boolean;
 }
 
+export interface IControlSettingTips extends IControlSetting {
+    tips: boolean;
+}
+
 interface SettingsByType extends Record<ControlType, IControlSetting> {
     level: IControlSettingLevel;
     range: IControlSettingRange;
     ratios: IControlSettingRatios;
     time: IControlSettingTime;
-    sliding: IControlSettingSliding;
+    tips: IControlSettingTips;
+    numberOfRows: IControlSettingNumberOfRows;
     speed: IControlSettingSpeed;
+    items: IControlSettingItems;
+    sliding: IControlSettingSliding;
 }
 
 export type SettingsOf<T extends ControlType> = SettingsByType[T];
@@ -76,4 +100,6 @@ export type ControlProps =
     | ControlPropsOf<'ratios'>
     | ControlPropsOf<'time'>
     | ControlPropsOf<'sliding'>
-    | ControlPropsOf<'speed'>;
+    | ControlPropsOf<'speed'>
+    | ControlPropsOf<'numberOfRows'>
+    | ControlPropsOf<'tips'>;
