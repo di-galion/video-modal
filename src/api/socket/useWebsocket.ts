@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useGame } from '../../hooks/game';
-import { wsApi } from './fakeApi';
+import { wsApi } from './socketApi';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();

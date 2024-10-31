@@ -4,7 +4,7 @@ import { createArray } from './functions';
 import styles from './styles.module.scss';
 import { useActions } from '../../../hooks/useActions';
 import { register } from '../../../providers/game/register';
-import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebsocket.ts';
 import { useAccount } from '../../../hooks/account';
 
 const MultTableGame = () => {
