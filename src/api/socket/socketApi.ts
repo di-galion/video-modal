@@ -61,4 +61,4 @@ export class WsSocketApi implements WsApi {
     }
 }
 
-export const wsApi = new WsSocketApi('http://localhost:3000/');
+export const wsApi = new WsSocketApi('http://localhost:8080/'); //временно

@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
-
-const io = new Server(3000, {
+//8080 временно
+const io = new Server(8080, {
     cors: {
         origin: '*',
     },
