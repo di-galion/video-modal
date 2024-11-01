@@ -23,7 +23,7 @@ export const Play: FC<PropsWithChildren> = ({ children }) => {
     const { start } = useTimer();
 
     useEffect(() => {
-        start(timeDirection, timeDirection === 'right' ? -1 : time);
+        start(timeDirection, timeDirection === 'right' ? -1 : (time as number));
     }, [time, timeDirection]);
 
     return children;

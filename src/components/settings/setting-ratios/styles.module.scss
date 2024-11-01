@@ -1,65 +1,66 @@
 .wrapper {
-	max-width: 185px;
-	margin: 0 auto 15px;
-	width: 100%;
+    max-width: 185px;
+    margin: 0 auto 15px;
+    width: 100%;
 }
 
 .ratios {
-	// border: 1px solid #e9ecff;
-	box-sizing: border-box;
-	border-radius: 10px;
-	padding: 4px;
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
+    // border: 1px solid #e9ecff;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 4px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .button {
-	margin: 0 auto 25px;
-	padding: 0;
-	flex: 0 0 40px;
-	height: 40px;
-	border-radius: 50%;
-	border: 3px solid #5d2816;
-	background: linear-gradient(
-		to bottom,
-		rgb(255, 255, 255) 0%,
-		rgb(249, 246, 238) 25%,
-		rgb(240, 233, 212) 68%,
-		rgb(237, 228, 203) 94%,
-		rgb(237, 228, 203) 100%
-	);
-	position: relative;
+    margin: 0 auto 25px;
+    padding: 0;
+    flex: 0 0 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #5d2816;
+    background: linear-gradient(
+        to bottom,
+        rgb(255, 255, 255) 0%,
+        rgb(249, 246, 238) 25%,
+        rgb(240, 233, 212) 68%,
+        rgb(237, 228, 203) 94%,
+        rgb(237, 228, 203) 100%
+    );
+    position: relative;
 
-	&::after {
-		transition: all 0.2s;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin-right: -50%;
-		transform: translate(-50%, -50%);
-		content: '';
-		width: 27px;
-		height: 27px;
-		border-radius: 50%;
-		opacity: 0;
-	}
+    &::after {
+        transition: all 0.2s;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        content: '';
+        width: 27px;
+        height: 27px;
+        border-radius: 50%;
+        opacity: 0;
+    }
 
-	&_active {
-		&::after {
-			background: #d5652c url('/assets/img/games/top-panel/blick.png') no-repeat !important;
-			background-size: contain !important;
-			opacity: 1;
-		}
-	}
+    &_active {
+        &::after {
+            background: #d5652c url('/assets/img/games/top-panel/blick.png')
+                no-repeat !important;
+            background-size: contain !important;
+            opacity: 1;
+        }
+    }
 
-	& span {
-		position: absolute;
-		top: 35px;
-		left: 50%;
-		transform: translateX(-50%);
-		font-size: 20px;
-		color: #000;
-		white-space: nowrap;
-	}
+    & span {
+        position: absolute;
+        top: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        color: #000;
+        white-space: nowrap;
+    }
 }

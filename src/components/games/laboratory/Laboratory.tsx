@@ -39,7 +39,10 @@ const LaboratoryGame = () => {
 
     const { addAllAnswers, addCorrectAnswer } = useActions();
 
-    const maxGermCount = useMemo(() => LEVEL_GERMS[settings.mode], []);
+    const maxGermCount = useMemo(
+        () => LEVEL_GERMS[settings.mode as number],
+        []
+    );
 
     const [germCount, setGermCount] = useState(random(1, maxGermCount));
 
@@ -103,7 +106,7 @@ const LaboratoryGame = () => {
     );
 };
 
-export const Laboratory = register(LaboratoryGame, {
+export const Laboratory = register(LaboratoryGame, () => ({
     title: 'Лаборатория',
     timeDirection: 'left',
     infoSettings: [
@@ -133,7 +136,7 @@ export const Laboratory = register(LaboratoryGame, {
             ],
         },
     ],
-    settings: () => [
+    settings: [
         {
             type: 'time',
             title: 'Время игры',
@@ -153,12 +156,12 @@ export const Laboratory = register(LaboratoryGame, {
             },
         },
     ],
-    start: () => ({
+    start: {
         title: 'Лаборатория',
         subTitle1:
             'Всего должно быть 10 микробов, найди пробирку с недостающим количеством.',
         subTitle2: '',
         subTitle3: '',
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    }),
-});
+    },
+}));

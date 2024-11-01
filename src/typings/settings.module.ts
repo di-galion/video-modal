@@ -7,10 +7,11 @@ export type ControlType =
     | 'tips'
     | 'numberOfRows'
     | 'speed'
-    | 'items';
+    | 'items'
+    | 'multiSelect';
 
 export interface IControlSetting {
-    defaultValue?: number;
+    defaultValue?: number | number[];
     value?: number;
 }
 
@@ -18,7 +19,6 @@ export interface IControlSettingItems extends IControlSetting {
     min?: number;
     max?: number;
     step?: number;
-    defaultValue: number;
 }
 
 export interface IControlSettingLevel extends IControlSetting {
@@ -41,6 +41,10 @@ export interface IControlSettingNumberOfRows extends IControlSetting {
     min: number;
     step: number;
     update?: boolean;
+}
+
+export interface IControlSettingMultiSelect extends IControlSetting {
+    values: number[] | undefined;
 }
 
 export interface IControlSettingRatios extends IControlSetting {
@@ -80,6 +84,7 @@ interface SettingsByType extends Record<ControlType, IControlSetting> {
     speed: IControlSettingSpeed;
     items: IControlSettingItems;
     sliding: IControlSettingSliding;
+    multiSelect: IControlSettingMultiSelect;
 }
 
 export type SettingsOf<T extends ControlType> = SettingsByType[T];
@@ -102,4 +107,5 @@ export type ControlProps =
     | ControlPropsOf<'sliding'>
     | ControlPropsOf<'speed'>
     | ControlPropsOf<'numberOfRows'>
-    | ControlPropsOf<'tips'>;
+    | ControlPropsOf<'tips'>
+    | ControlPropsOf<'multiSelect'>;

@@ -6,11 +6,9 @@ import styles from './styles.module.scss';
 import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 
-interface SettingsRatioProps extends ControlPropsOf<'ratios'> {
-    title: string;
-}
+type SettingRatiosProps = ControlPropsOf<'ratios'>;
 
-export const SettingRatios: FC<SettingsRatioProps> = ({
+export const SettingRatios: FC<SettingRatiosProps> = ({
     title,
     settings = {
         values: [1, 2, 3, 4],

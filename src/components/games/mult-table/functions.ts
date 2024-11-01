@@ -1,19 +1,29 @@
-import { generateRandomNumberFillArray, shuffle } from '../../../utils';
+import { generateRandomNumberFillArray } from '../../../utils';
 
-export function createArray(
+function createArray(
     count: number,
     from: number,
     to: number,
     constant: number
 ) {
-    const arr1 = generateRandomNumberFillArray(from, to).map((item) => [
-        item,
-        constant,
-    ]);
-    const arr2 = generateRandomNumberFillArray(from, to).map((item) => [
-        constant,
-        item,
-    ]);
-    const arr = shuffle([...arr1, ...arr2]).slice(0, count);
+    const arr = generateRandomNumberFillArray(from, to)
+        .map((item) => [constant, item])
+        .slice(0, count);
+
     return arr;
+}
+
+export function createAll(
+    count: number,
+    from: number,
+    to: number,
+    constants: number[]
+) {
+    return constants.reduce(
+        (acc: number[][], cur: number) => [
+            ...acc,
+            ...createArray(count, from, to, cur),
+        ],
+        []
+    );
 }

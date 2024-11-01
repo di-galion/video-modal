@@ -1,0 +1,21 @@
+.wrapper {
+    max-width: 185px;
+    margin: 0 auto 15px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.label {
+    font-size: 20px;
+
+    &_all {
+        flex-basis: 100%;
+    }
+}
+
+.checkbox {
+    display: inline-flex;
+    margin-left: 4px;
+}

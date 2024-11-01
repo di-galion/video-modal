@@ -1,6 +1,6 @@
 import { ControlProps } from './settings.module';
 
-export type SettingValue = number;
+export type SettingValue = number | number[];
 export type GameStatus = 'start' | 'settings' | 'finish' | 'info' | 'game';
 export type TimeDirection = 'right' | 'left';
 export type IGameStateSettings = Record<string, SettingValue>;
@@ -25,6 +25,7 @@ export type GameData = {
     infoSettings: InfoSetting[];
     settings: ControlProps[];
     start: StartGameProps;
+    startTable?: { text: string; value: string | number | number[] }[];
 };
 
 export interface IGameState {

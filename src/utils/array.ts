@@ -15,3 +15,14 @@ export function shuffle<T>(arr: T[]) {
 export function generateRandomNumberFillArray(from: number, to: number) {
     return shuffle(new Array(to - from + 1).fill(null).map((_, i) => i + from));
 }
+
+export function getArray(value: any) {
+    if (Array.isArray(value)) {
+        return value;
+    }
+    if (value === undefined || value === null) {
+        return [];
+    } else {
+        return [value];
+    }
+}

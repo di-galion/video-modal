@@ -4,28 +4,15 @@ import { useActions } from '../../hooks/useActions';
 import { useGameSettings } from '../../hooks/game';
 import { GameNavigator } from '../../components/game/game-navigator/GameNavigator';
 
-type RegisterSettings = (settings: IGameStateSettings) => GameData['settings'];
-type RegisterStart = (settings: IGameStateSettings) => GameData['start'];
-
-type RegisterData = Omit<GameData, 'settings' | 'start'> & {
-    settings: RegisterSettings;
-    start: RegisterStart;
-};
-
 const RegisteredElement: FC<{
     component: FC;
-    data: RegisterData;
+    data: (settings: IGameStateSettings) => GameData;
 }> = ({ component: Component, data }) => {
     const { register } = useActions();
     const currentSettings = useGameSettings();
-    const { settings, start, ...props } = data;
 
     useEffect(() => {
-        register({
-            ...props,
-            settings: settings(currentSettings),
-            start: start(currentSettings),
-        });
+        register(data(currentSettings));
     }, [data, currentSettings]);
 
     return (
@@ -35,6 +22,9 @@ const RegisteredElement: FC<{
     );
 };
 
-export function register(component: FC, data: RegisterData) {
+export function register(
+    component: FC,
+    data: (settings: IGameStateSettings) => GameData
+) {
     return () => <RegisteredElement component={component} data={data} />;
 }

@@ -1,11 +1,15 @@
-import { GAME_START_DATA_TABLE } from '../../../constants/startData.constant';
-import { useGameName, useGameSettings } from '../../../hooks/game';
+import { useGameData } from '../../../hooks/game';
 import styles from './styles.module.scss';
 
+function format(value: any) {
+    if (Array.isArray(value)) {
+        return value.join(', ');
+    }
+    return value;
+}
+
 const Table = () => {
-    const settings = useGameSettings();
-    const [gameName] = useGameName();
-    const items = GAME_START_DATA_TABLE(settings, gameName);
+    const { startTable: items } = useGameData();
 
     return items ? (
         <div className={styles.table}>
@@ -16,7 +20,7 @@ const Table = () => {
                             <div className={styles.item} key={key}>
                                 <p className={styles.name}>{item.text}</p>
                                 <p className={styles.value} key={key}>
-                                    {item.value || '-'}
+                                    {format(item.value) || '-'}
                                 </p>
                             </div>
                         );

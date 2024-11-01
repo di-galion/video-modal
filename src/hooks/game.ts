@@ -58,7 +58,7 @@ export const useGameFinish = () => {
     const { time } = useTimer();
 
     return () => {
-        setTime(timeDirection === 'left' ? settingsTime : time);
+        setTime(timeDirection === 'left' ? (settingsTime as number) : time);
         setPageStatus('finish');
     };
 };

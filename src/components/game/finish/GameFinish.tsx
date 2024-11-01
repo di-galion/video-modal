@@ -1,5 +1,9 @@
-import { useGameData, useGameResult, useGameStatus } from '../../../hooks/game';
-import { useLessonCurrentGame } from '../../../hooks/lessons';
+import {
+    useGameData,
+    useGameResult,
+    useGameSettings,
+    useGameStatus,
+} from '../../../hooks/game';
 import { useActions } from '../../../hooks/useActions';
 import { toTimeFormat } from '../../../utils';
 import { GameWrapper } from '../game-wrapper/GameWrapper';
@@ -49,6 +53,7 @@ export const GameFinish = () => {
     const result = useGameResult();
     const { clearResult } = useActions();
     const [, setStatus] = useGameStatus();
+    const { level = 1 } = useGameSettings();
 
     const handleClick = () => {
         clearResult();
@@ -61,14 +66,14 @@ export const GameFinish = () => {
         <GameWrapper>
             <div className={styles.finish}>
                 <p className={styles.finish__title}>{title}</p>
-                <p className={styles.finish__level}>Уровень 2</p>
+                <p className={styles.finish__level}>Уровень {level}</p>
                 <div
                     className={styles.finish__innerBlock}
                     style={{ marginTop: 40 }}
                 >
                     <div className={styles.finish__rate}>
-                        {new Array(3).fill(null).map(() => (
-                            <Star />
+                        {new Array(3).fill(null).map((_, index) => (
+                            <Star key={index} />
                         ))}
                     </div>
                     <p className={styles.finish__inner_text}>

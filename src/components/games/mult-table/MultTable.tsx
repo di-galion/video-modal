@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useGameFinish, useGameSettings } from '../../../hooks/game';
-import { createArray } from './functions';
+import { createAll } from './functions';
 import styles from './styles.module.scss';
 import { useActions } from '../../../hooks/useActions';
 import { register } from '../../../providers/game/register';
@@ -8,7 +8,7 @@ import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import { useAccount } from '../../../hooks/account';
 
 const MultTableGame = () => {
-    const { count } = useGameSettings();
+    const { count, theme = [1] } = useGameSettings();
     const [step, setStep] = useState(0);
 
     const {
@@ -28,9 +28,14 @@ const MultTableGame = () => {
 
     useEffect(() => {
         if (role === 'teacher') {
-            sendMessage('data', createArray(count, 2, 10, 1));
+            sendMessage(
+                'data',
+                createAll(count as number, 2, 10, theme as number[])
+            );
         }
-    }, []);
+    }, [count, theme]);
+
+    const length = useMemo(() => ((data || []) as number[][]).length, [data]);
 
     useWsAction((name) => {
         switch (name) {
@@ -38,7 +43,7 @@ const MultTableGame = () => {
                 setValue('');
                 setChecking(false);
                 setShowExample(false);
-                if (step < count - 1) {
+                if (step < length - 1) {
                     setStep((step) => step + 1);
                 } else {
                     finishGame();
@@ -178,7 +183,7 @@ const MultTableGame = () => {
                                 onClick={() => next()}
                             >
                                 <span>
-                                    {step === count - 1 ? (
+                                    {step === length - 1 ? (
                                         <svg viewBox="0 0 88 100.1">
                                             <defs></defs>
                                             <g
@@ -229,18 +234,18 @@ const MultTableGame = () => {
     );
 };
 
-export const MultTable = register(MultTableGame, {
+export const MultTable = register(MultTableGame, (settings) => ({
     timeDirection: 'right',
     title: 'Таблица умножения',
     infoSettings: [
-        {
+        /*{
             title: 'Уровень',
             texts: [
                 'В зависимости от уровня изменяются правила игры',
                 '1 - Решение примеров не на скорость. Решаем примеры и клавишей Enter включаем следующий.',
                 '2 - Решение примеров на скорость. Скорость - это время появления следующего примера. Если решили быстрее, можно включить кнопкой Entr следующий пример.',
             ],
-        },
+        },*/
         {
             title: 'Количество ответов',
             texts: ['Общее количество примеров для одной игры'],
@@ -249,42 +254,54 @@ export const MultTable = register(MultTableGame, {
             title: 'Тема',
             texts: ['Выбор множителя для табличных случаев умножения'],
         },
-        {
+        /*{
             title: 'Скорость',
             texts: ['Скорость игры'],
         },
         {
             title: 'Выбор действия',
             texts: ['Выбор множителя для табличных случаев умножения'],
-        },
+        },*/
     ],
-    settings: () => [
+    settings: [
         {
             type: 'range',
             title: 'Количество ответов',
             reduxKey: 'count',
             settings: {
-                max: 30,
-                min: 10,
+                max: 10,
+                min: 4,
                 step: 1,
-                defaultValue: 10,
+                defaultValue: 5,
             },
         },
-        {
+        /*{
             type: 'sliding',
             title: 'Выбор действия',
             reduxKey: 'actionType',
             settings: {
                 values: ['Умножение', 'Деление', 'Случайно'],
             },
+        },*/
+        {
+            type: 'multiSelect',
+            title: 'Тема',
+            reduxKey: 'theme',
+            settings: {
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            },
         },
     ],
-    start: () => ({
+    start: {
         title: 'Таблица умножения',
         subTitle1: 'Решай каждый пример и записывай ответ.',
         subTitle2:
             'Будь внимателен! После ввода ответа нажми кнопку Enter для решения следующего примера.',
         subTitle3: '',
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    }),
-});
+    },
+    startTable: [
+        { text: 'Тема', value: settings.theme },
+        { text: 'Количество ответов', value: settings.count },
+    ],
+}));

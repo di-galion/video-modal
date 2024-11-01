@@ -11,6 +11,7 @@ import { MountainTrail } from '../components/games/mountain-trail/MountainTrail'
 import { ReactElement } from 'react';
 import SettingsNumOfRows from '../components/settings/setting-num-of-rows/SettingNumOfRows';
 import SettingTips from '../components/settings/setting-tips/SettingTips';
+import { SettingMultiSelect } from '../components/settings/setting-multi-select/SettingMultiSelect';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -22,6 +23,12 @@ export const CONTROLS_MAP = (item: ControlProps) => ({
     range: () => (
         <SettingRange
             {...(item as ControlPropsOf<'range'>)}
+            key={item.reduxKey}
+        />
+    ),
+    multiSelect: () => (
+        <SettingMultiSelect
+            {...(item as ControlPropsOf<'multiSelect'>)}
             key={item.reduxKey}
         />
     ),

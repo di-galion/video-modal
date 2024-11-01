@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 import personNortal from './img/persons/p-normal.png';
 import personGood from './img/persons/p-good.png';
 import personBad from './img/persons/p-bad.png';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
     useGameFinish,
@@ -12,8 +12,15 @@ import {
 import { useActions } from '../../../hooks/useActions';
 import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
+import { useWebSocket } from '../../../api/socket/useWebSocket';
+import { useAccount } from '../../../hooks/account';
 
 type PersonLook = 'normal' | 'good' | 'bad';
+
+export type ShapeProps = {
+    text: string;
+    right: boolean;
+};
 
 const personMap: Record<PersonLook, string> = {
     normal: personNortal,
@@ -43,7 +50,7 @@ const Shape: FC<{
     </span>
 );
 
-const COUNT = 10;
+const COUNT = 3;
 
 const MountainTrailGame = () => {
     const [look, setLook] = useState<PersonLook>('normal');
@@ -54,13 +61,44 @@ const MountainTrailGame = () => {
     const { allAnswers, correctAnswers } = useGameResult();
     const [runned, setRunned] = useState(true);
 
-    const { speed = 3 } = useGameSettings();
+    const { speed = 3, theme = [1] } = useGameSettings();
 
     const finishGame = useGameFinish();
 
+    const { role } = useAccount();
+
+    const {
+        storage: { data = [] },
+        sendMessage,
+        //sendAction,
+    } = useWebSocket();
+
+    const getConstant = (step: number) =>
+        (theme as number[])[Math.floor(step / COUNT)] || 1;
+
+    const getNumber = useCallback((step: number) => (step % COUNT) + 1, []);
+
+    useEffect(() => {
+        if (role === 'teacher') {
+            sendMessage(
+                'data',
+                createShapeData(
+                    getNumber(step),
+                    getConstant(step),
+                    getCount(step)
+                )
+            );
+        }
+    }, [theme, role, step]);
+
+    const length = useMemo(
+        () => COUNT * (theme as number[]).length || 1,
+        [theme]
+    );
+
     const shapes = useMemo(
-        () => createShapeData(step + 1, 1, getCount(step)),
-        [step]
+        () => data || [], //createShapeData(step + 1, 1, getCount(step)),
+        [data]
     );
 
     const interval = useRef<NodeJS.Timeout>();
@@ -89,10 +127,10 @@ const MountainTrailGame = () => {
     useEffect(() => {
         if (runned) {
             clearInterval(interval.current);
-            if (step <= COUNT - 1) {
+            if (step <= length - 1) {
                 interval.current = setInterval(() => {
                     setMode('bad');
-                }, speed * 1000);
+                }, (speed as number) * 1000);
             }
         } else {
             clearInterval(interval.current);
@@ -127,7 +165,7 @@ const MountainTrailGame = () => {
     }, [mode]);
 
     const next = () => {
-        if (step < COUNT - 1) {
+        if (step < length - 1) {
             setStep((step) => step + 1);
         } else {
             finishGame();
@@ -150,14 +188,14 @@ const MountainTrailGame = () => {
                 <div className={styles.persons}>
                     <Persons look={look} />
                 </div>
-                {step <= COUNT - 1 ? (
+                {step <= length - 1 ? (
                     <div
                         className={classNames(styles.shapes, {
                             [styles.run]: runned,
                         })}
                         style={{ animationDuration: `${speed}s` }}
                     >
-                        {shapes.map((shape) => (
+                        {shapes.map((shape: ShapeProps) => (
                             <Shape
                                 {...shape}
                                 key={shape.text}
@@ -172,11 +210,11 @@ const MountainTrailGame = () => {
     );
 };
 
-export const MountainTrail = register(MountainTrailGame, {
+export const MountainTrail = register(MountainTrailGame, (settings) => ({
     timeDirection: 'right',
-    title: 'Таблица умножения',
+    title: 'Горная тропа',
     infoSettings: [],
-    settings: () => [
+    settings: [
         {
             type: 'range',
             title: 'Скорость',
@@ -188,8 +226,16 @@ export const MountainTrail = register(MountainTrailGame, {
                 defaultValue: 3,
             },
         },
+        {
+            type: 'multiSelect',
+            title: 'Тема',
+            reduxKey: 'theme',
+            settings: {
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            },
+        },
     ],
-    start: () => ({
+    start: {
         title: 'Горная тропа',
         subTitle1:
             'Лови камни с правильными примерами, чтоб помочь Витаминке и Айти выбраться из пещеры',
@@ -197,5 +243,9 @@ export const MountainTrail = register(MountainTrailGame, {
             'Будь внимателен! Количество камней постепенно увеличивается',
         subTitle3: '',
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    }),
-});
+    },
+    startTable: [
+        { text: 'Тема', value: settings.theme },
+        { text: 'Скорость', value: settings.speed },
+    ],
+}));
