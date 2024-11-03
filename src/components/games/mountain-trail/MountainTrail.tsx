@@ -50,8 +50,6 @@ const Shape: FC<{
     </span>
 );
 
-const COUNT = 3;
-
 const MountainTrailGame = () => {
     const [look, setLook] = useState<PersonLook>('normal');
     const [mode, setMode] = useState<PersonLook>('normal');
@@ -61,7 +59,7 @@ const MountainTrailGame = () => {
     const { allAnswers, correctAnswers } = useGameResult();
     const [runned, setRunned] = useState(true);
 
-    const { speed = 3, theme = [1] } = useGameSettings();
+    const { speed = 3, theme = [1], count = 5 } = useGameSettings();
 
     const finishGame = useGameFinish();
 
@@ -74,9 +72,12 @@ const MountainTrailGame = () => {
     } = useWebSocket();
 
     const getConstant = (step: number) =>
-        (theme as number[])[Math.floor(step / COUNT)] || 1;
+        (theme as number[])[Math.floor(step / (count as number))] || 1;
 
-    const getNumber = useCallback((step: number) => (step % COUNT) + 1, []);
+    const getNumber = useCallback(
+        (step: number) => (step % (count as number)) + 1,
+        []
+    );
 
     useEffect(() => {
         if (role === 'teacher') {
@@ -92,7 +93,7 @@ const MountainTrailGame = () => {
     }, [theme, role, step]);
 
     const length = useMemo(
-        () => COUNT * (theme as number[]).length || 1,
+        () => (count as number) * (theme as number[]).length || 1,
         [theme]
     );
 
@@ -105,8 +106,8 @@ const MountainTrailGame = () => {
 
     const height = useMemo(() => {
         const fail = allAnswers - correctAnswers;
-        return (fail / COUNT) * 500;
-    }, [COUNT, allAnswers, correctAnswers]);
+        return (fail / (count as number)) * 500;
+    }, [count, allAnswers, correctAnswers]);
 
     useEffect(() => {
         if (look !== 'normal') {
@@ -210,42 +211,67 @@ const MountainTrailGame = () => {
     );
 };
 
-export const MountainTrail = register(MountainTrailGame, (settings) => ({
-    timeDirection: 'right',
-    title: 'Горная тропа',
-    infoSettings: [],
-    settings: [
-        {
-            type: 'range',
-            title: 'Скорость',
-            reduxKey: 'speed',
-            settings: {
-                max: 5,
-                min: 1,
-                step: 0.5,
-                defaultValue: 3,
-            },
-        },
-        {
-            type: 'multiSelect',
-            title: 'Тема',
-            reduxKey: 'theme',
-            settings: {
-                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            },
-        },
-    ],
-    start: {
+export const MountainTrail = () =>
+    register(MountainTrailGame, (settings) => ({
+        timeDirection: 'right',
         title: 'Горная тропа',
-        subTitle1:
-            'Лови камни с правильными примерами, чтоб помочь Витаминке и Айти выбраться из пещеры',
-        subTitle2:
-            'Будь внимателен! Количество камней постепенно увеличивается',
-        subTitle3: '',
-        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    },
-    startTable: [
-        { text: 'Тема', value: settings.theme },
-        { text: 'Скорость', value: settings.speed },
-    ],
-}));
+        infoSettings: [
+            {
+                title: 'Скорость',
+                texts: ['Общая скорость игры'],
+            },
+            {
+                title: 'Количество ответов',
+                texts: ['Общее количество примеров для одной игры'],
+            },
+            {
+                title: 'Тема',
+                texts: ['Выбор множителя для табличных случаев умножения'],
+            },
+        ],
+        settings: [
+            {
+                type: 'range',
+                title: 'Скорость',
+                reduxKey: 'speed',
+                settings: {
+                    max: 5,
+                    min: 1,
+                    step: 0.5,
+                    defaultValue: 3,
+                },
+            },
+            {
+                type: 'range',
+                title: 'Количество ответов',
+                reduxKey: 'count',
+                settings: {
+                    max: 10,
+                    min: 4,
+                    step: 1,
+                    defaultValue: 5,
+                },
+            },
+            {
+                type: 'multiSelect',
+                title: 'Тема',
+                reduxKey: 'theme',
+                settings: {
+                    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                },
+            },
+        ],
+        start: {
+            title: 'Горная тропа',
+            subTitle1:
+                'Лови камни с правильными примерами, чтоб помочь Витаминке и Айти выбраться из пещеры',
+            subTitle2:
+                'Будь внимателен! Количество камней постепенно увеличивается',
+            subTitle3: '',
+            titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+        },
+        startTable: [
+            { text: 'Тема', value: settings.theme },
+            { text: 'Скорость', value: settings.speed },
+        ],
+    }));

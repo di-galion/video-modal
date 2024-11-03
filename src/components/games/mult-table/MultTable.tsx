@@ -234,11 +234,12 @@ const MultTableGame = () => {
     );
 };
 
-export const MultTable = register(MultTableGame, (settings) => ({
-    timeDirection: 'right',
-    title: 'Таблица умножения',
-    infoSettings: [
-        /*{
+export const MultTable = () =>
+    register(MultTableGame, (settings) => ({
+        timeDirection: 'right',
+        title: 'Таблица умножения',
+        infoSettings: [
+            /*{
             title: 'Уровень',
             texts: [
                 'В зависимости от уровня изменяются правила игры',
@@ -246,15 +247,15 @@ export const MultTable = register(MultTableGame, (settings) => ({
                 '2 - Решение примеров на скорость. Скорость - это время появления следующего примера. Если решили быстрее, можно включить кнопкой Entr следующий пример.',
             ],
         },*/
-        {
-            title: 'Количество ответов',
-            texts: ['Общее количество примеров для одной игры'],
-        },
-        {
-            title: 'Тема',
-            texts: ['Выбор множителя для табличных случаев умножения'],
-        },
-        /*{
+            {
+                title: 'Количество ответов',
+                texts: ['Общее количество примеров для одной игры'],
+            },
+            {
+                title: 'Тема',
+                texts: ['Выбор множителя для табличных случаев умножения'],
+            },
+            /*{
             title: 'Скорость',
             texts: ['Скорость игры'],
         },
@@ -262,20 +263,20 @@ export const MultTable = register(MultTableGame, (settings) => ({
             title: 'Выбор действия',
             texts: ['Выбор множителя для табличных случаев умножения'],
         },*/
-    ],
-    settings: [
-        {
-            type: 'range',
-            title: 'Количество ответов',
-            reduxKey: 'count',
-            settings: {
-                max: 10,
-                min: 4,
-                step: 1,
-                defaultValue: 5,
+        ],
+        settings: [
+            {
+                type: 'range',
+                title: 'Количество ответов',
+                reduxKey: 'count',
+                settings: {
+                    max: 10,
+                    min: 4,
+                    step: 1,
+                    defaultValue: 5,
+                },
             },
-        },
-        /*{
+            /*{
             type: 'sliding',
             title: 'Выбор действия',
             reduxKey: 'actionType',
@@ -283,25 +284,25 @@ export const MultTable = register(MultTableGame, (settings) => ({
                 values: ['Умножение', 'Деление', 'Случайно'],
             },
         },*/
-        {
-            type: 'multiSelect',
-            title: 'Тема',
-            reduxKey: 'theme',
-            settings: {
-                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            {
+                type: 'multiSelect',
+                title: 'Тема',
+                reduxKey: 'theme',
+                settings: {
+                    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                },
             },
+        ],
+        start: {
+            title: 'Таблица умножения',
+            subTitle1: 'Решай каждый пример и записывай ответ.',
+            subTitle2:
+                'Будь внимателен! После ввода ответа нажми кнопку Enter для решения следующего примера.',
+            subTitle3: '',
+            titleBottom: 'Не допускай ошибок для успешного завершения игры.',
         },
-    ],
-    start: {
-        title: 'Таблица умножения',
-        subTitle1: 'Решай каждый пример и записывай ответ.',
-        subTitle2:
-            'Будь внимателен! После ввода ответа нажми кнопку Enter для решения следующего примера.',
-        subTitle3: '',
-        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    },
-    startTable: [
-        { text: 'Тема', value: settings.theme },
-        { text: 'Количество ответов', value: settings.count },
-    ],
-}));
+        startTable: [
+            { text: 'Тема', value: settings.theme },
+            { text: 'Количество ответов', value: settings.count },
+        ],
+    }));
