@@ -26,8 +26,6 @@
         "react-switch": "^7.0.0",
         "sass": "^1.79.3",
         "simple-peer": "^9.11.1",
-        "socket.io": "^4.8.0",
-        "socket.io-client": "^4.8.0",
         "webrtc": "^1.14.1"
     },
     "devDependencies": {

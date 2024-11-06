@@ -15,7 +15,7 @@ interface IAccountState {
 }
 
 const initialState: IAccountState = {
-    role: 'teacher',
+    role: Role.Teacher,
     teacher: { id: 1, name: 'Иван Михайлов', online: false },
     me: { id: 1, name: 'Иван Михайлов', online: true },
     students: [
@@ -28,6 +28,9 @@ const accountData = createSlice({
     name: 'accountData',
     initialState,
     reducers: {
+        setRole: (state, action: PayloadAction<Role>) => {
+            state.role = action.payload;
+        },
         setAccountData: (state, action: PayloadAction<IAccountState>) => {
             state.role = action.payload.role;
             state.students = action.payload.students;

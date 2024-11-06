@@ -1,1 +1,4 @@
-export type Role = 'student' | 'teacher';
+export const enum Role {
+    Student = 'STUDENT',
+    Teacher = 'TEACHER',
+}

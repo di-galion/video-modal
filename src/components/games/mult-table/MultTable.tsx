@@ -6,6 +6,7 @@ import { useActions } from '../../../hooks/useActions';
 import { register } from '../../../providers/game/register';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import { useAccount } from '../../../hooks/account';
+import { isTeacher } from '../../../utils';
 
 const MultTableGame = () => {
     const { count, theme = [1] } = useGameSettings();
@@ -27,7 +28,7 @@ const MultTableGame = () => {
     const { role } = useAccount();
 
     useEffect(() => {
-        if (role === 'teacher') {
+        if (isTeacher(role)) {
             sendMessage(
                 'data',
                 createAll(count as number, 2, 10, theme as number[])

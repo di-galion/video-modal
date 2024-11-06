@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useGame } from '../../hooks/game';
-import { wsApi } from './fakeApi';
+import { wsApi } from './api';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();
@@ -13,7 +13,11 @@ export function useWebSocket() {
         wsApi.sendAction(name);
     };
 
-    return { storage, sendMessage, sendAction };
+    const connect = (_token?: string) => {
+        wsApi.connect();
+    };
+
+    return { storage, sendMessage, sendAction, connect };
 }
 
 export const useWsAction = (callback: (name: string) => void) => {

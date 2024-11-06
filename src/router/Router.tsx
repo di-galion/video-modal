@@ -8,6 +8,7 @@ const Router: FC<PropsWithChildren> = () => {
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
+                    <Route path={`/test/:role/:token`} element={<MainPage />} />
                     <Route path={`/`} element={<MainPage />} />
                 </Route>
             </Routes>
