@@ -5,6 +5,7 @@ import { accountDataReducer } from './account-data/accountData';
 import { sectionDataReducer } from './section-data/sectionData';
 import { apiDataReducer } from './api-status-data/apiStatusData';
 import { gameDataReducer } from './game-data/GameData';
+import { SettingsReducer } from './settings-data/SettingsData';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         sectionData: sectionDataReducer,
         apiData: apiDataReducer,
         gameData: gameDataReducer,
+        settingsData: SettingsReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

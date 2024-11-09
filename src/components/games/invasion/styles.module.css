@@ -1,0 +1,89 @@
+.wrapper {
+    user-select: none;
+    flex: 1 0 auto;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.shapes {
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    transform: translateY(-600px);
+
+    &.run {
+        animation: down 3s linear infinite;
+    }
+}
+
+@keyframes down {
+    from {
+        transform: translateY(-600px);
+    }
+    to {
+        transform: translateY(700px);
+    }
+}
+
+.elemWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background: url(./img/aliens/buble.png);
+    opacity: 1;
+
+    &.crush {
+        opacity: 0;
+        transition: opacity 0.3s linear;
+    }
+}
+
+.elem {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 70%;
+    cursor: default;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+    box-sizing: border-box;
+
+    &[data-number='1'] {
+        background-image: url(./img/aliens/a1.png);
+    }
+    &[data-number='2'] {
+        background-image: url(./img/aliens/a2.png);
+    }
+    &[data-number='3'] {
+        background-image: url(./img/aliens/a3.png);
+    }
+    &[data-number='4'] {
+        background-image: url(./img/aliens/a4.png);
+    }
+    &[data-number='5'] {
+        background-image: url(./img/aliens/a5.png);
+    }
+    &[data-number='6'] {
+        background-image: url(./img/aliens/a6.png);
+    }
+}
+
+.number {
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: #180736;
+    font-weight: bold;
+}

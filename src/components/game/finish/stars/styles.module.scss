@@ -1,0 +1,30 @@
+.stars {
+    display: flex;
+    align-items: center;
+    max-width: 200px;
+    justify-content: center;
+    margin: -67px auto 0px;
+
+    &:nth-child(2n) {
+        min-width: 70px;
+        min-height: 70px;
+    }
+}
+
+.starSmall {
+    width: 70px;
+    height: 70px;
+}
+
+.starLarge {
+    width: 85px;
+    height: 85px;
+}
+
+.filled {
+    fill: url(#prefix__a);
+}
+
+.empty {
+    fill: #ccc;
+}
