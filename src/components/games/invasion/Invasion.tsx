@@ -7,7 +7,7 @@ import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
 import { useWebSocket } from '../../../api/socket/useWebSocket';
 import { useAccount } from '../../../hooks/account';
-import { random } from '../../../utils';
+import { isTeacher, random } from '../../../utils';
 
 type PersonLook = 'normal' | 'good' | 'bad';
 
@@ -63,7 +63,7 @@ const InvasionGame = () => {
     );
 
     useEffect(() => {
-        if (role === 'teacher') {
+        if (isTeacher(role)) {
             sendMessage(
                 'data',
                 createShapeData(getNumber(step), getCount(step))

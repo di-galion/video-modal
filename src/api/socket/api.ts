@@ -14,16 +14,18 @@ export class SocketApi implements WsApi {
         this.socket.onopen = () => {
             console.log('[open] Соединение установлено');
             const token = localStorage.getItem('TOKEN');
+            console.log('TOKEN', token);
+            this.socket?.send(`Bearer ${token}`);
         };
 
         this.socket.onmessage = (event) => {
             console.log(`[message] Данные получены с сервера: ${event.data}`);
 
-            const { name, value, type } = JSON.parse(event.data);
+            const { name, value, type, params } = JSON.parse(event.data);
             if (type === 'message') {
                 this.onMessage(name, value);
             } else if (type === 'action') {
-                this.onAction(name);
+                this.onAction(name, params);
             }
         };
 
@@ -47,9 +49,9 @@ export class SocketApi implements WsApi {
         this.onMessage(name, value);
     }
 
-    sendAction(name: string) {
-        this.socket?.send(JSON.stringify({ type: 'action', name }));
-        this.onAction(name);
+    sendAction(name: string, params?: Record<string, any>) {
+        this.socket?.send(JSON.stringify({ type: 'action', name, params }));
+        this.onAction(name, params);
     }
 
     onMessage(name: string, value: any) {
@@ -58,9 +60,9 @@ export class SocketApi implements WsApi {
         }
     }
 
-    onAction(name: string) {
+    onAction(name: string, params?: Record<string, any>) {
         if (name) {
-            store.dispatch(updateSyncAction({ name } as any));
+            store.dispatch(updateSyncAction({ name, params } as any));
         }
     }
 }

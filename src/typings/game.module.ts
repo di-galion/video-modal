@@ -50,6 +50,6 @@ export interface IGameState {
     syncStorage: Record<string, any>;
     syncAction: Partial<{
         name: string;
-        increment: number;
+        params: Record<string, any>;
     }>;
 }

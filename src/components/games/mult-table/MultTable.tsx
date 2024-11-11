@@ -38,7 +38,7 @@ const MultTableGame = () => {
 
     const length = useMemo(() => ((data || []) as number[][]).length, [data]);
 
-    useWsAction((name) => {
+    useWsAction((name, params) => {
         switch (name) {
             case 'next':
                 setValue('');
@@ -50,6 +50,17 @@ const MultTableGame = () => {
                     finishGame();
                 }
                 break;
+            case 'check':
+                if (currentData[0] * currentData[1] === Number(params?.value)) {
+                    setCorrect(true);
+                    addCorrectAnswer();
+                } else {
+                    setCorrect(false);
+                }
+                addAllAnswers();
+                setChecking(true);
+                setShowExample(false);
+                break;
         }
     });
 
@@ -57,16 +68,8 @@ const MultTableGame = () => {
         sendAction('next');
     };
 
-    const check = () => {
-        if (currentData[0] * currentData[1] === Number(value)) {
-            setCorrect(true);
-            addCorrectAnswer();
-        } else {
-            setCorrect(false);
-        }
-        addAllAnswers();
-        setChecking(true);
-        setShowExample(false);
+    const check = (value: string) => {
+        sendAction('check', { value });
     };
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -80,7 +83,7 @@ const MultTableGame = () => {
 
     const handeSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
-        check();
+        check(value);
     };
 
     return (

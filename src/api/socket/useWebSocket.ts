@@ -9,8 +9,8 @@ export function useWebSocket() {
         wsApi.sendMessage(name, value);
     };
 
-    const sendAction = (name: string) => {
-        wsApi.sendAction(name);
+    const sendAction = (name: string, params: Record<string, any>) => {
+        wsApi.sendAction(name, params);
     };
 
     const connect = (_token?: string) => {
@@ -20,12 +20,14 @@ export function useWebSocket() {
     return { storage, sendMessage, sendAction, connect };
 }
 
-export const useWsAction = (callback: (name: string) => void) => {
+export const useWsAction = (
+    callback: (name: string, params?: Record<string, any>) => void
+) => {
     const { syncAction = {} } = useGame();
 
     useEffect(() => {
         if (syncAction.name) {
-            callback(syncAction.name);
+            callback(syncAction.name, syncAction.params);
         }
     }, [syncAction]);
 };
