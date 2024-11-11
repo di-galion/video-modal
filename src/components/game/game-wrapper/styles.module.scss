@@ -93,7 +93,14 @@
         }
 
         &[data-game='mountainTrail'] {
-            background: url(./images/mountainTrail.png);
+            background: url(./images/mountain-trail-bg.png);
+            background-repeat: no-repeat !important;
+            background-position: center bottom !important;
+            background-size: cover !important;
+        }
+
+        &[data-game='invasion'] {
+            background: url(./images/invasion-bg.png);
             background-repeat: no-repeat !important;
             background-position: center bottom !important;
             background-size: cover !important;

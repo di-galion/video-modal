@@ -43,6 +43,9 @@
         max-width: 600px;
         margin: 0 auto;
         padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     &__rate {
@@ -50,7 +53,6 @@
         align-items: center;
         max-width: 200px;
         justify-content: center;
-        margin: -55px auto 0px;
     }
 
     &__complete {

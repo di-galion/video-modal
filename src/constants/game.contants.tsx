@@ -12,6 +12,7 @@ import { ReactElement } from 'react';
 import SettingsNumOfRows from '../components/settings/setting-num-of-rows/SettingNumOfRows';
 import SettingTips from '../components/settings/setting-tips/SettingTips';
 import { SettingMultiSelect } from '../components/settings/setting-multi-select/SettingMultiSelect';
+import { Invasion } from '../components/games/invasion/Invasion';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -74,4 +75,5 @@ export const GAME_MAP: Record<string, () => ReactElement> = {
     laboratory: () => <Laboratory />,
     multTable: () => <MultTable />,
     mountainTrail: () => <MountainTrail />,
+    invasion: () => <Invasion />,
 };

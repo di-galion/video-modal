@@ -25,6 +25,11 @@ export const LESSONS: ILesson[] = [
                 name: 'multTable',
                 imgUrl: '/assets/img/gameCovers/multTable.png',
             },
+            {
+                title: 'Вторжение',
+                name: 'invasion',
+                imgUrl: '/assets/img/gameCovers/invasion.png',
+            },
         ],
     },
     {
