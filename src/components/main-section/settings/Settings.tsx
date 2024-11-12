@@ -37,7 +37,7 @@ const Settings = () => {
         setIsOpen(false);
     };
 
-    const { setSetting } = useActions();
+    const { setSettingCommon, setSettingSound } = useActions();
 
     const settings = useTypedSelector((state) => state.settingsData);
 
@@ -68,9 +68,10 @@ const Settings = () => {
                                 <div className={styles.section}>
                                     <p className={styles.title}>Режим</p>
                                     <div className={styles.buttons}>
-                                        {REGIME_SETTINGS.map(() => {
+                                        {REGIME_SETTINGS.map((item) => {
                                             return (
                                                 <button
+                                                    key={item.key}
                                                     className={classNames(
                                                         styles.buttons__button,
                                                         {
@@ -87,7 +88,7 @@ const Settings = () => {
                                 </div>
                                 {ABACUS_SETTINGS.map((item) => {
                                     return (
-                                        <div>
+                                        <div key={item.key}>
                                             <div
                                                 className={styles.switchWrapper}
                                             >
@@ -100,13 +101,13 @@ const Settings = () => {
                                                 </span>
                                                 <Switch
                                                     defaultValue={
-                                                        !!settings.settings
+                                                        !!settings.common
                                                             .ABACUS_SETTINGS[
                                                             item.key
                                                         ]
                                                     }
                                                     onChange={(value) =>
-                                                        setSetting({
+                                                        setSettingCommon({
                                                             group: 'ABACUS_SETTINGS',
                                                             key: item.key,
                                                             value,
@@ -127,6 +128,7 @@ const Settings = () => {
                                         {INTERFACE_SETTINGS.map((item) => {
                                             return (
                                                 <button
+                                                    key={item.key}
                                                     className={classNames(
                                                         styles.buttons__button,
                                                         {
@@ -143,7 +145,7 @@ const Settings = () => {
                                 </div>
                                 {START_SETTINGS.map((item) => {
                                     return (
-                                        <div>
+                                        <div key={item.key}>
                                             <div
                                                 className={styles.switchWrapper}
                                             >
@@ -156,13 +158,13 @@ const Settings = () => {
                                                 </span>
                                                 <Switch
                                                     defaultValue={
-                                                        !!settings.settings
+                                                        !!settings.common
                                                             .START_SETTINGS[
                                                             item.key
                                                         ]
                                                     }
                                                     onChange={(value) =>
-                                                        setSetting({
+                                                        setSettingCommon({
                                                             group: 'START_SETTINGS',
                                                             key: item.key,
                                                             value,
@@ -180,14 +182,9 @@ const Settings = () => {
                                     </p>
                                     <div className={styles.sliderWrapper}>
                                         <SliderCustom
-                                            defaultValue={
-                                                settings.settings.SOUND
-                                            }
+                                            defaultValue={settings.sound}
                                             onChange={(value) =>
-                                                setSetting({
-                                                    group: 'SOUND',
-                                                    value,
-                                                })
+                                                setSettingSound(value)
                                             }
                                         />
                                     </div>

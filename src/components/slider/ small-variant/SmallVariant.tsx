@@ -10,7 +10,7 @@ const SmallVariant = ({
     defaultValue = 1,
 
     withValue = true,
-    onChange = (value: number) => {},
+    onChange = (_value: number) => {},
 }) => {
     const [sound, setSound] = useState(defaultValue);
 

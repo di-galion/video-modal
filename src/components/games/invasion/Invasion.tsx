@@ -5,7 +5,7 @@ import { useGameFinish, useGameSettings } from '../../../hooks/game';
 import { useActions } from '../../../hooks/useActions';
 import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
-import { useWebSocket } from '../../../api/socket/useWebSocket';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import { useAccount } from '../../../hooks/account';
 import { isTeacher, random } from '../../../utils';
 
@@ -54,8 +54,30 @@ const InvasionGame = () => {
     const {
         storage: { data = [] },
         sendMessage,
-        //sendAction,
+        sendAction,
     } = useWebSocket();
+
+    useWsAction((name, params) => {
+        switch (name) {
+            case 'next':
+                setStep((step) => step + 1);
+                break;
+
+            case 'click':
+                if (params?.right) {
+                    setMode('good');
+                } else {
+                    setMode('bad');
+                }
+                break;
+        }
+    });
+
+    useEffect(() => {
+        if (step > length - 1) {
+            finishGame();
+        }
+    }, [step]);
 
     const getNumber = useCallback(
         (step: number) => (step % (count as number)) + 1,
@@ -79,6 +101,12 @@ const InvasionGame = () => {
     const shapes = useMemo(() => data || [], [data]);
 
     const interval = useRef<NodeJS.Timeout>();
+
+    useEffect(() => {
+        if (step > length - 1) {
+            finishGame();
+        }
+    }, [step]);
 
     useEffect(() => {
         if (crush) {
@@ -127,6 +155,14 @@ const InvasionGame = () => {
     }, [mode]);
 
     const next = () => {
+        sendAction('next');
+    };
+
+    const handleClick = (right: boolean) => {
+        sendAction('click', { right });
+    };
+
+    /*const next = () => {
         if (step < length - 1) {
             setStep((step) => step + 1);
         } else {
@@ -140,7 +176,7 @@ const InvasionGame = () => {
         } else {
             setMode('bad');
         }
-    };
+    };*/
 
     return (
         <div className={styles.wrapper}>

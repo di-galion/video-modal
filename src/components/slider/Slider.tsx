@@ -1,24 +1,19 @@
-import { useState } from 'react';
 import LargeVariant from './ large-variant/LargeVariant';
 import SmallVariant from './ small-variant/SmallVariant';
 import './styles.css';
+
 const SliderCustom = ({
     min = 1,
     max = 100,
     step = 1,
     defaultValue = 1,
     withValue = true,
-    onChange = (value: number) => {},
+    onChange = (_value: number) => {},
     variant = 'lg',
     ...rest
 }) => {
-    console.log(max);
-
-    const [sound, setSound] = useState(defaultValue);
-
     const onChangeHandler = (value: number) => {
         onChange(value);
-        setSound(value);
     };
 
     if (variant === 'sm') {

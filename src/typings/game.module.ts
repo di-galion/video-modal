@@ -1,7 +1,15 @@
 import { ControlProps } from './settings.module';
 
 export type SettingValue = number | number[];
-export type GameStatus = 'start' | 'settings' | 'finish' | 'info' | 'game';
+
+export type GameStatus =
+    | 'start'
+    | 'settings'
+    | 'finish'
+    | 'info'
+    | 'game'
+    | 'waiting';
+
 export type TimeDirection = 'right' | 'left';
 export type IGameStateSettings = Record<string, SettingValue>;
 

@@ -9,7 +9,7 @@ const LargeVariant = ({
     step = 1,
     defaultValue = 1,
     withValue = true,
-    onChange = (value: number) => {},
+    onChange = (_value: number) => {},
     ...rest
 }) => {
     const [sound, setSound] = useState(defaultValue);

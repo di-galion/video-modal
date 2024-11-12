@@ -14,7 +14,7 @@ const Start = () => {
     const { start: data } = useGameData();
 
     const onClickOk = () => {
-        setPageStatus('game');
+        setPageStatus('waiting');
     };
 
     return (

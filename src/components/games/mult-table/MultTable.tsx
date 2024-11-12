@@ -61,6 +61,13 @@ const MultTableGame = () => {
                 setChecking(true);
                 setShowExample(false);
                 break;
+            case 'setValue':
+                setValue(params?.value);
+                break;
+            case 'repeat':
+                setChecking(false);
+                setValue('');
+                break;
         }
     });
 
@@ -73,12 +80,11 @@ const MultTableGame = () => {
     };
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setValue(e.target.value);
+        sendAction('setValue', { value: e.target.value });
     };
 
     const repeat = () => {
-        setChecking(false);
-        setValue('');
+        sendAction('repeat');
     };
 
     const handeSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {

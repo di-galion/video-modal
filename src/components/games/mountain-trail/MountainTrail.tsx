@@ -12,7 +12,7 @@ import {
 import { useActions } from '../../../hooks/useActions';
 import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
-import { useWebSocket } from '../../../api/socket/useWebSocket';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import { useAccount } from '../../../hooks/account';
 import { isTeacher } from '../../../utils';
 
@@ -58,7 +58,7 @@ const MountainTrailGame = () => {
     const [step, setStep] = useState(-1);
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const { allAnswers, correctAnswers } = useGameResult();
-    const [runned, setRunned] = useState(true);
+    const [runned, setRunned] = useState(false);
 
     const { speed = 3, theme = [1], count = 5 } = useGameSettings();
 
@@ -69,7 +69,7 @@ const MountainTrailGame = () => {
     const {
         storage: { data = [] },
         sendMessage,
-        //sendAction,
+        sendAction,
     } = useWebSocket();
 
     const getConstant = (step: number) =>
@@ -80,8 +80,35 @@ const MountainTrailGame = () => {
         []
     );
 
+    const length = useMemo(
+        () => (count as number) * (theme as number[]).length || 1,
+        [theme]
+    );
+
+    useWsAction((name, params) => {
+        switch (name) {
+            case 'next':
+                setStep((step) => step + 1);
+                break;
+
+            case 'click':
+                if (params?.right) {
+                    setMode('good');
+                } else {
+                    setMode('bad');
+                }
+                break;
+        }
+    });
+
     useEffect(() => {
-        if (isTeacher(role)) {
+        if (step > length - 1) {
+            finishGame();
+        }
+    }, [step]);
+
+    useEffect(() => {
+        if (isTeacher(role) && step <= length - 1) {
             sendMessage(
                 'data',
                 createShapeData(
@@ -93,15 +120,7 @@ const MountainTrailGame = () => {
         }
     }, [theme, role, step]);
 
-    const length = useMemo(
-        () => (count as number) * (theme as number[]).length || 1,
-        [theme]
-    );
-
-    const shapes = useMemo(
-        () => data || [], //createShapeData(step + 1, 1, getCount(step)),
-        [data]
-    );
+    const shapes = useMemo(() => data || [], [data]);
 
     const interval = useRef<NodeJS.Timeout>();
 
@@ -167,19 +186,11 @@ const MountainTrailGame = () => {
     }, [mode]);
 
     const next = () => {
-        if (step < length - 1) {
-            setStep((step) => step + 1);
-        } else {
-            finishGame();
-        }
+        sendAction('next');
     };
 
     const handleClick = (right: boolean) => {
-        if (right) {
-            setMode('good');
-        } else {
-            setMode('bad');
-        }
+        sendAction('click', { right });
     };
 
     return (

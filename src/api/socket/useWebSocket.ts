@@ -9,7 +9,7 @@ export function useWebSocket() {
         wsApi.sendMessage(name, value);
     };
 
-    const sendAction = (name: string, params: Record<string, any>) => {
+    const sendAction = (name: string, params?: Record<string, any>) => {
         wsApi.sendAction(name, params);
     };
 
@@ -21,7 +21,8 @@ export function useWebSocket() {
 }
 
 export const useWsAction = (
-    callback: (name: string, params?: Record<string, any>) => void
+    callback: (name: string, params?: Record<string, any>) => void,
+    depends: any[] = []
 ) => {
     const { syncAction = {} } = useGame();
 
@@ -29,5 +30,5 @@ export const useWsAction = (
         if (syncAction.name) {
             callback(syncAction.name, syncAction.params);
         }
-    }, [syncAction]);
+    }, [syncAction, ...depends]);
 };

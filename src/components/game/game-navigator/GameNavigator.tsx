@@ -5,6 +5,7 @@ import { GameWrapper } from '../game-wrapper/GameWrapper';
 import { Play } from '../play/Play';
 import { GameFinish } from '../finish/GameFinish';
 import { Settings } from '../settings/Settings';
+import { Waiting } from '../waiting/Waiting';
 
 export const GameNavigator: FC<PropsWithChildren> = ({ children }) => {
     const [status] = useGameStatus();
@@ -12,6 +13,12 @@ export const GameNavigator: FC<PropsWithChildren> = ({ children }) => {
     switch (status) {
         case 'start':
             return <Start />;
+        case 'waiting':
+            return (
+                <GameWrapper>
+                    <Waiting />
+                </GameWrapper>
+            );
         case 'game':
             return (
                 <GameWrapper>
