@@ -88,7 +88,10 @@ const gameData = createSlice({
 
         updateSyncAction: (
             state,
-            action: PayloadAction<{ name: string; params: Record<string, any> }>
+            action: PayloadAction<{
+                name: string;
+                params?: Record<string, any>;
+            }>
         ) => {
             state.syncAction = action.payload;
         },
