@@ -40,14 +40,11 @@ const gameData = createSlice({
         addNewSetting: (state, action: PayloadAction<IGameStateSettings>) => {
             state.settings = { ...state.settings, ...action.payload };
         },
-        setGameName: (state, action) => {
+        setGameName: (state, action: PayloadAction<string>) => {
             state.gameName = action.payload;
         },
         setPageStatus: (state, action: PayloadAction<GameStatus>) => {
             state.status = action.payload;
-        },
-        setGameSection: (state, action) => {
-            state.gameSection = action.payload;
         },
         addCorrectAnswer: (state) => {
             state.result.correctAnswers = state.result.correctAnswers + 1;
