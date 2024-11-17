@@ -1,14 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import SliderCustom from '../slider/Slider';
 import styles from './styles.module.scss';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 
-interface SettingsRangeProps extends ControlPropsOf<'range'> {
-    title: string;
-}
+type SettingsRangeProps = ControlPropsOf<'range'>;
 
 export const SettingRange: FC<SettingsRangeProps> = ({
     title,
@@ -22,24 +20,14 @@ export const SettingRange: FC<SettingsRangeProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState(
-        Number(gameSettings[reduxKey]) || settings.defaultValue || 1
+    const [value, setValue] = useValue(
+        reduxKey,
+        (settings.defaultValue as number) || 1
     );
-
-    useChangeGameSetting(reduxKey, value);
 
     const onChangeHandler = (v: number) => {
         setValue(v);
     };
-
-    useEffect(() => {
-        if (settings.update) {
-            setValue(gameSettings[reduxKey] || settings.defaultValue || 1);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [settings.update]);
 
     return (
         <SettingsWrapper disabled={disabled} title={title}>

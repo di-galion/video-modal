@@ -1,14 +1,11 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 import { ControlPropsOf } from '../../../typings/settings.module';
-import { useChangeGameSetting } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 
-interface SettingHintsProps extends ControlPropsOf<'tips'> {
-    title: string;
-    hints?: boolean;
-}
+type SettingHintsProps = ControlPropsOf<'tips'>;
 
 const SettingTips: FC<SettingHintsProps> = ({
     title,
@@ -19,18 +16,13 @@ const SettingTips: FC<SettingHintsProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const [hintsEnabled, setHintsEnabled] = useState(settings.hints || false);
-
-    useEffect(() => {
-        if (settings.update) {
-            setHintsEnabled(settings.hints || false);
-        }
-    }, [settings.update]);
-
-    useChangeGameSetting(reduxKey, hintsEnabled);
+    const [hintsEnabled, setHintsEnabled] = useValue(
+        reduxKey,
+        Number(settings.hints || false)
+    );
 
     const handleToggle = () => {
-        setHintsEnabled((prev) => !prev);
+        setHintsEnabled(Number(!hintsEnabled));
     };
 
     return (
@@ -39,7 +31,7 @@ const SettingTips: FC<SettingHintsProps> = ({
                 <label className={styles.switch}>
                     <input
                         type="checkbox"
-                        checked={hintsEnabled}
+                        checked={Boolean(hintsEnabled)}
                         onChange={handleToggle}
                         disabled={disabled}
                     />

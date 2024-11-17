@@ -6,23 +6,23 @@ import { useActions } from '../../../hooks/useActions';
 import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
-import { useAccount } from '../../../hooks/account';
-import { isTeacher, random } from '../../../utils';
+import { random } from '../../../utils';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage';
 
 type PersonLook = 'normal' | 'good' | 'bad';
 
 export type ShapeProps = {
-    text: string;
+    text: number;
     right: boolean;
 };
 
-const Shape: FC<{
-    text: string;
-    right: boolean;
-    crush: boolean;
-    order?: number;
-    onClick: (right: boolean) => void;
-}> = ({ text, right, crush, onClick, order = 1 }) => {
+const Shape: FC<
+    ShapeProps & {
+        crush: boolean;
+        order?: number;
+        onClick: (right: boolean) => void;
+    }
+> = ({ text, right, crush, onClick, order = 1 }) => {
     const number = useMemo(() => random(1, 6), []);
 
     return (
@@ -45,17 +45,16 @@ const InvasionGame = () => {
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const [runned, setRunned] = useState(true);
 
-    const { speed = 3, theme = [1], count = 5 } = useGameSettings();
+    const { speed = 3, count = 5 } = useGameSettings<number>();
+    const { theme = [1] } = useGameSettings<number[]>();
 
     const finishGame = useGameFinish();
 
-    const { role } = useAccount();
+    const { sendAction } = useWebSocket();
 
-    const {
-        storage: { data = [] },
-        sendMessage,
-        sendAction,
-    } = useWebSocket();
+    const { data = [], updateStorage } = useSyncStorage<{
+        data: ShapeProps[];
+    }>();
 
     useWsAction((name, params) => {
         switch (name) {
@@ -79,24 +78,13 @@ const InvasionGame = () => {
         }
     }, [step]);
 
-    const getNumber = useCallback(
-        (step: number) => (step % (count as number)) + 1,
-        []
-    );
+    const getNumber = useCallback((step: number) => (step % count) + 1, []);
 
     useEffect(() => {
-        if (isTeacher(role)) {
-            sendMessage(
-                'data',
-                createShapeData(getNumber(step), getCount(step))
-            );
-        }
-    }, [theme, role, step]);
+        updateStorage('data', createShapeData(getNumber(step), getCount(step)));
+    }, [theme, step]);
 
-    const length = useMemo(
-        () => (count as number) * (theme as number[]).length || 1,
-        [theme]
-    );
+    const length = useMemo(() => count * theme.length || 1, [theme]);
 
     const shapes = useMemo(() => data || [], [data]);
 
@@ -122,7 +110,7 @@ const InvasionGame = () => {
             if (step <= length - 1) {
                 interval.current = setInterval(() => {
                     setMode('bad');
-                }, (speed as number) * 1000);
+                }, speed * 1000);
             }
         } else {
             clearInterval(interval.current);

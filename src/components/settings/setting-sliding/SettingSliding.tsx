@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import classNames from 'classnames';
 import styles from './styles.module.scss';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsSliderProps extends ControlPropsOf<'sliding'> {
@@ -20,13 +20,10 @@ export const SettingSliding: FC<SettingsSliderProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState(
-        Number(gameSettings[reduxKey]) || settings.defaultValue || 0
+    const [value, setValue] = useValue(
+        reduxKey,
+        (settings.defaultValue as number) || 0
     );
-
-    useChangeGameSetting(reduxKey, value);
 
     const onPrevClick = () => {
         if (value !== 0) {
@@ -39,14 +36,6 @@ export const SettingSliding: FC<SettingsSliderProps> = ({
             setValue(value + 1);
         }
     };
-
-    useEffect(() => {
-        if (settings.update) {
-            setValue(
-                Number(gameSettings[reduxKey]) || settings.defaultValue || 0
-            );
-        }
-    }, [settings.update]);
 
     return (
         <SettingsWrapper disabled={disabled} title={title}>

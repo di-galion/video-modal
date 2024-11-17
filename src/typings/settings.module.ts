@@ -71,7 +71,7 @@ export interface IControlSettingSliding extends IControlSetting {
 }
 
 export interface IControlSettingTips extends IControlSetting {
-    tips: boolean;
+    hints?: boolean;
 }
 
 interface SettingsByType extends Record<ControlType, IControlSetting> {
@@ -82,9 +82,9 @@ interface SettingsByType extends Record<ControlType, IControlSetting> {
     tips: IControlSettingTips;
     numberOfRows: IControlSettingNumberOfRows;
     speed: IControlSettingSpeed;
-    items: IControlSettingItems;
     sliding: IControlSettingSliding;
     multiSelect: IControlSettingMultiSelect;
+    items: IControlSettingItems;
 }
 
 export type SettingsOf<T extends ControlType> = SettingsByType[T];
@@ -108,4 +108,5 @@ export type ControlProps =
     | ControlPropsOf<'speed'>
     | ControlPropsOf<'numberOfRows'>
     | ControlPropsOf<'tips'>
-    | ControlPropsOf<'multiSelect'>;
+    | ControlPropsOf<'multiSelect'>
+    | ControlPropsOf<'items'>;

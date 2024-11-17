@@ -10,7 +10,7 @@ import { Game } from '../../game/Game';
 import { useWebSocket } from '../../../api/socket/useWebSocket';
 
 export const GameLesson = () => {
-    const { clearSettings, clearResult } = useActions();
+    const { clearSettings, clearResult, clearStorage } = useActions();
     const [, setStatus] = useGameStatus();
     const [, setGameName] = useGameName();
     const [mode, setMode] = useGameLessonMode();
@@ -26,6 +26,7 @@ export const GameLesson = () => {
     useEffect(() => {
         clearResult();
         clearSettings();
+        clearStorage();
         setStatus('settings');
         setMode('list');
     }, [lessonIndex]);

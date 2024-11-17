@@ -75,14 +75,16 @@ const gameData = createSlice({
         register: (state, action: PayloadAction<GameData>) => {
             state.data = action.payload;
         },
-
+        clearStorage: (state) => {
+            state.syncStorage = {};
+            state.syncAction = {};
+        },
         updateSyncStorage: (
             state,
             action: PayloadAction<Record<string, any>>
         ) => {
             state.syncStorage = { ...state.syncStorage, ...action.payload };
         },
-
         updateSyncAction: (
             state,
             action: PayloadAction<{

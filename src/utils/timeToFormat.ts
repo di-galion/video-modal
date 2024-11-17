@@ -1,4 +1,5 @@
-export const toTimeFormat = (seconds: number) => {
+export const toTimeFormat = (seconds: number | number[]) => {
+    seconds = Array.isArray(seconds) ? seconds[0] : seconds;
     const minutesPart = Math.floor(seconds / 60);
     const secondsPart = Math.floor(seconds % 60);
 

@@ -1,0 +1,165 @@
+.wrapper {
+    margin: 7.5px;
+    border-radius: 20px;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-image: url('/platform/apps/mentalArithmeticOnline/assets/img/games/modals/title.png');
+}
+
+.locked {
+    position: relative;
+    filter: grayscale(100%);
+}
+
+.lockOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+}
+
+.lockIcon {
+    font-size: 64px;
+    color: rgba(255, 255, 255, 0.8);
+}
+.container {
+    width: 330px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s;
+
+    &:hover {
+        transform: scale(1.01);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    &__laboratory {
+        background: linear-gradient(90deg, #17b0e2 40%, #fff 100%);
+    }
+
+    &__shadowTheater {
+        background: #684aa0;
+    }
+
+    &__aboriginalsRiddles {
+        background: linear-gradient(90deg, #00abff 50%, #15faff 100%);
+    }
+
+    &__completeRow {
+        background: linear-gradient(180deg, #5b3482 0%, #0d757d 100%);
+        background-size: 50%;
+    }
+
+    &__puzzleAbacus {
+        background: linear-gradient(116.21deg, #0057ff 18.39%, #00ffd1 76.69%);
+    }
+
+    &__flashCards {
+        background: linear-gradient(180deg, #d9ae21 0%, #d95d2b 100%);
+    }
+
+    &__catchFlashCard {
+        background: linear-gradient(108.67deg, #27c219 0%, #d6d92b 97.98%);
+    }
+
+    &__rememberAndFind {
+        background: linear-gradient(
+            0deg,
+            #c2fff7 0%,
+            #befef7 12.56%,
+            #b1fbf5 25.87%,
+            #55edeb 39.48%,
+            #33e9eb 48.44%,
+            #03c3db 69.79%,
+            #00b8ff 91.38%,
+            #00abff 100%
+        );
+    }
+    &__bricks {
+        background: linear-gradient(309.96deg, #eae46c 6.62%, #94c133 81.89%);
+    }
+
+    &__couple {
+        background: linear-gradient(289.03deg, #16fcff 0.69%, #00abff 68.56%);
+    }
+
+    &__vitamix {
+        background: linear-gradient(
+            118.43deg,
+            #0a5fdf 13.1%,
+            rgba(14, 116, 227, 0.862389) 29.01%,
+            rgba(17, 138, 231, 0.72) 45.48%,
+            rgba(25, 185, 241, 0.36) 70.66%,
+            rgba(33, 238, 251, 0.4) 95.99%
+        );
+    }
+
+    &__presents {
+        background: linear-gradient(
+            118.77deg,
+            #00ff94 -16.86%,
+            #bd0cc4 -16.85%,
+            #c14bcd -16.84%,
+            #bf26c7 101.66%
+        );
+    }
+}
+
+.title {
+    color: #fff;
+    transition: all 0.2s;
+    position: absolute;
+    left: 24px;
+    top: 32px;
+    font-size: 30px;
+    line-height: 30px;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    max-width: 190px;
+}
+.link {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.img {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    display: block;
+    bottom: 0;
+}
+
+.pageTitle {
+    font-size: 48px;
+    line-height: 120%;
+    font-weight: bold;
+    text-align: center;
+    margin: 50px auto 25px;
+}
+
+.gamesList {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+    justify-content: center;
+}
+
+.buttons {
+    margin-bottom: 40px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}

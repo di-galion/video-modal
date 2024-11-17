@@ -1,0 +1,22 @@
+.notification {
+    padding: 20px;
+    color: blue;
+    font-size: 20px;
+    border-radius: 12px;
+    background-color: white;
+    position: fixed;
+    right: 24px;
+    top: 24px;
+    border: 2px solid blue;
+    z-index: 100;
+
+    &.error {
+        color: red;
+        border: 2px solid red;
+    }
+
+    &.success {
+        color: green;
+        border: 2px solid green;
+    }
+}

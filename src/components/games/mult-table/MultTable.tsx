@@ -5,19 +5,14 @@ import styles from './styles.module.scss';
 import { useActions } from '../../../hooks/useActions';
 import { register } from '../../../providers/game/register';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
-import { useAccount } from '../../../hooks/account';
-import { isTeacher } from '../../../utils';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage';
 
 const MultTableGame = () => {
-    const { count, theme = [1] } = useGameSettings();
+    const { count } = useGameSettings<number>();
+    const { theme = [1] } = useGameSettings<number[]>();
     const [step, setStep] = useState(0);
-
-    const {
-        storage: { data = [] },
-        sendMessage,
-        sendAction,
-    } = useWebSocket();
-
+    const { sendAction } = useWebSocket();
+    const { data = [], updateStorage } = useSyncStorage<{ data: number[][] }>();
     const currentData = useMemo(() => data[step] || [], [step, data]);
     const [value, setValue] = useState('');
     const [checking, setChecking] = useState(false);
@@ -25,18 +20,13 @@ const MultTableGame = () => {
     const [showExample, setShowExample] = useState(false);
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const finishGame = useGameFinish();
-    const { role } = useAccount();
 
     useEffect(() => {
-        if (isTeacher(role)) {
-            sendMessage(
-                'data',
-                createAll(count as number, 2, 10, theme as number[])
-            );
-        }
+        //console.log([count, theme]);
+        updateStorage('data', createAll(count, 2, 10, theme));
     }, [count, theme]);
 
-    const length = useMemo(() => ((data || []) as number[][]).length, [data]);
+    const length = useMemo(() => (data || []).length, [data]);
 
     useWsAction((name, params) => {
         switch (name) {

@@ -42,7 +42,7 @@ export type GameLessonMode = 'list' | 'game';
 
 export interface IGameLesson extends IBaseLesson {
     name: GameLessonName;
-    games: GameLessonItem[];
+    games: string[];
 }
 
 export interface ISimpleTaskLesson extends IBaseLesson {

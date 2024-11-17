@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 import { ControlPropsOf } from '../../../typings/settings.module';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 
 interface SettingsNumOfRowsProps extends ControlPropsOf<'numberOfRows'> {
     title: string;
@@ -20,13 +20,10 @@ const SettingsNumOfRows: FC<SettingsNumOfRowsProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState(
-        gameSettings[reduxKey] || settings.defaultValue || settings.min
+    const [value, setValue] = useValue(
+        reduxKey,
+        (settings.defaultValue as number) || settings.min
     );
-
-    useChangeGameSetting(reduxKey, value);
 
     const onPrevClick = () => {
         if (value > settings.min) {
@@ -39,14 +36,6 @@ const SettingsNumOfRows: FC<SettingsNumOfRowsProps> = ({
             setValue(value + settings.step);
         }
     };
-
-    useEffect(() => {
-        if (settings.update) {
-            setValue(
-                gameSettings[reduxKey] || settings.defaultValue || settings.min
-            );
-        }
-    }, [settings.update]);
 
     return (
         <SettingsWrapper disabled={disabled} title={title}>

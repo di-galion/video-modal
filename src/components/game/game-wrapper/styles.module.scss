@@ -67,6 +67,11 @@
         border-bottom-left-radius: 70px 40px;
         border-bottom-right-radius: 70px 40px;
         border: 10px solid #ebbb31;
+        background-image: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.5) 10%,
+            rgba(173, 216, 230, 1) 100%
+        );
     }
 
     &__game_wrapper {
@@ -101,6 +106,13 @@
 
         &[data-game='invasion'] {
             background: url(./images/invasion-bg.png);
+            background-repeat: no-repeat !important;
+            background-position: center bottom !important;
+            background-size: cover !important;
+        }
+
+        &[data-game='flashCards'] {
+            background: url(./images/flash-cards-bg.png);
             background-repeat: no-repeat !important;
             background-position: center bottom !important;
             background-size: cover !important;

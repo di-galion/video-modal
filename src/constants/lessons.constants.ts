@@ -14,23 +14,7 @@ export const LESSONS: ILesson[] = [
         status: true,
         index: 0,
         name: 'game',
-        games: [
-            {
-                title: 'Горная тропа',
-                name: 'mountainTrail',
-                imgUrl: '/assets/img/gameCovers/mountainTrail.png',
-            },
-            {
-                title: 'Таблица умножения',
-                name: 'multTable',
-                imgUrl: '/assets/img/gameCovers/multTable.png',
-            },
-            {
-                title: 'Вторжение',
-                name: 'invasion',
-                imgUrl: '/assets/img/gameCovers/invasion.png',
-            },
-        ],
+        games: ['mountainTrail', 'multTable', 'invasion', 'flashCards'],
     },
     {
         title: 'Проверка знаний',
@@ -38,13 +22,7 @@ export const LESSONS: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: [
-            {
-                name: 'laboratory',
-                imgUrl: '/assets/img/gameCovers/laboratory.png',
-                title: 'Лаборатория',
-            },
-        ],
+        games: ['laboratory'],
     },
     {
         title: 'Проверка знаний',
@@ -91,13 +69,7 @@ export const LESSONS: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: [
-            {
-                name: 'multTable',
-                imgUrl: '/assets/img/gameCovers/multTable.png',
-                title: 'Таблица умножения',
-            },
-        ],
+        games: ['multTable'],
     },
 ];
 

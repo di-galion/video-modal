@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import styles from './styles.module.scss';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 import classNames from 'classnames';
 import { getArray } from '../../../utils';
@@ -16,30 +16,26 @@ export const SettingMultiSelect: FC<SettingsMultiSelectProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState<number[]>(
-        (gameSettings[reduxKey] as number[]) ||
-            (getArray(settings.defaultValue).length &&
-                getArray(settings.defaultValue)) ||
+    const [value, setValue] = useValue<number[]>(
+        reduxKey,
+        (getArray(settings.defaultValue).length &&
+            getArray(settings.defaultValue)) ||
             (settings.values && [settings.values[0]]) || [1]
     );
 
-    useChangeGameSetting(reduxKey, value);
-
     const handleChange = (currentValue: number) => {
         if (value.includes(currentValue)) {
-            setValue((value) => value.filter((v) => v !== currentValue));
+            setValue(value.filter((v) => v !== currentValue));
         } else {
-            setValue((value) => [...value, currentValue]);
+            setValue([...value, currentValue]);
         }
     };
 
     const handleSelectAll = () => {
         if (settings.values?.length === value.length) {
-            setValue(() => []);
+            setValue([]);
         } else {
-            setValue(() => [...getArray(settings.values)]);
+            setValue([...getArray(settings.values)]);
         }
     };
 

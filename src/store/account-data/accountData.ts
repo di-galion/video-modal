@@ -7,11 +7,20 @@ type IUser = {
     online?: boolean;
 };
 
+type NotificationType = 'info' | 'success' | 'error';
+
 interface IAccountState {
     role: Role;
     teacher: IUser;
     students: IUser[];
     me: IUser;
+    userCount: number;
+    notification: {
+        show: boolean;
+        text: string;
+        type: NotificationType;
+    };
+    ready: boolean;
 }
 
 const initialState: IAccountState = {
@@ -22,12 +31,37 @@ const initialState: IAccountState = {
         { id: 1, name: 'Иван Михайлов', online: false },
         { id: 1, name: 'Иван Михайлов', online: false },
     ],
+    ready: false,
+    notification: { show: false, text: '', type: 'info' },
+    userCount: 0,
 };
 
 const accountData = createSlice({
     name: 'accountData',
     initialState,
     reducers: {
+        setReady: (state, action: PayloadAction<boolean>) => {
+            state.ready = action.payload;
+        },
+        showNotification: (
+            state,
+            action: PayloadAction<{ text: string; type: NotificationType }>
+        ) => {
+            state.notification = {
+                text: action.payload.text,
+                type: action.payload.type,
+                show: true,
+            };
+        },
+        hideNotification: (state) => {
+            state.notification = { text: '', show: false, type: 'info' };
+        },
+        addUserCount: (state) => {
+            state.userCount = state.userCount + 1;
+        },
+        resetUserCount: (state) => {
+            state.userCount = 0;
+        },
         setRole: (state, action: PayloadAction<Role>) => {
             state.role = action.payload;
         },
@@ -41,6 +75,13 @@ const accountData = createSlice({
         },
     },
 });
+
+export const {
+    addUserCount,
+    resetUserCount,
+    hideNotification,
+    showNotification,
+} = accountData.actions;
 
 export const accountDataReducer = accountData.reducer;
 

@@ -13,8 +13,7 @@ import { useActions } from '../../../hooks/useActions';
 import { createShapeData, getCount } from './functions';
 import { register } from '../../../providers/game/register';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
-import { useAccount } from '../../../hooks/account';
-import { isTeacher } from '../../../utils';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage';
 
 type PersonLook = 'normal' | 'good' | 'bad';
 
@@ -33,13 +32,13 @@ const Persons: FC<{ look: PersonLook }> = ({ look }) => (
     <img src={personMap[look]} alt="persons" />
 );
 
-const Shape: FC<{
-    text: string;
-    right: boolean;
-    crush: boolean;
-    order?: number;
-    onClick: (right: boolean) => void;
-}> = ({ text, right, crush, onClick, order = 1 }) => (
+const Shape: FC<
+    ShapeProps & {
+        crush: boolean;
+        order?: number;
+        onClick: (right: boolean) => void;
+    }
+> = ({ text, right, crush, onClick, order = 1 }) => (
     <span
         className={classNames(styles.elemWrap, { [styles.crush]: crush })}
         onMouseDown={() => onClick(right)}
@@ -60,28 +59,22 @@ const MountainTrailGame = () => {
     const { allAnswers, correctAnswers } = useGameResult();
     const [runned, setRunned] = useState(false);
 
-    const { speed = 3, theme = [1], count = 5 } = useGameSettings();
+    const { speed = 3, count = 5 } = useGameSettings<number>();
+    const { theme = [1] } = useGameSettings<number[]>();
 
     const finishGame = useGameFinish();
 
-    const { role } = useAccount();
+    const { sendAction } = useWebSocket();
 
-    const {
-        storage: { data = [] },
-        sendMessage,
-        sendAction,
-    } = useWebSocket();
+    const { data, updateStorage } = useSyncStorage<{ data: ShapeProps[] }>();
 
     const getConstant = (step: number) =>
-        (theme as number[])[Math.floor(step / (count as number))] || 1;
+        (theme as number[])[Math.floor(step / count)] || 1;
 
-    const getNumber = useCallback(
-        (step: number) => (step % (count as number)) + 1,
-        []
-    );
+    const getNumber = useCallback((step: number) => (step % count) + 1, []);
 
     const length = useMemo(
-        () => (count as number) * (theme as number[]).length || 1,
+        () => (count as number) * theme.length || 1,
         [theme]
     );
 
@@ -108,8 +101,8 @@ const MountainTrailGame = () => {
     }, [step]);
 
     useEffect(() => {
-        if (isTeacher(role) && step <= length - 1) {
-            sendMessage(
+        if (step <= length - 1) {
+            updateStorage(
                 'data',
                 createShapeData(
                     getNumber(step),
@@ -118,7 +111,7 @@ const MountainTrailGame = () => {
                 )
             );
         }
-    }, [theme, role, step]);
+    }, [theme, step]);
 
     const shapes = useMemo(() => data || [], [data]);
 
@@ -126,7 +119,7 @@ const MountainTrailGame = () => {
 
     const height = useMemo(() => {
         const fail = allAnswers - correctAnswers;
-        return (fail / (count as number)) * 500;
+        return (fail / count) * 500;
     }, [count, allAnswers, correctAnswers]);
 
     useEffect(() => {
@@ -151,7 +144,7 @@ const MountainTrailGame = () => {
             if (step <= length - 1) {
                 interval.current = setInterval(() => {
                     setMode('bad');
-                }, (speed as number) * 1000);
+                }, speed * 1000);
             }
         } else {
             clearInterval(interval.current);

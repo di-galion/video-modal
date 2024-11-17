@@ -1,0 +1,227 @@
+.calculatorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-sizing: border-box;
+}
+
+.displayWrapper {
+    padding-bottom: 400px;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.display {
+    width: 100%;
+    display: block;
+    min-height: 90px;
+    font-size: 58px;
+    text-align: center;
+    margin: 50px 0;
+    border: 3px solid #b8b5d6;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #000000;
+
+    &.correct {
+        border-color: #4caf50;
+        background-color: #e8f5e9;
+        color: #4caf50;
+    }
+
+    &.incorrect {
+        border-color: #f44336;
+        background-color: #ffebee;
+        color: #f44336;
+    }
+}
+
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.numpadBtn {
+    width: 90px;
+    height: 90px;
+    font-size: 46px;
+    color: #443778;
+    border: 3px solid #b8b5d6;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #ffffff, rgb(237, 234, 255));
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.2s;
+
+    &:hover {
+        background-color: #eaeaea;
+        box-shadow: 0px 4px 12px rgba(100, 91, 143, 0.9);
+    }
+}
+.highlighted {
+    background-color: #ebbb31 !important;
+    color: #111 !important;
+}
+
+.checkButton {
+    margin-top: 20px;
+    width: 75%;
+    padding: 18px 44px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #ccc;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.slotContainer {
+    display: flex;
+    gap: 5px;
+    padding: 30px 1px;
+    background-color: #f5deb3;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.slotContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: transparent;
+    z-index: 1;
+    width: 100%;
+}
+
+.slot {
+    width: 80px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:first-child {
+        padding-bottom: 22px;
+        border-bottom: 8px solid #f19919;
+        margin: 0 auto;
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.woodenFrameWrapper {
+    position: relative;
+    width: 120px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.woodenFrameVertical {
+    position: absolute;
+    width: 12px;
+    height: 100%;
+    background: linear-gradient(to bottom, #f19919, #bb6d00);
+    border-radius: 6px;
+}
+
+.woodenFrameHorizontal {
+    position: absolute;
+    height: 12px;
+    width: 100%;
+    background: linear-gradient(to right, #f19919, #c97400, #bb6d00);
+    border-radius: 6px;
+}
+
+.woodenFrameWrapper:before,
+.woodenFrameWrapper:after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #f19919;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.woodenFrameWrapper:before {
+    top: -10px;
+    left: -10px;
+}
+
+.woodenFrameWrapper:after {
+    bottom: -10px;
+    right: -10px;
+}
+
+.centerDivider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 46%;
+    width: 10px;
+    background-color: #b87333;
+    z-index: 0;
+}
+.woodenFrameHorizontal {
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    background: linear-gradient(to right, #f19919, #c97400, #bb6d00);
+    border-radius: 4px;
+}
+
+.woodenFrameHorizontal.top {
+    top: 0;
+}
+
+.woodenFrameHorizontal.bottom {
+    bottom: 0;
+}
+
+.woodenFrameVertical {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    background: linear-gradient(to bottom, #f19919, #f19919, #bb6d00);
+    border-radius: 4px;
+}
+
+.woodenFrameVertical.left {
+    left: 0;
+}
+
+.woodenFrameVertical.right {
+    right: 0;
+}
+
+.slotContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+}
+
+.slot img {
+    width: 64px;
+    height: 38px;
+}
+
+.woodenFrameContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}

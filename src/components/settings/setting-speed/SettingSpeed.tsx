@@ -1,10 +1,10 @@
 import InputNumber from 'rc-input-number';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 import SliderCustom from '../slider/Slider';
 import './styles.css';
 import styles from './styles.module.scss';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 
 interface SettingsSpeedProps extends ControlPropsOf<'speed'> {
@@ -23,24 +23,14 @@ export const SettingSpeed: FC<SettingsSpeedProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState(
-        Number(gameSettings[reduxKey]) || settings.defaultValue || 1
+    const [value, setValue] = useValue(
+        reduxKey,
+        (settings.defaultValue as number) || 1
     );
-
-    useChangeGameSetting(reduxKey, value);
 
     const onChangeHandler = (v: number | null) => {
         setValue(v || 1);
     };
-    useEffect(() => {
-        if (settings.update) {
-            setValue(
-                Number(gameSettings[reduxKey]) || settings.defaultValue || 1
-            );
-        }
-    }, [settings.update]);
 
     return (
         <SettingsWrapper disabled={disabled} title={title}>
@@ -49,12 +39,13 @@ export const SettingSpeed: FC<SettingsSpeedProps> = ({
                     <div className={styles.inputContent}>
                         <InputNumber
                             onChange={(newValue) => {
-                                setValue(newValue || 1);
+                                setValue((newValue as number) || 1);
                             }}
                             className={styles.inputWrapper__input}
                             controls={true}
                             required
                             {...settings}
+                            defaultValue={undefined}
                             value={value}
                         />
                     </div>

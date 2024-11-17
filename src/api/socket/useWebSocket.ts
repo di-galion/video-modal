@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useGame } from '../../hooks/game';
 import { wsApi } from './api';
+import { GameStatus } from '../../typings/game.module';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();
 
-    const sendMessage = (name: string, value: any) => {
+    const sendStorageData = (name: string, value: any) => {
         wsApi.sendMessage(name, value);
     };
 
@@ -13,16 +14,30 @@ export function useWebSocket() {
         wsApi.sendAction(name, params);
     };
 
-    const connect = (_token?: string) => {
+    const connect = () => {
         wsApi.connect();
     };
 
-    return { storage, sendMessage, sendAction, connect };
+    const gotoGame = (game: string) => {
+        sendAction('gotoGame', { game });
+    };
+
+    const setGameStatus = (status: GameStatus) => {
+        sendAction('gameStatus', { status });
+    };
+
+    return {
+        storage,
+        sendStorageData,
+        sendAction,
+        connect,
+        gotoGame,
+        setGameStatus,
+    };
 }
 
 export const useWsAction = (
-    callback: (name: string, params?: Record<string, any>) => void,
-    depends: any[] = []
+    callback: (name: string, params?: Record<string, any>) => void
 ) => {
     const { syncAction = {} } = useGame();
 
@@ -30,5 +45,5 @@ export const useWsAction = (
         if (syncAction.name) {
             callback(syncAction.name, syncAction.params);
         }
-    }, [syncAction, ...depends]);
+    }, [syncAction]);
 };

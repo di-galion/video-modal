@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
 
 import classNames from 'classnames';
 import styles from './styles.module.scss';
-import { useChangeGameSetting, useGameSettings } from '../../../hooks/game';
+import { useValue } from '../../../hooks/game';
 import { ControlPropsOf } from '../../../typings/settings.module';
 
 type SettingRatiosProps = ControlPropsOf<'ratios'>;
@@ -16,32 +16,16 @@ export const SettingRatios: FC<SettingRatiosProps> = ({
     reduxKey,
     disabled,
 }) => {
-    const gameSettings = useGameSettings();
-
-    const [value, setValue] = useState(
-        Number(gameSettings[reduxKey]) ||
-            settings.defaultValue ||
-            (settings.values && settings.values[0]) ||
-            1
+    const [value, setValue] = useValue(
+        reduxKey,
+        settings.defaultValue || (settings.values && settings.values[0]) || 1
     );
-
-    useEffect(() => {
-        setValue(
-            Number(gameSettings[reduxKey]) ||
-                settings.defaultValue ||
-                (settings.values && settings.values[0]) ||
-                1
-        );
-    }, [settings]);
-
-    useChangeGameSetting(reduxKey, value);
 
     return (
         <SettingsWrapper disabled={disabled} title={title}>
             <div className={styles.wrapper}>
                 <div className={styles.ratios}>
                     {(settings.values || []).map((item) => {
-                        console.log(item, value);
                         return (
                             <button
                                 key={item}
