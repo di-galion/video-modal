@@ -26,7 +26,11 @@ export const SettingLevel: FC<SettingsProps> = ({
                 <div className={styles.level}>
                     {<Levels level={Number(value)} />}
                 </div>
-                <SliderCustom {...settings} onChange={onChangeHandler} />
+                <SliderCustom
+                    {...settings}
+                    value={value as number}
+                    onChange={onChangeHandler}
+                />
             </div>{' '}
         </SettingsWrapper>
     );

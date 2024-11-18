@@ -14,19 +14,18 @@ import { Button } from '../../components/elements/button';
 import { PageWrapper } from '../../components/wrappers/pageWrapper';
 import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
-import { SocketHelper } from '../../components/socket-helper/SocketHelper';
 import { GAME_DATA_MAP } from '../../constants/game.contants';
-import { imagePath } from '../../utils/imagePath';
+import { createPath } from '../../utils/createPath';
 
 export const GamesPage = () => {
     const backgroundImage = {
-        background: `url('${imagePath('/assets/img/interface/main-bg.png')})`,
+        background: `url('${createPath('/assets/img/interface/main-bg.png')})`,
         minHeight: '100vh',
         margin: 0,
         padding: 0,
     };
 
-    const { role, token } = useParams();
+    const { role, token, name } = useParams();
     const { setRole } = useActions();
     const { connect } = useWebSocket();
     const isReady = useWsIsReady();
@@ -51,36 +50,36 @@ export const GamesPage = () => {
     }, []);
 
     return (
-        <>
-            <SocketHelper />
-            <div style={backgroundImage}>
-                <PageWrapper>
-                    {mode === 'list' ? (
-                        <>
-                            <PageTitle>
-                                <div className={styles.pageTitle}>
-                                    Ментальная арифметика
-                                </div>
-                            </PageTitle>
-                            <div className={styles.gamesList}>
-                                {gamesList.map((item: any, index) => (
-                                    <GameCover
-                                        {...item}
-                                        key={index}
-                                        isReady={isReady}
-                                    />
-                                ))}
+        <div style={backgroundImage}>
+            <PageWrapper>
+                {mode === 'list' ? (
+                    <>
+                        <PageTitle>
+                            <div className={styles.pageTitle}>
+                                {name && gamesList[name].title}
                             </div>
-                            <div className={styles.buttons}>
-                                <Button link={'/'}>Выход</Button>
-                            </div>
-                        </>
-                    ) : (
-                        <Game />
-                    )}
-                </PageWrapper>
-            </div>
-        </>
+                        </PageTitle>
+                        <div className={styles.gamesList}>
+                            {name &&
+                                gamesList[name].items.map(
+                                    (item: any, index) => (
+                                        <GameCover
+                                            {...item}
+                                            key={index}
+                                            isReady={isReady}
+                                        />
+                                    )
+                                )}
+                        </div>
+                        <div className={styles.buttons}>
+                            <Button link={'/'}>Выход</Button>
+                        </div>
+                    </>
+                ) : (
+                    <Game />
+                )}
+            </PageWrapper>
+        </div>
     );
 };
 
@@ -135,8 +134,20 @@ export const GameCover = ({
     );
 };
 
-const gamesList = [
-    /*{
+const gamesList: Record<
+    string,
+    { title: string; items: Array<{ game: string; isLocked?: boolean }> }
+> = {
+    'mult-table': {
+        title: 'Таблица умножения',
+        items: [{ game: 'multTable' }],
+    },
+    'mental-arithmetics': {
+        title: 'Ментальная арифметика',
+        items: [{ game: 'flashCards' }],
+    },
+};
+/*{
         game: 'shadowTheater',
         title: 'Театр Теней',
         imgSrc:
@@ -150,8 +161,8 @@ const gamesList = [
             import.meta.env.BASE_URL +
             '/assets/img/courses/mentalArithmetic/logo/aboriginalsRiddles.png',
     },*/
-    { game: 'flashCards' },
-    /*{
+
+/*{
         game: 'puzzleAbacus',
         title: 'Собери абакус',
         imgSrc:
@@ -212,4 +223,3 @@ const gamesList = [
             '/assets/img/courses/mentalArithmetic/logo/presents.png',
         isLocked: true,
     },*/
-];

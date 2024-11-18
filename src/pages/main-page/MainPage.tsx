@@ -5,10 +5,8 @@ import { useActions } from '../../hooks/useActions';
 
 import { MainPageWrapper } from './components/MainPageWrapper';
 import { useApiError } from '../../hooks/apiError';
-//import { ApiError } from '../../components/api-error/ApiError';
 import { useParams } from 'react-router-dom';
 import { Role } from '../../constants/roles.constants';
-import { SocketHelper } from '../../components/socket-helper/SocketHelper';
 import { showNotification } from '../../store/account-data/accountData';
 
 const MainPage = () => {
@@ -41,7 +39,6 @@ const MainPage = () => {
 
     return (
         <MainPageWrapper>
-            <SocketHelper />
             <LeftPanel />
             <MainSection />
         </MainPageWrapper>

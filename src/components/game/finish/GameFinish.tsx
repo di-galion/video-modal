@@ -5,7 +5,6 @@ import {
     useGameSettings,
     useGameStatus,
 } from '../../../hooks/game';
-import { useActions } from '../../../hooks/useActions';
 import { toTimeFormat } from '../../../utils';
 import { GameWrapper } from '../game-wrapper/GameWrapper';
 import { Stars } from './stars/Stars';
@@ -13,12 +12,10 @@ import styles from './styles.module.scss';
 
 export const GameFinish = () => {
     const result = useGameResult();
-    const { clearResult } = useActions();
     const [, setStatus] = useGameStatus();
     const { level = 1 } = useGameSettings();
 
     const handleClick = () => {
-        clearResult();
         setStatus('start');
     };
 

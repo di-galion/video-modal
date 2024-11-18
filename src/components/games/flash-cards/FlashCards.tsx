@@ -160,7 +160,7 @@ const FlashCardsGame = () => {
                         isAnswerCorrect === false ? styles.highlighted : ''
                     }`}
                     value={inputValue}
-                    readOnly={/*isAnswerCorrect === false*/ true}
+                    readOnly={isAnswerCorrect === false}
                 />
 
                 {!isHidden ? (

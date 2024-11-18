@@ -11,10 +11,10 @@ const Router: FC<PropsWithChildren> = () => {
                 <Route element={<Layout />}>
                     <Route path={`/test/:role/:token`} element={<MainPage />} />
                     <Route
-                        path={`/games/:role/:token`}
+                        path={`/games/:name/:role/:token`}
                         element={<GamesPage />}
                     />
-                    <Route path={`/games`} element={<GamesPage />} />
+                    <Route path={`/games/:name`} element={<GamesPage />} />
                     <Route path={`/`} element={<MainPage />} />
                 </Route>
             </Routes>

@@ -14,7 +14,7 @@ import SettingTips from '../components/settings/setting-tips/SettingTips';
 import { SettingMultiSelect } from '../components/settings/setting-multi-select/SettingMultiSelect';
 import { Invasion } from '../components/games/invasion/Invasion';
 import { FlashCards } from '../components/games/flash-cards/FlashCards';
-import { imagePath } from '../utils/imagePath';
+import { createPath } from '../utils/createPath';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -83,23 +83,23 @@ export const GAME_MAP: Record<string, () => ReactElement> = {
 
 export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
     laboratory: {
-        image: imagePath('/assets/img/gameCovers/laboratory.png'),
+        image: createPath('/assets/img/gameCovers/laboratory.png'),
         title: 'Лаборатория',
     },
     multTable: {
-        image: imagePath('/assets/img/gameCovers/multTable.png'),
+        image: createPath('/assets/img/gameCovers/multTable.png'),
         title: 'Таблица умножения',
     },
     mountainTrail: {
-        image: imagePath('/assets/img/gameCovers/mountainTrail.png'),
+        image: createPath('/assets/img/gameCovers/mountainTrail.png'),
         title: 'Горная тропа',
     },
     invasion: {
-        image: imagePath('/assets/img/gameCovers/invasion.png'),
+        image: createPath('/assets/img/gameCovers/invasion.png'),
         title: 'Вторжение',
     },
     flashCards: {
-        image: imagePath('/assets/img/gameCovers/flashCards.png'),
+        image: createPath('/assets/img/gameCovers/flashCards.png'),
         title: 'Флеш-карты',
     },
 };

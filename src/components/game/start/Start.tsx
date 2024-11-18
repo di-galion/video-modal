@@ -7,13 +7,16 @@ import {
 } from '../../../hooks/game.ts';
 
 import { GameWrapper } from '../game-wrapper/GameWrapper.tsx';
+import { useActions } from '../../../hooks/useActions.ts';
 
 const Start = () => {
     const [, setPageStatus] = useGameStatus();
     const settings = useGameSettings();
     const { start: data } = useGameData();
+    const { clearResult } = useActions();
 
     const onClickOk = () => {
+        clearResult();
         setPageStatus('waiting');
     };
 

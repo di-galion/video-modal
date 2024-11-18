@@ -40,7 +40,6 @@ export interface IControlSettingNumberOfRows extends IControlSetting {
     max: number;
     min: number;
     step: number;
-    update?: boolean;
 }
 
 export interface IControlSettingMultiSelect extends IControlSetting {
@@ -55,19 +54,16 @@ export interface IControlSettingTime extends IControlSetting {
     max: number;
     min: number;
     step: number;
-    update?: boolean;
 }
 
 export interface IControlSettingSpeed extends IControlSetting {
     max: number;
     min: number;
     step: number;
-    update?: boolean;
 }
 
 export interface IControlSettingSliding extends IControlSetting {
     values: string[];
-    update?: boolean;
 }
 
 export interface IControlSettingTips extends IControlSetting {
@@ -95,8 +91,6 @@ export interface ControlPropsOf<T extends ControlType> {
     reduxKey: string;
     settings: SettingsOf<T>;
     disabled?: boolean;
-    defaultValue?: number;
-    value?: number;
 }
 
 export type ControlProps =
