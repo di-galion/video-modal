@@ -126,6 +126,13 @@
             background-size: cover, contain;
 
         }
+
+        &[data-game='aboriginalsRiddles'] {
+            background-image: url(./images/bg-aboriginals.png);
+            background-size: cover, contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     }
 
     &__bottom {

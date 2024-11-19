@@ -15,7 +15,8 @@ import { SettingMultiSelect } from '../components/settings/setting-multi-select/
 import { Invasion } from '../components/games/invasion/Invasion';
 import { FlashCards } from '../components/games/flash-cards/FlashCards';
 import { createPath } from '../utils/createPath';
-import {ShadowTheater} from "../components/games/shadow-theater/ShadowTheater.tsx";
+import { AboriginalsRiddles } from '../components/games/abarigens-riddles/aboriginalsRiddles';
+import { ShadowTheater } from '../components/games/shadow-theater/ShadowTheater.tsx';
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -80,7 +81,8 @@ export const GAME_MAP: Record<string, () => ReactElement> = {
     mountainTrail: () => <MountainTrail />,
     invasion: () => <Invasion />,
     flashCards: () => <FlashCards />,
-    shadowTheater: () => <ShadowTheater/>
+    aboriginalsRiddles: () => <AboriginalsRiddles />,
+    shadowTheater: () => <ShadowTheater />,
 };
 
 export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
@@ -104,8 +106,12 @@ export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
         image: createPath('/assets/img/gameCovers/flashCards.png'),
         title: 'Флеш-карты',
     },
+    aboriginalsRiddles: {
+        image: createPath('/assets/img/gameCovers/aboriginalsRiddles.png'),
+        title: 'Загадки аборигенов',
+    },
     shadowTheater: {
         image: createPath('/assets/img/gameCovers/shadow.png'),
-        title: 'Театр теней'
-    }
+        title: 'Театр теней',
+    },
 };

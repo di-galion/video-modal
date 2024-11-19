@@ -144,7 +144,11 @@ const gamesList: Record<
     },
     'mental-arithmetics': {
         title: 'Ментальная арифметика',
-        items: [{ game: 'flashCards' }, { game: 'shadowTheater' }],
+        items: [
+            { game: 'flashCards' },
+            { game: 'aboriginalsRiddles' },
+            { game: 'shadowTheater' },
+        ],
     },
 };
 /*{
