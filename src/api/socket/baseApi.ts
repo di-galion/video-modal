@@ -3,4 +3,5 @@ export interface WsApi {
     onMessage(name: string, data: any): void;
     sendAction(name: string, params?: Record<string, any>): void;
     onAction(name: string, params?: Record<string, any>): void;
+    connect(): void;
 }

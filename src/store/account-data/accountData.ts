@@ -21,6 +21,7 @@ interface IAccountState {
         type: NotificationType;
     };
     ready: boolean;
+    sync: boolean;
 }
 
 const initialState: IAccountState = {
@@ -34,12 +35,16 @@ const initialState: IAccountState = {
     ready: false,
     notification: { show: false, text: '', type: 'info' },
     userCount: 0,
+    sync: false,
 };
 
 const accountData = createSlice({
     name: 'accountData',
     initialState,
     reducers: {
+        setSync: (state, action: PayloadAction<boolean>) => {
+            state.sync = action.payload;
+        },
         setReady: (state, action: PayloadAction<boolean>) => {
             state.ready = action.payload;
         },

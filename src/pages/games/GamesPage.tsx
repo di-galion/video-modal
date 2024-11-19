@@ -26,7 +26,7 @@ export const GamesPage = () => {
     };
 
     const { role, token, name } = useParams();
-    const { setRole } = useActions();
+    const { setRole, setSync } = useActions();
     const { connect } = useWebSocket();
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
@@ -39,7 +39,10 @@ export const GamesPage = () => {
             localStorage.setItem('TOKEN', token);
         }
         if (role && token) {
+            setSync(true);
             connect();
+        } else {
+            setSync(false);
         }
     }, [role, token]);
 

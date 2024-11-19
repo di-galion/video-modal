@@ -6,6 +6,7 @@ import { useAccount } from '../../hooks/account';
 import { Notification } from '../notification/Notification';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export const SocketHelper = () => {
     const {
@@ -21,7 +22,7 @@ export const SocketHelper = () => {
     } = useActions();
     const { role, userCount } = useAccount();
     const { sendAction } = useWebSocket();
-    //const navigate = useNavigate();
+    const sync = useTypedSelector((store) => store.accountData.sync);
 
     useWsAction((name, params) => {
         switch (name) {
@@ -51,14 +52,15 @@ export const SocketHelper = () => {
     useEffect(() => {
         if (
             Number(import.meta.env.VITE_PREVENT_READY) ||
+            !sync ||
             userCount >= Number(import.meta.env.VITE_USER_COUNT)
         ) {
             sendAction('ready');
         }
-    }, [userCount]);
+    }, [userCount, sync]);
 
     useWsOnReady(() => {
-        if (isTeacher(role)) {
+        if (isTeacher(role) && sync) {
             showNotification({
                 text: 'Пользователь вошел в комнату. Можно начинать игру',
                 type: 'info',

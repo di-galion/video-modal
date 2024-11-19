@@ -12,6 +12,8 @@ export class WsFakeApi implements WsApi {
         }, 100);
     }
 
+    connect() {}
+
     sendAction(name: string, params?: Record<string, any>) {
         setTimeout(() => {
             this.onAction(name, params);
