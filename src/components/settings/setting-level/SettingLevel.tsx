@@ -58,16 +58,16 @@ const Levels: FC<LevelProps> = ({ level }) => {
                         y2="1.43"
                         gradientUnits="userSpaceOnUse"
                     >
-                        <stop offset="0.06" stop-color="#ede4cb"></stop>
-                        <stop offset="0.32" stop-color="#f0e9d4"></stop>
-                        <stop offset="0.75" stop-color="#f9f6ee"></stop>
-                        <stop offset="1" stop-color="#fff"></stop>
+                        <stop offset="0.06" stopColor="#ede4cb"></stop>
+                        <stop offset="0.32" stopColor="#f0e9d4"></stop>
+                        <stop offset="0.75" stopColor="#f9f6ee"></stop>
+                        <stop offset="1" stopColor="#fff"></stop>
                     </linearGradient>
                 </defs>
                 <path
                     d="M424.47 117.78H18.85a17.42 17.42 0 01-17.42-17.42V74A17.41 17.41 0 0116.5 56.75L422.12 1.59a17.42 17.42 0 0119.77 17.26v81.51a17.42 17.42 0 01-17.42 17.42z"
                     stroke="#5d2816"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                     stroke-width="2.85"
                     fill="url(#prefix__a)"
                 ></path>
@@ -91,19 +91,19 @@ const Levels: FC<LevelProps> = ({ level }) => {
                         y2="1.44"
                         gradientUnits="userSpaceOnUse"
                     >
-                        <stop offset="0.06" stop-color="#d5652c"></stop>
-                        <stop offset="0.15" stop-color="#d76c35"></stop>
-                        <stop offset="0.3" stop-color="#dc7e4f"></stop>
-                        <stop offset="0.5" stop-color="#e49d78"></stop>
-                        <stop offset="0.73" stop-color="#f0c7b2"></stop>
-                        <stop offset="0.99" stop-color="#fefcfb"></stop>
-                        <stop offset="1" stop-color="#fff"></stop>
+                        <stop offset="0.06" stopColor="#d5652c"></stop>
+                        <stop offset="0.15" stopColor="#d76c35"></stop>
+                        <stop offset="0.3" stopColor="#dc7e4f"></stop>
+                        <stop offset="0.5" stopColor="#e49d78"></stop>
+                        <stop offset="0.73" stopColor="#f0c7b2"></stop>
+                        <stop offset="0.99" stopColor="#fefcfb"></stop>
+                        <stop offset="1" stopColor="#fff"></stop>
                     </linearGradient>
                 </defs>
                 <path
                     d="M424.47 117.78H18.85a17.42 17.42 0 01-17.42-17.42V74A17.41 17.41 0 0116.5 56.75L422.12 1.59a17.42 17.42 0 0119.77 17.26v81.51a17.42 17.42 0 01-17.42 17.42z"
                     stroke="#5d2816"
-                    stroke-miterlimit="10"
+                    strokeMiterlimit="10"
                     stroke-width="2.85"
                     fill="url(#prefix__1)"
                 ></path>

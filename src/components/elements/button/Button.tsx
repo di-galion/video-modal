@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { CSSProperties, ForwardedRef, PropsWithChildren } from 'react';
 import styles from './styles.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 type ButtonProps = PropsWithChildren<{
     link?: string;
@@ -15,6 +16,7 @@ type ButtonProps = PropsWithChildren<{
 
 export const Button = React.forwardRef(
     (props: ButtonProps, ref: ForwardedRef<HTMLDivElement>) => {
+        const navigate = useNavigate();
         const { style, color = 'blue', children, disabled = false } = props;
 
         /*const navLinkClick = useCallback(
@@ -32,7 +34,7 @@ export const Button = React.forwardRef(
             }
 
             if (props.link) {
-                location.href = props.link;
+                navigate(props.link);
             }
 
             /*if (props.navLink) {
