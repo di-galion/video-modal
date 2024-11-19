@@ -112,10 +112,19 @@
         }
 
         &[data-game='flashCards'] {
-            background: url(./images/flash-cards-bg.png);
-            background-repeat: no-repeat !important;
-            background-position: center bottom !important;
-            background-size: cover !important;
+            background: radial-gradient(
+                            circle,
+                            rgba(255, 255, 255, 0.5) 10%,
+                            rgba(173, 216, 230, 1) 100%
+            ),
+            url(./images/mult-table-bg.png);
+            background-size: cover, contain;
+
+        }
+        &[data-game='shadowTheater'] {
+            background:  url(./images/shadow-theater.png);
+            background-size: cover, contain;
+
         }
     }
 
