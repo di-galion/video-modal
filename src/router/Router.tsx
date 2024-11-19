@@ -11,7 +11,7 @@ const Router: FC<PropsWithChildren> = () => {
             <Routes>
                 <Route element={<Layout />}>
                     <Route
-                        path={`/video-module/test/:role/:token`}
+                        path={`/video-module/:name/:role/:token`}
                         element={<MainPage />}
                     />
                     <Route
@@ -19,7 +19,10 @@ const Router: FC<PropsWithChildren> = () => {
                         element={<GamesPage />}
                     />
                     <Route path={`/games/:name`} element={<GamesPage />} />
-                    <Route path={`/video-module`} element={<MainPage />} />
+                    <Route
+                        path={`/video-module/:name`}
+                        element={<MainPage />}
+                    />
                     <Route path={'/'} element={<SelectPage />} />
                 </Route>
             </Routes>

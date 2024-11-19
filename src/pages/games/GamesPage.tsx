@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import { useParams } from 'react-router-dom';
 
 import { FaLock } from 'react-icons/fa';
-//import { URL_MAIN } from '../../../constants/url.constants';
 import { useEffect } from 'react';
 import { useActions } from '../../hooks/useActions';
 import { Role } from '../../constants/roles.constants';
@@ -10,7 +9,7 @@ import { useWebSocket } from '../../api/socket/useWebSocket';
 import styles from './styles.module.scss';
 import { useWsIsReady } from '../../api/socket/useWsReady';
 import { PageTitle } from '../../components/elements/pageTitle';
-import { Button } from '../../components/elements/button';
+//import { Button } from '../../components/elements/button';
 import { PageWrapper } from '../../components/wrappers/pageWrapper';
 import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
@@ -74,9 +73,9 @@ export const GamesPage = () => {
                                     )
                                 )}
                         </div>
-                        <div className={styles.buttons}>
+                        {/*<div className={styles.buttons}>
                             <Button link={'/'}>Выход</Button>
-                        </div>
+                        </div>*/}
                     </>
                 ) : (
                     <Game />
