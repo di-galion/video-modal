@@ -8,12 +8,14 @@ import { useApiError } from '../../hooks/apiError';
 import { useParams } from 'react-router-dom';
 import { Role } from '../../constants/roles.constants';
 import { showNotification } from '../../store/account-data/accountData';
+import { useWebSocket } from '../../api/socket/useWebSocket';
 
 const MainPage = () => {
     const { fetchLessons } = useActions();
     const isError = useApiError();
     const { role, token } = useParams();
-    const { setRole } = useActions();
+    const { setRole, setSync } = useActions();
+    const { connect } = useWebSocket();
 
     useEffect(() => {
         fetchLessons();
@@ -26,7 +28,13 @@ const MainPage = () => {
         if (token) {
             localStorage.setItem('TOKEN', token);
         }
-    }, [role]);
+        if (role && token) {
+            setSync(true);
+            connect();
+        } else {
+            setSync(false);
+        }
+    }, [role, token]);
 
     useEffect(() => {
         if (isError) {
