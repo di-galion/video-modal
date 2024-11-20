@@ -71,7 +71,7 @@ const ShadowTheaterGame: React.FC = () => {
         addAllAnswers,
         setPageStatus,
     } = useActions();
-    const { level, items } = useGameSettings();
+    const { level, items, time } = useGameSettings();
 
     useEffect(() => {
         startGame();
@@ -95,7 +95,6 @@ const ShadowTheaterGame: React.FC = () => {
         );
         setShownImages(initialImages);
         setLastAddedImages(initialImages);
-        //setStarCalculationMode('correct');
         setShuffledIndices(
             shuffleArray(Array.from(Array(images.length).keys())),
         );
