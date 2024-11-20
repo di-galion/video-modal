@@ -244,6 +244,7 @@ const MultTableGame = () => {
 export const MultTable = () =>
     register(MultTableGame, (settings) => ({
         timeDirection: 'right',
+        starCalculationMode: 'correct',
         title: 'Таблица умножения',
         infoSettings: [
             {

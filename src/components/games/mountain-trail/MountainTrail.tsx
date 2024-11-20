@@ -219,6 +219,7 @@ const MountainTrailGame = () => {
 export const MountainTrail = () =>
     register(MountainTrailGame, (settings) => ({
         timeDirection: 'right',
+        starCalculationMode: 'correct',
         title: 'Горная тропа',
         infoSettings: [
             {

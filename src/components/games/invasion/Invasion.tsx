@@ -193,6 +193,7 @@ export const Invasion = () =>
     register(InvasionGame, (settings) => ({
         timeDirection: 'right',
         title: 'Вторжение',
+        starCalculationMode: 'correct',
         infoSettings: [
             {
                 title: 'Скорость',

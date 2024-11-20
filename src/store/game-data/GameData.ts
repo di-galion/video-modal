@@ -26,7 +26,7 @@ const initialState: IGameState = {
     state: {},
     currentTime: 0,
     timeDirection: 'left',
-    starCalculationMode: 'speed-correct-mode',
+    starCalculationMode: 'correct',
     data: {},
     syncStorage: {},
     syncAction: {},
