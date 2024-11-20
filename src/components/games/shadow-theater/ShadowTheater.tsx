@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './ShadowTheater.module.scss';
 import item0 from './images/item_0.png';
 import item1 from './images/item_1.png';
@@ -21,10 +21,13 @@ import item22 from './images/item_22.png';
 import item23 from './images/item_23.png';
 import item24 from './images/item_24.png';
 import { useActions } from '../../../hooks/useActions.ts';
-import { getRandomImages, shuffleArray } from "./functions.ts";
-import { useGameSettings } from '../../../hooks/game.ts';
+import { getRandomImages, shuffleArray } from './functions.ts';
+import { useGameFinish, useGameSettings } from '../../../hooks/game.ts';
 import { register } from '../../../providers/game/register.tsx';
-import { toTimeFormat} from "../../../utils";
+import { toTimeFormat } from '../../../utils';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
+import { useGameAccess } from '../../../hooks/account.ts';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket.ts';
 
 const images = [
     item0,
@@ -50,28 +53,33 @@ const images = [
 ];
 
 const ShadowTheaterGame: React.FC = () => {
-    const [shownImages, setShownImages] = useState<string[]>([]);
+    const isAccess = useGameAccess();
+    const {
+        shownImages = [],
+        lastAddedImages = [],
+        shuffledIndices = [],
+        updateStorage,
+    } = useSyncStorage<{
+        shownImages: string[];
+        lastAddedImages: string[];
+        shuffledIndices: number[];
+    }>();
+
+    const { sendAction } = useWebSocket();
+
     const [clickedImages, setClickedImages] = useState<string[]>([]);
     const [, setScore] = useState<number>(0);
     const [imageFeedback, setImageFeedback] = useState<{
         [key: string]: 'correct' | 'wrong' | undefined;
     }>({});
-    const [, setGameTime] = useState(0);
-    const [lastAddedImages, setLastAddedImages] = useState<string[]>([]);
-    const [shuffledIndices, setShuffledIndices] = useState<number[]>([]);
-    const [, setTotalSelectedImages] = useState<number>(0);
     const [gameFinished, setGameFinished] = useState<boolean>(false);
-    const [, setWaitingForLastClick] = useState<boolean>(false);
     const [currentClicks, setCurrentClicks] = useState<number>(0);
     const [isClickable, setIsClickable] = useState<boolean>(true);
     const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
 
-    const {
-        addCorrectAnswer,
-        addAllAnswers,
-        setPageStatus,
-    } = useActions();
-    const { level, items, time } = useGameSettings();
+    const { addCorrectAnswer, addAllAnswers } = useActions();
+    const { level, items } = useGameSettings<number>();
+    const finish = useGameFinish();
 
     useEffect(() => {
         startGame();
@@ -79,25 +87,30 @@ const ShadowTheaterGame: React.FC = () => {
 
     useEffect(() => {
         if (!isGameStarted && shownImages.length > 0) {
-            const timerId = setTimeout(() => {
-                handleGameStart();
-            }, 1500);
-            return () => clearTimeout(timerId);
+            //const timerId = setTimeout(() => {
+            handleGameStart();
+            //}, 1500);
+            //return () => clearTimeout(timerId);
         }
     }, [isGameStarted, shownImages]);
 
     const startGame = () => {
-        const initialImages = getRandomImages(
-            images,
-            shownImages,
-            clickedImages,
-            2,
-        );
-        setShownImages(initialImages);
-        setLastAddedImages(initialImages);
-        setShuffledIndices(
-            shuffleArray(Array.from(Array(images.length).keys())),
-        );
+        if (isAccess) {
+            const initialImages = getRandomImages(
+                images,
+                shownImages,
+                clickedImages,
+                2
+            );
+
+            updateStorage('shownImages', initialImages);
+            updateStorage('lastAddedImages', initialImages);
+            updateStorage(
+                'shuffledIndices',
+                shuffleArray(Array.from(Array(images.length).keys()))
+            );
+        }
+
         setTimeout(() => {
             setIsGameStarted(false);
         }, 1000);
@@ -105,7 +118,7 @@ const ShadowTheaterGame: React.FC = () => {
 
     const handleGameStart = () => {
         setIsGameStarted(true);
-        addNewImages();
+        //addNewImages();
     };
 
     const handleImageClick = (image: string) => {
@@ -143,7 +156,6 @@ const ShadowTheaterGame: React.FC = () => {
                         setCurrentClicks(0);
                     }
                 } else {
-
                     setImageFeedback((prev) => ({ ...prev, [image]: 'wrong' }));
                     setClickedImages((prev) => [...prev, image]);
                     addAllAnswers();
@@ -182,46 +194,35 @@ const ShadowTheaterGame: React.FC = () => {
         }, 1000);
     };
 
-    useLayoutEffect(() => {
-        if (gameFinished) {
-            resetGame();
+    useWsAction((name, params = {}) => {
+        if (name === 'click') {
+            handleImageClick(params.image);
         }
-    }, [gameFinished, setPageStatus]);
-
-    const resetGame = () => {
-        setShownImages([]);
-        setClickedImages([]);
-        setScore(0);
-        setImageFeedback({});
-        setLastAddedImages([]);
-        setTotalSelectedImages(0);
-        setGameFinished(false);
-        setWaitingForLastClick(false);
-        setGameTime(0);
-        setCurrentClicks(0);
-    };
+    });
 
     const addNewImages = () => {
         if (shownImages.length >= 20) {
             setGameFinished(true);
             setTimeout(() => {
-                setPageStatus('finish');
+                finish();
             }, 1000);
             return;
         }
 
-        const newImagesToAdd = getRandomImages(
-            images,
-            shownImages,
-            clickedImages,
-            items,
-        );
-        const combinedImages = shuffleArray([
-            ...shownImages,
-            ...newImagesToAdd,
-        ]);
-        setShownImages(combinedImages);
-        setLastAddedImages(newImagesToAdd);
+        if (isAccess) {
+            const newImagesToAdd = getRandomImages(
+                images,
+                shownImages,
+                clickedImages,
+                items
+            );
+            const combinedImages = shuffleArray([
+                ...shownImages,
+                ...newImagesToAdd,
+            ]);
+            updateStorage('shownImages', combinedImages);
+            updateStorage('lastAddedImages', newImagesToAdd);
+        }
     };
 
     return (
@@ -230,10 +231,21 @@ const ShadowTheaterGame: React.FC = () => {
                 {shuffledIndices.map((index) => (
                     <div
                         key={index}
-                        className={`${styles.imageContainer} ${imageFeedback[shownImages[index]] === 'correct' ? styles.correct : ''} ${imageFeedback[shownImages[index]] === 'wrong' ? styles.wrong : ''}`}
+                        className={`${styles.imageContainer} ${
+                            imageFeedback[shownImages[index]] === 'correct'
+                                ? styles.correct
+                                : ''
+                        } ${
+                            imageFeedback[shownImages[index]] === 'wrong'
+                                ? styles.wrong
+                                : ''
+                        }`}
                         onClick={
                             isGameStarted
-                                ? () => handleImageClick(shownImages[index])
+                                ? () =>
+                                      sendAction('click', {
+                                          image: shownImages[index],
+                                      })
                                 : undefined
                         }
                         style={{
@@ -253,7 +265,6 @@ const ShadowTheaterGame: React.FC = () => {
         </div>
     );
 };
-
 
 export const ShadowTheater = () =>
     register(ShadowTheaterGame, (settings) => ({
@@ -325,4 +336,3 @@ export const ShadowTheater = () =>
             { text: 'Время игры', value: toTimeFormat(settings.time) },
         ],
     }));
-

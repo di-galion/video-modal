@@ -19,6 +19,7 @@ export const SocketHelper = () => {
         clearSettings,
         clearStorage,
         setGameName,
+        setLessonMode,
     } = useActions();
     const { role, userCount } = useAccount();
     const { sendAction } = useWebSocket();
@@ -39,7 +40,11 @@ export const SocketHelper = () => {
                 clearSettings();
                 clearStorage();
                 setPageStatus('settings');
+                setLessonMode('game');
                 setGameName(params?.game);
+                break;
+            case 'setMode':
+                setLessonMode(params?.mode);
                 break;
             case 'gameStatus':
                 setPageStatus(params?.status);
@@ -51,6 +56,12 @@ export const SocketHelper = () => {
     });
 
     useEffect(() => {
+        /*console.log(
+            'READY',
+            Number(import.meta.env.VITE_PREVENT_READY),
+            !multiPlayer,
+            userCount >= Number(import.meta.env.VITE_USER_COUNT)
+        );*/
         if (
             Number(import.meta.env.VITE_PREVENT_READY) ||
             !multiPlayer ||

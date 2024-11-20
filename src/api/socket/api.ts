@@ -1,5 +1,6 @@
 import {
     resetUserCount,
+    setReady,
     showNotification,
 } from '../../store/account-data/accountData';
 import {
@@ -14,7 +15,7 @@ export class SocketApi implements WsApi {
     ready: boolean = false;
 
     connect() {
-        const room = localStorage.getItem('ROOM');
+        const room = sessionStorage.getItem('ROOM');
         if (!room) {
             store.dispatch(
                 showNotification({
@@ -30,7 +31,7 @@ export class SocketApi implements WsApi {
         if (this.socket) {
             this.socket.onopen = () => {
                 console.log('[open] Соединение установлено');
-                const token = localStorage.getItem('TOKEN');
+                const token = sessionStorage.getItem('TOKEN');
                 this.socket?.send(`Bearer ${token}`);
                 this.ready = true;
                 this.sendAction('userEnter');
@@ -65,6 +66,7 @@ export class SocketApi implements WsApi {
                 }
 
                 store.dispatch(resetUserCount());
+                store.dispatch(setReady(false));
                 store.dispatch(
                     showNotification({
                         text: 'Соединение разорвано',

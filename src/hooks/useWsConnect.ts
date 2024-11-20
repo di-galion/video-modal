@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { Role } from '../constants/roles.constants';
 
 export const useWsConnect = () => {
-    const [searchParams] = useSearchParams({ role: '', token: '' });
+    const [searchParams] = useSearchParams();
     const { setRole, setMultiplayer } = useActions();
     const { connect } = useWebSocket();
 
@@ -13,21 +13,29 @@ export const useWsConnect = () => {
         const role = searchParams.get('role');
         const token = searchParams.get('token');
         const room = searchParams.get('room');
+        const mode = searchParams.get('mode');
 
         if (role) {
             setRole(role.toUpperCase() as Role);
         }
         if (token) {
-            localStorage.setItem('TOKEN', token);
+            sessionStorage.setItem('TOKEN', token);
         }
         if (room) {
-            localStorage.setItem('ROOM', room);
+            sessionStorage.setItem('ROOM', room);
         }
         if (role && token && room) {
             setMultiplayer(true);
             connect();
-        } else {
+        } else if (
+            (!sessionStorage.getItem('TOKEN') &&
+                !sessionStorage.getItem('ROOM')) ||
+            mode === 'offline'
+        ) {
             setMultiplayer(false);
+        }
+        if (mode === 'offline') {
+            sessionStorage.clear();
         }
     }, [searchParams]);
 };

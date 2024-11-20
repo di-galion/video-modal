@@ -35,7 +35,7 @@ const initialState: IAccountState = {
     ready: false,
     notification: { show: false, text: '', type: 'info' },
     userCount: 0,
-    multiPlayer: false,
+    multiPlayer: true,
 };
 
 const accountData = createSlice({
@@ -86,6 +86,7 @@ export const {
     resetUserCount,
     hideNotification,
     showNotification,
+    setReady,
 } = accountData.actions;
 
 export const accountDataReducer = accountData.reducer;

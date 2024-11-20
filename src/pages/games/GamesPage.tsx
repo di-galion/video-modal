@@ -127,7 +127,11 @@ const gamesList: Record<
 > = {
     'mult-table': {
         title: 'Таблица умножения',
-        items: [{ game: 'multTable' }],
+        items: [
+            { game: 'multTable' },
+            { game: 'mountainTrail' },
+            { game: 'invasion' },
+        ],
     },
     'mental-arithmetics': {
         title: 'Ментальная арифметика',

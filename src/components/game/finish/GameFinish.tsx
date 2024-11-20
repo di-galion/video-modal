@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
-import { useTypedSelector } from "../../../hooks/useTypedSelector.ts";
-import { useCalculateFinishStars, useStarsForAnswers, useStarsAnswersTimeMode } from "../../../hooks/finishStars.ts";
+import { useTypedSelector } from '../../../hooks/useTypedSelector.ts';
+import {
+    useCalculateFinishStars,
+    useStarsForAnswers,
+    useStarsAnswersTimeMode,
+} from '../../../hooks/finishStars.ts';
 import {
     useGameData,
     useGameResult,
@@ -15,9 +19,9 @@ import styles from './styles.module.scss';
 export const GameFinish = () => {
     const result = useGameResult();
     const [, setStatus] = useGameStatus();
-    const { level = 1, mode } = useGameSettings();
+    const { level = 1, mode } = useGameSettings<number>();
     const { starCalculationMode } = useTypedSelector((state) => state.gameData);
-    console.log(starCalculationMode, level, mode, result.time)
+    //console.log(starCalculationMode, level, mode, result.time)
 
     const handleClick = () => {
         setStatus('start');
@@ -29,12 +33,22 @@ export const GameFinish = () => {
         if (starCalculationMode === 'speed') {
             return useCalculateFinishStars(result.time, mode, level).stars;
         } else if (starCalculationMode === 'speed-correct-mode') {
-            return useStarsAnswersTimeMode(result.correctAnswers, mode, result.time);
+            return useStarsAnswersTimeMode(
+                result.correctAnswers,
+                mode,
+                result.time
+            );
         } else if (starCalculationMode === 'correct') {
             return useStarsForAnswers(result.correctAnswers, result.allAnswers);
         }
         return Math.floor((result.correctAnswers / result.allAnswers) * 3);
-    }, [starCalculationMode, result.correctAnswers, result.allAnswers, result.time, level]);
+    }, [
+        starCalculationMode,
+        result.correctAnswers,
+        result.allAnswers,
+        result.time,
+        level,
+    ]);
 
     return (
         <GameWrapper>

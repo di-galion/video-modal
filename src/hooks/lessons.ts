@@ -5,6 +5,7 @@ import { LESSONS_MAP } from '../constants/lessonsMap';
 import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
 import { useGameName } from './game';
 import { GAME_DATA_MAP } from '../constants/game.contants';
+import { useWebSocket } from '../api/socket/useWebSocket';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -68,9 +69,10 @@ export function useGameLessonMode(): [
     (mode: GameLessonMode) => void
 ] {
     const { mode } = useTypedSelector((state) => state.lessonsData);
-    const { setLessonMode } = useActions();
+    //const { setLessonMode } = useActions();
+    const { setGameMode } = useWebSocket();
 
-    return [mode, setLessonMode];
+    return [mode, setGameMode];
 }
 
 export function useLessonGameList() {

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useGame } from '../../hooks/game';
 import { wsApi } from './api';
 import { GameStatus } from '../../typings/game.module';
+import { GameLessonMode } from '../../typings/lesson.module';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();
@@ -26,6 +27,10 @@ export function useWebSocket() {
         sendAction('gameStatus', { status });
     };
 
+    const setGameMode = (mode: GameLessonMode) => {
+        sendAction('setMode', { mode });
+    };
+
     return {
         storage,
         sendStorageData,
@@ -33,6 +38,7 @@ export function useWebSocket() {
         connect,
         gotoGame,
         setGameStatus,
+        setGameMode,
     };
 }
 
