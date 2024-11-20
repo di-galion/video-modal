@@ -68,7 +68,7 @@ const ShadowTheaterGame: React.FC = () => {
 
     const {
         addCorrectAnswer,
-        addAnswer,
+        addAllAnswers,
         setPageStatus,
     } = useActions();
     const { level, items } = useGameSettings();
@@ -123,7 +123,7 @@ const ShadowTheaterGame: React.FC = () => {
                         ...prev,
                         [image]: 'correct',
                     }));
-                    addAnswer();
+                    addAllAnswers();
                     addCorrectAnswer();
 
                     setCurrentClicks((prevClicks) => prevClicks + 1);
@@ -147,7 +147,7 @@ const ShadowTheaterGame: React.FC = () => {
 
                     setImageFeedback((prev) => ({ ...prev, [image]: 'wrong' }));
                     setClickedImages((prev) => [...prev, image]);
-                    addAnswer();
+                    addAllAnswers();
 
                     setTimeout(() => {
                         setImageFeedback((prev) => ({
@@ -326,3 +326,4 @@ export const ShadowTheater = () =>
             { text: 'Время игры', value: toTimeFormat(settings.time) },
         ],
     }));
+

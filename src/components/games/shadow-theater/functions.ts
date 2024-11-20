@@ -24,8 +24,4 @@ export const shuffleArray = <T>(array: T[]): T[] => {
     return newArray.sort(() => Math.random() - 0.5);
 };
 
-export function generateRandomNumberFillArray(from: number, to: number) {
-    return shuffleArray(
-        new Array(to - from + 1).fill(null).map((_, i) => i + from),
-    );
-}
+
