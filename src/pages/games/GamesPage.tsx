@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import { FaLock } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { useActions } from '../../hooks/useActions';
-import { Role } from '../../constants/roles.constants';
 import { useWebSocket } from '../../api/socket/useWebSocket';
 import styles from './styles.module.scss';
 import { useWsIsReady } from '../../api/socket/useWsReady';
@@ -15,6 +14,7 @@ import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
 import { GAME_DATA_MAP } from '../../constants/game.contants';
 import { createPath } from '../../utils/createPath';
+import { useWsConnect } from '../../hooks/useWsConnect';
 
 export const GamesPage = () => {
     const backgroundImage = {
@@ -24,26 +24,11 @@ export const GamesPage = () => {
         padding: 0,
     };
 
-    const { role, token, name } = useParams();
-    const { setRole, setSync } = useActions();
-    const { connect } = useWebSocket();
+    const { name } = useParams();
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
 
-    useEffect(() => {
-        if (role) {
-            setRole(role.toUpperCase() as Role);
-        }
-        if (token) {
-            localStorage.setItem('TOKEN', token);
-        }
-        if (role && token) {
-            setSync(true);
-            connect();
-        } else {
-            setSync(false);
-        }
-    }, [role, token]);
+    useWsConnect();
 
     const { clearSettings } = useActions();
 

@@ -10,14 +10,6 @@ const Router: FC<PropsWithChildren> = () => {
         <BrowserRouter basename={import.meta.env.BASE_URL}>
             <Routes>
                 <Route element={<Layout />}>
-                    <Route
-                        path={`/video-module/:name/:role/:token`}
-                        element={<MainPage />}
-                    />
-                    <Route
-                        path={`/games/:name/:role/:token`}
-                        element={<GamesPage />}
-                    />
                     <Route path={`/games/:name`} element={<GamesPage />} />
                     <Route
                         path={`/video-module/:name`}
