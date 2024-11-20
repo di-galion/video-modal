@@ -21,10 +21,10 @@ import item22 from './images/item_22.png';
 import item23 from './images/item_23.png';
 import item24 from './images/item_24.png';
 import { useActions } from '../../../hooks/useActions.ts';
-import { getRandomImages, shuffleArray} from "./functions.ts";
+import { getRandomImages, shuffleArray } from "./functions.ts";
 import { useGameSettings } from '../../../hooks/game.ts';
 import { register } from '../../../providers/game/register.tsx';
-import { toTimeFormat } from '../../../utils/timeToFormat.ts';
+import { toTimeFormat} from "../../../utils";
 
 const images = [
     item0,
@@ -254,6 +254,7 @@ const ShadowTheaterGame: React.FC = () => {
         </div>
     );
 };
+
 
 export const ShadowTheater = () =>
     register(ShadowTheaterGame, (settings) => ({

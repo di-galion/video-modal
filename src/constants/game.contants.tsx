@@ -17,6 +17,7 @@ import { FlashCards } from '../components/games/flash-cards/FlashCards';
 import { createPath } from '../utils/createPath';
 import { AboriginalsRiddles } from '../components/games/abarigens-riddles/aboriginalsRiddles';
 import { ShadowTheater } from '../components/games/shadow-theater/ShadowTheater.tsx';
+import SettingItems from "../components/settings/setting-items/SettingItems.tsx";
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -59,6 +60,11 @@ export const CONTROLS_MAP = (item: ControlProps) => ({
         <SettingSpeed
             {...(item as ControlPropsOf<'speed'>)}
             key={item.reduxKey}
+        />
+    ),
+    items: () => (
+        <SettingItems {...(item as ControlPropsOf<'items'>)}
+        key={item.reduxKey}
         />
     ),
     numberOfRows: () => (
