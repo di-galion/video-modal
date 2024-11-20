@@ -22,7 +22,9 @@ export const SocketHelper = () => {
     } = useActions();
     const { role, userCount } = useAccount();
     const { sendAction } = useWebSocket();
-    const sync = useTypedSelector((store) => store.accountData.sync);
+    const multiPlayer = useTypedSelector(
+        (store) => store.accountData.multiPlayer
+    );
 
     useWsAction((name, params) => {
         switch (name) {
@@ -43,7 +45,6 @@ export const SocketHelper = () => {
                 setPageStatus(params?.status);
                 break;
             case 'settings':
-                console.log('settings', params?.reduxKey, params?.value);
                 addNewSetting({ [params?.reduxKey]: params?.value });
                 break;
         }
@@ -52,15 +53,15 @@ export const SocketHelper = () => {
     useEffect(() => {
         if (
             Number(import.meta.env.VITE_PREVENT_READY) ||
-            !sync ||
+            !multiPlayer ||
             userCount >= Number(import.meta.env.VITE_USER_COUNT)
         ) {
             sendAction('ready');
         }
-    }, [userCount, sync]);
+    }, [userCount, multiPlayer]);
 
     useWsOnReady(() => {
-        if (isTeacher(role) && sync) {
+        if (isTeacher(role) && multiPlayer) {
             showNotification({
                 text: 'Пользователь вошел в комнату. Можно начинать игру',
                 type: 'info',

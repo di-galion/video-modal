@@ -5,36 +5,18 @@ import { useActions } from '../../hooks/useActions';
 
 import { MainPageWrapper } from './components/MainPageWrapper';
 import { useApiError } from '../../hooks/apiError';
-import { useParams } from 'react-router-dom';
-import { Role } from '../../constants/roles.constants';
 import { showNotification } from '../../store/account-data/accountData';
-import { useWebSocket } from '../../api/socket/useWebSocket';
+import { useWsConnect } from '../../hooks/useWsConnect';
 
 const MainPage = () => {
     const { fetchLessons } = useActions();
     const isError = useApiError();
-    const { role, token } = useParams();
-    const { setRole, setSync } = useActions();
-    const { connect } = useWebSocket();
 
     useEffect(() => {
         fetchLessons();
     }, []);
 
-    useEffect(() => {
-        if (role) {
-            setRole(role.toUpperCase() as Role);
-        }
-        if (token) {
-            localStorage.setItem('TOKEN', token);
-        }
-        if (role && token) {
-            setSync(true);
-            connect();
-        } else {
-            setSync(false);
-        }
-    }, [role, token]);
+    useWsConnect();
 
     useEffect(() => {
         if (isError) {

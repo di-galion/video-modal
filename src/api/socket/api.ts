@@ -14,7 +14,18 @@ export class SocketApi implements WsApi {
     ready: boolean = false;
 
     connect() {
-        this.socket = new WebSocket('ws://127.0.0.1:8001/rooms/1');
+        const room = localStorage.getItem('ROOM');
+        if (!room) {
+            store.dispatch(
+                showNotification({
+                    text: 'Не удалось поключиться. Нет комнаты.',
+                    type: 'error',
+                })
+            );
+        }
+        this.socket = new WebSocket(
+            `${import.meta.env.VITE_SOCKET_SERVER}${room}`
+        );
 
         if (this.socket) {
             this.socket.onopen = () => {
