@@ -1,0 +1,68 @@
+.settingsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.circleButtons {
+    display: flex;
+    justify-content: center;
+    gap: 25px; /* Расстояние между кнопками */
+}
+
+.circleButton {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 3px solid #5d2816; /* Коричневая рамка */
+    background-color: #fdf4e3; /* Светлый фон */
+    font-size: 1.5rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+
+    .buttonText {
+        font-size: 1.2rem;
+        color: #333;
+        position: absolute;
+        bottom: -25px; /* Расположение текста под кнопкой */
+    }
+
+    &.active {
+        background-color: #fdf4e3; /* Светлый фон кнопки */
+        border: 3px solid #8b4513; /* Коричневая рамка */
+        color: #fff;
+        box-shadow:
+            inset 0 2px 5px rgba(0, 0, 0, 0.2),
+            inset -1px -1px 4px rgba(255, 255, 255, 0.6);
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #d2691e, #e58950);
+            box-shadow:
+                inset 1px 1px 5px rgba(255, 255, 255, 0.6),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    &:hover {
+        border-color: #b79c76;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}

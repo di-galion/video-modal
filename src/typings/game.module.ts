@@ -12,6 +12,7 @@ export type GameStatus =
 
 export type TimeDirection = 'right' | 'left';
 export type IGameStateSettings = Record<string, SettingValue>;
+export type StarCalculationMode = 'speed' | 'correct' | 'speed-correct-mode';
 
 export type InfoSetting = {
     title: string;
@@ -34,6 +35,7 @@ export type GameData = {
     settings: ControlProps[];
     start: StartGameProps;
     startTable?: { text: string; value: string | number | number[] }[];
+    starCalculationMode?: StarCalculationMode;
 };
 
 export interface IGameState {
@@ -54,6 +56,7 @@ export interface IGameState {
     state: object;
     currentTime: number;
     timeDirection: TimeDirection;
+    starCalculationMode?: StarCalculationMode
     data: Partial<GameData>;
     syncStorage: Record<string, any>;
     syncAction: Partial<{

@@ -25,6 +25,7 @@ import item19 from './images/coup_img_17.png';
 import { register } from '../../../providers/game/register.tsx';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket.ts';
 import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
+import {useActions} from "../../../hooks/useActions.ts";
 const originalImages = [
     item0,
     item1,
@@ -65,11 +66,15 @@ export const AboriginalsRiddlesGame: FC = () => {
 
     const [clickedImages, setClickedImages] = useState<number[]>([]);
     const [matchedPairs, setMatchedPairs] = useState<Set<number>>(new Set());
+    const [correctAnswers, setCorrectAnswers] = useState<number>(0);
     const [shakeImages, setShakeImages] = useState<number[]>([]);
     const [flippedImages, setFlippedImages] = useState<Set<number>>(new Set());
+    const [inputValue, setInputValue] = useState<string>('');
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+
     const { level } = useGameSettings();
     const { sendAction } = useWebSocket();
-
+    const { addCorrectAnswer, addAllAnswers } = useActions();
     const finish = useGameFinish();
 
     useEffect(() => {
@@ -82,6 +87,34 @@ export const AboriginalsRiddlesGame: FC = () => {
         setMatchedPairs(new Set());
         setFlippedImages(new Set());
         setShakeImages([]);
+        setInputValue('');
+        setIsAnswerCorrect(null);
+    };
+
+    const handleCorrectAnswer = useCallback(() => {
+        setCorrectAnswers((prev) => prev + 1);
+        sendAction('correctAnswer', { count: correctAnswers + 1 });
+        addCorrectAnswer();
+        addAllAnswers()
+    }, [correctAnswers]);
+
+    const checkAnswer = () => {
+        if (!inputValue) return;
+
+        const isCorrect = inputValue === correctAnswers.toString();
+        setIsAnswerCorrect(isCorrect);
+        addAllAnswers();
+
+        if (isCorrect) {
+            handleCorrectAnswer();
+        } else {
+            setInputValue(correctAnswers.toString());
+        }
+
+        setTimeout(() => {
+            setIsAnswerCorrect(null);
+            setInputValue('');
+        }, 1000);
     };
 
     const handleImageClick = (index: number) => {
@@ -106,6 +139,8 @@ export const AboriginalsRiddlesGame: FC = () => {
                 setMatchedPairs((prev) =>
                     new Set(prev).add(firstIndex).add(secondIndex)
                 );
+
+                handleCorrectAnswer();
 
                 setTimeout(() => {
                     setClickedImages([]);
@@ -139,8 +174,18 @@ export const AboriginalsRiddlesGame: FC = () => {
             case 'click':
                 handleImageClick(params.index);
                 break;
+            case 'correctAnswer':
+                setCorrectAnswers(params.count);
+                break;
+            case 'check':
+                checkAnswer();
+                break;
+            case 'input':
+                setInputValue(params.value);
+                break;
         }
     });
+
 
     return (
         <div className={styles.memoryGame}>
@@ -182,6 +227,7 @@ export const AboriginalsRiddles = () =>
     register(AboriginalsRiddlesGame, () => ({
         timeDirection: 'right',
         title: 'Загадки аборигенов',
+        starCalculationMode: 'speed',
         infoSettings: [
             {
                 title: 'Уровень',

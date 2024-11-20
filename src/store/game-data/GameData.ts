@@ -5,6 +5,7 @@ import {
     IGameState,
     IGameStateSettings,
     TimeDirection,
+    StarCalculationMode
 } from '../../typings/game.module';
 
 const initialState: IGameState = {
@@ -25,6 +26,7 @@ const initialState: IGameState = {
     state: {},
     currentTime: 0,
     timeDirection: 'left',
+    starCalculationMode: 'speed-correct-mode',
     data: {},
     syncStorage: {},
     syncAction: {},
@@ -60,6 +62,12 @@ const gameData = createSlice({
         },
         setCurrentTime: (state, action: PayloadAction<number>) => {
             state.currentTime = action.payload;
+        },
+        setStarCalculationMode: (
+            state,
+            action: PayloadAction<StarCalculationMode>,
+        ) => {
+            state.starCalculationMode = action.payload;
         },
         setStars: (state, action: PayloadAction<number>) => {
             state.result.stars = action.payload;

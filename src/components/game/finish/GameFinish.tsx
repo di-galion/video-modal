@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { useTypedSelector } from "../../../hooks/useTypedSelector.ts";
+import { useCalculateFinishStars } from "../../games/abarigens-riddles/finctions.ts";
 import {
     useGameData,
     useGameResult,
@@ -13,7 +15,9 @@ import styles from './styles.module.scss';
 export const GameFinish = () => {
     const result = useGameResult();
     const [, setStatus] = useGameStatus();
-    const { level = 1 } = useGameSettings();
+    const { level = 1, mode } = useGameSettings();
+    const { starCalculationMode } = useTypedSelector((state) => state.gameData);
+    console.log(starCalculationMode, level, mode, result.time)
 
     const handleClick = () => {
         setStatus('start');
@@ -21,11 +25,15 @@ export const GameFinish = () => {
 
     const { title = '' } = useGameData() || {};
 
-    const starCount = useMemo(
-        () => Math.floor((result.correctAnswers / result.allAnswers) * 3),
-        [result]
-    );
+    const starCount = useMemo(() => {
+        if (starCalculationMode === 'speed') {
+            console.log(starCalculationMode, 'star')
+            return useCalculateFinishStars(result.time, mode, level)
+        }
 
+        return Math.floor((result.correctAnswers / result.allAnswers) * 3);
+    }, [starCalculationMode, result.correctAnswers, result.allAnswers, result.time, level]);
+    console.log(starCount, 'count')
     return (
         <GameWrapper>
             <div className={styles.finish}>
