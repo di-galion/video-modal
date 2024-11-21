@@ -4,6 +4,7 @@ import { GameStatus, SettingValue } from '../typings/game.module';
 import { useTypedSelector } from './useTypedSelector';
 import { useTimer } from '../components/timer/useTimer';
 import { useWebSocket } from '../api/socket/useWebSocket';
+import { WsSystemAction } from '../api/socket/constants';
 
 export function useValue<T extends SettingValue>(
     reduxKey: string,
@@ -18,7 +19,7 @@ export function useValue<T extends SettingValue>(
     }, [gameSetting]);
 
     const setValue = (value: T) => {
-        sendAction('settings', { reduxKey, value });
+        sendAction(WsSystemAction.Settings, { reduxKey, value });
     };
 
     useEffect(() => {
@@ -98,5 +99,3 @@ export function useTimeDirection() {
     const { timeDirection = 'left' } = useGameData();
     return timeDirection;
 }
-
-

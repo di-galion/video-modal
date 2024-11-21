@@ -30,7 +30,7 @@ const initialState: IAccountState = {
     me: { id: 1, name: 'Иван Михайлов', online: true },
     students: [
         { id: 1, name: 'Иван Михайлов', online: false },
-        { id: 1, name: 'Иван Михайлов', online: false },
+        { id: 2, name: 'Михаил Иванов', online: false },
     ],
     ready: false,
     notification: { show: false, text: '', type: 'info' },

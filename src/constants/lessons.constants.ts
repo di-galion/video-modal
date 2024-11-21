@@ -1,21 +1,21 @@
 import { ILesson } from '../typings/lesson.module';
 
 export const LESSONS: ILesson[] = [
-    /*{
+    {
         title: 'Приветствие',
         secondTitle: '',
         status: true,
         index: 0,
         name: 'welcome',
-    },*/
-    {
+    },
+    /*{
         title: 'Игры',
         secondTitle: 'Таблица умножения',
         status: true,
         index: 0,
         name: 'game',
         games: ['mountainTrail', 'multTable', 'invasion', 'flashCards'],
-    },
+    },*/
     {
         title: 'Проверка знаний',
         secondTitle: 'Реши задачи с микробами на состав числа 10',

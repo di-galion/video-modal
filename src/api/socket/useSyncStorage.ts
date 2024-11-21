@@ -15,12 +15,9 @@ export function useSyncStorage<T extends Record<string, any>>() {
 
     const { sendStorageData } = useWebSocket();
 
-    function updateStorage<Name extends Partial<keyof T>>(
-        name: Name,
-        value: T[Name]
-    ) {
+    function updateStorage(data: Partial<T>) {
         if (isTeacher(role) || !multiPlayer) {
-            sendStorageData(name as string, value);
+            sendStorageData(data);
         }
     }
 

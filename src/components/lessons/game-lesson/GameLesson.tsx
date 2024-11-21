@@ -7,7 +7,6 @@ import {
 } from '../../../hooks/lessons';
 import { GameList } from './game-list/GameList';
 import { Game } from '../../game/Game';
-import { useWebSocket } from '../../../api/socket/useWebSocket';
 
 export const GameLesson = () => {
     const { clearSettings, clearResult, clearStorage } = useActions();
@@ -15,12 +14,9 @@ export const GameLesson = () => {
     const [, setGameName] = useGameName();
     const [mode, setMode] = useGameLessonMode();
     const lessonIndex = useCurrentLessonIndex();
-    const { connect } = useWebSocket();
 
     const handleSelectGame = (name: string) => {
         setGameName(name);
-        setMode('game');
-        connect();
     };
 
     useEffect(() => {

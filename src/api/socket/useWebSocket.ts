@@ -3,12 +3,13 @@ import { useGame } from '../../hooks/game';
 import { wsApi } from './api';
 import { GameStatus } from '../../typings/game.module';
 import { GameLessonMode } from '../../typings/lesson.module';
+import { WsSystemAction } from './constants';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();
 
-    const sendStorageData = (name: string, value: any) => {
-        wsApi.sendMessage(name, value);
+    const sendStorageData = (data: Record<string, any>) => {
+        wsApi.sendMessage(data);
     };
 
     const sendAction = (name: string, params?: Record<string, any>) => {
@@ -20,15 +21,15 @@ export function useWebSocket() {
     };
 
     const gotoGame = (game: string) => {
-        sendAction('gotoGame', { game });
+        sendAction(WsSystemAction.GotoGame, { game });
     };
 
     const setGameStatus = (status: GameStatus) => {
-        sendAction('gameStatus', { status });
+        sendAction(WsSystemAction.GameStatus, { status });
     };
 
     const setGameMode = (mode: GameLessonMode) => {
-        sendAction('setMode', { mode });
+        sendAction(WsSystemAction.SetMode, { mode });
     };
 
     return {

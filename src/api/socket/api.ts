@@ -6,9 +6,10 @@ import {
 import {
     updateSyncAction,
     updateSyncStorage,
-} from '../../store/game-data/gameData';
+} from '../../store/game-data/gamesData';
 import { store } from '../../store/store';
 import { WsApi } from './baseApi';
+import { WsSystemAction } from './constants';
 
 export class SocketApi implements WsApi {
     socket: WebSocket | null = null;
@@ -34,7 +35,7 @@ export class SocketApi implements WsApi {
                 const token = sessionStorage.getItem('TOKEN');
                 this.socket?.send(`Bearer ${token}`);
                 this.ready = true;
-                this.sendAction('userEnter');
+                this.sendAction(WsSystemAction.Ready);
             };
         }
 
@@ -43,9 +44,9 @@ export class SocketApi implements WsApi {
                 console.log(
                     `[message] Данные получены с сервера: ${event.data}`
                 );
-                const { name, value, type, params } = JSON.parse(event.data);
+                const { name, data, type, params } = JSON.parse(event.data);
                 if (type === 'message') {
-                    this.onMessage(name, value);
+                    this.onMessage(data);
                 } else if (type === 'action') {
                     this.onAction(name, params);
                 }
@@ -83,11 +84,11 @@ export class SocketApi implements WsApi {
         }
     }
 
-    sendMessage(name: string, value: any) {
+    sendMessage(data: Record<string, string>) {
         if (this.socket && this.ready) {
-            this.socket.send(JSON.stringify({ type: 'message', name, value }));
+            this.socket.send(JSON.stringify({ type: 'message', data }));
         }
-        this.onMessage(name, value);
+        this.onMessage(data);
     }
 
     sendAction(name: string, params?: Record<string, any>) {
@@ -97,9 +98,9 @@ export class SocketApi implements WsApi {
         this.onAction(name, params);
     }
 
-    onMessage(name: string, value: any) {
-        if (value) {
-            store.dispatch(updateSyncStorage({ [name]: value }));
+    onMessage(data: Record<string, string>) {
+        if (data) {
+            store.dispatch(updateSyncStorage(data));
         }
     }
 

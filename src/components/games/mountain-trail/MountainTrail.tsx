@@ -102,14 +102,13 @@ const MountainTrailGame = () => {
 
     useEffect(() => {
         if (step <= length - 1) {
-            updateStorage(
-                'data',
-                createShapeData(
+            updateStorage({
+                data: createShapeData(
                     getNumber(step),
                     getConstant(step),
                     getCount(step)
-                )
-            );
+                ),
+            });
         }
     }, [theme, step]);
 

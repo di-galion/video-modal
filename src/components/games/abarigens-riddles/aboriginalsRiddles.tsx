@@ -25,7 +25,7 @@ import item19 from './images/coup_img_17.png';
 import { register } from '../../../providers/game/register.tsx';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket.ts';
 import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
-import {useActions} from "../../../hooks/useActions.ts";
+import { useActions } from '../../../hooks/useActions.ts';
 const originalImages = [
     item0,
     item1,
@@ -61,7 +61,7 @@ export const AboriginalsRiddlesGame: FC = () => {
     }>();
 
     const setShownImages = useCallback((shownImages: string[]) => {
-        updateStorage('shownImages', shownImages);
+        updateStorage({ shownImages: shownImages });
     }, []);
 
     const [clickedImages, setClickedImages] = useState<number[]>([]);
@@ -70,7 +70,6 @@ export const AboriginalsRiddlesGame: FC = () => {
     const [shakeImages, setShakeImages] = useState<number[]>([]);
     const [flippedImages, setFlippedImages] = useState<Set<number>>(new Set());
     const [inputValue, setInputValue] = useState<string>('');
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
 
     const { level } = useGameSettings();
     const { sendAction } = useWebSocket();
@@ -88,21 +87,19 @@ export const AboriginalsRiddlesGame: FC = () => {
         setFlippedImages(new Set());
         setShakeImages([]);
         setInputValue('');
-        setIsAnswerCorrect(null);
     };
 
     const handleCorrectAnswer = useCallback(() => {
         setCorrectAnswers((prev) => prev + 1);
         sendAction('correctAnswer', { count: correctAnswers + 1 });
         addCorrectAnswer();
-        addAllAnswers()
+        addAllAnswers();
     }, [correctAnswers]);
 
     const checkAnswer = () => {
         if (!inputValue) return;
 
         const isCorrect = inputValue === correctAnswers.toString();
-        setIsAnswerCorrect(isCorrect);
         addAllAnswers();
 
         if (isCorrect) {
@@ -112,7 +109,6 @@ export const AboriginalsRiddlesGame: FC = () => {
         }
 
         setTimeout(() => {
-            setIsAnswerCorrect(null);
             setInputValue('');
         }, 1000);
     };
@@ -185,7 +181,6 @@ export const AboriginalsRiddlesGame: FC = () => {
                 break;
         }
     });
-
 
     return (
         <div className={styles.memoryGame}>

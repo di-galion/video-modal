@@ -7,6 +7,7 @@ import { Notification } from '../notification/Notification';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { WsSystemAction } from '../../api/socket/constants';
 
 export const SocketHelper = () => {
     const {
@@ -29,13 +30,13 @@ export const SocketHelper = () => {
 
     useWsAction((name, params) => {
         switch (name) {
-            case 'userEnter':
+            case WsSystemAction.UserEnter:
                 addUserCount();
                 break;
-            case 'ready':
+            case WsSystemAction.Ready:
                 setReady(true);
                 break;
-            case 'gotoGame':
+            case WsSystemAction.GotoGame:
                 clearResult();
                 clearSettings();
                 clearStorage();
@@ -43,13 +44,13 @@ export const SocketHelper = () => {
                 setLessonMode('game');
                 setGameName(params?.game);
                 break;
-            case 'setMode':
+            case WsSystemAction.SetMode:
                 setLessonMode(params?.mode);
                 break;
-            case 'gameStatus':
+            case WsSystemAction.GameStatus:
                 setPageStatus(params?.status);
                 break;
-            case 'settings':
+            case WsSystemAction.Settings:
                 addNewSetting({ [params?.reduxKey]: params?.value });
                 break;
         }
@@ -67,7 +68,7 @@ export const SocketHelper = () => {
             !multiPlayer ||
             userCount >= Number(import.meta.env.VITE_USER_COUNT)
         ) {
-            sendAction('ready');
+            sendAction(WsSystemAction.Ready);
         }
     }, [userCount, multiPlayer]);
 

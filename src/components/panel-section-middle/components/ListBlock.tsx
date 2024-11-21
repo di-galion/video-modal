@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import styles from '../styles.module.scss';
 import { useAccount } from '../../../hooks/account';
+import React from 'react';
 
 export const ListBlock = () => {
     const { students } = useAccount();
@@ -9,7 +10,7 @@ export const ListBlock = () => {
         <div className={styles.list__margin10}>
             <div className={styles.list__items}>
                 {students.map((student) => (
-                    <>
+                    <React.Fragment key={student.id}>
                         <button className={styles.list__button}>
                             <span className={styles.list__ratio}></span>
                             {student.name}
@@ -19,7 +20,7 @@ export const ListBlock = () => {
                                 [styles.list__status_red]: !student.online,
                             })}
                         ></span>
-                    </>
+                    </React.Fragment>
                 ))}
             </div>
         </div>
