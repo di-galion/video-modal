@@ -35,7 +35,7 @@ export class SocketApi implements WsApi {
                 const token = sessionStorage.getItem('TOKEN');
                 this.socket?.send(`Bearer ${token}`);
                 this.ready = true;
-                this.sendAction(WsSystemAction.Ready);
+                this.sendAction(WsSystemAction.UserEnter);
             };
         }
 

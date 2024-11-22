@@ -48,16 +48,16 @@ export function useLessonSwitcher() {
 }
 
 export function useLessonPager() {
-    const change = useLessonSwitcher();
+    const { selectLesson } = useWebSocket();
     const index = useCurrentLessonIndex();
     const lessons = useLessons();
 
     const next = useCallback(
-        () => index < lessons.length - 1 && change(index + 1),
+        () => index < lessons.length - 1 && selectLesson(index + 1),
         [index, lessons]
     );
     const prev = useCallback(
-        () => index > 0 && change(index - 1),
+        () => index > 0 && selectLesson(index - 1),
         [index, lessons]
     );
 
@@ -66,13 +66,24 @@ export function useLessonPager() {
 
 export function useGameLessonMode(): [
     GameLessonMode,
-    (mode: GameLessonMode) => void
+    (mode: GameLessonMode, sync?: boolean) => void
 ] {
     const { mode } = useTypedSelector((state) => state.lessonsData);
-    //const { setLessonMode } = useActions();
+    const { setLessonMode } = useActions();
     const { setGameMode } = useWebSocket();
 
-    return [mode, setGameMode];
+    const setMode = useCallback(
+        (mode: GameLessonMode, sync: boolean = true) => {
+            if (sync) {
+                setGameMode(mode);
+            } else {
+                setLessonMode(mode);
+            }
+        },
+        []
+    );
+
+    return [mode, setMode];
 }
 
 export function useLessonGameList() {

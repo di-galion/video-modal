@@ -8,6 +8,7 @@ import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { WsSystemAction } from '../../api/socket/constants';
+import { useLessonSwitcher } from '../../hooks/lessons';
 
 export const SocketHelper = () => {
     const {
@@ -23,12 +24,13 @@ export const SocketHelper = () => {
         setLessonMode,
     } = useActions();
     const { role, userCount } = useAccount();
+    const selectLesson = useLessonSwitcher();
     const { sendAction } = useWebSocket();
     const multiPlayer = useTypedSelector(
         (store) => store.accountData.multiPlayer
     );
 
-    useWsAction((name, params) => {
+    useWsAction((name, params = {}) => {
         switch (name) {
             case WsSystemAction.UserEnter:
                 addUserCount();
@@ -42,16 +44,19 @@ export const SocketHelper = () => {
                 clearStorage();
                 setPageStatus('settings');
                 setLessonMode('game');
-                setGameName(params?.game);
+                setGameName(params.game);
                 break;
             case WsSystemAction.SetMode:
-                setLessonMode(params?.mode);
+                setLessonMode(params.mode);
                 break;
             case WsSystemAction.GameStatus:
-                setPageStatus(params?.status);
+                setPageStatus(params.status);
                 break;
             case WsSystemAction.Settings:
-                addNewSetting({ [params?.reduxKey]: params?.value });
+                addNewSetting({ [params.reduxKey]: params.value });
+                break;
+            case WsSystemAction.SelectLesson:
+                selectLesson(params.index);
                 break;
         }
     });

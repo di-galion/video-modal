@@ -1,19 +1,12 @@
 import styles from './styles.module.scss';
 import { PanelItem } from './components/PanelItem';
-import {
-    useCurrentLessonIndex,
-    useLessons,
-    useLessonSwitcher,
-} from '../../hooks/lessons';
+import { useCurrentLessonIndex, useLessons } from '../../hooks/lessons';
+import { useWebSocket } from '../../api/socket/useWebSocket';
 
 const PanelItems = () => {
     const current = useCurrentLessonIndex();
-    const changeLesson = useLessonSwitcher();
     const lessons = useLessons();
-
-    const onItemClick = (index: number) => {
-        changeLesson(index);
-    };
+    const { selectLesson } = useWebSocket();
 
     return (
         <div className={styles.content}>
@@ -21,7 +14,7 @@ const PanelItems = () => {
                 return (
                     <PanelItem
                         key={index}
-                        onItemClick={onItemClick}
+                        onItemClick={selectLesson}
                         index={index}
                         current={current}
                         item={item}

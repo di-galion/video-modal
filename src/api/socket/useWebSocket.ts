@@ -32,6 +32,10 @@ export function useWebSocket() {
         sendAction(WsSystemAction.SetMode, { mode });
     };
 
+    const selectLesson = (index: number) => {
+        sendAction(WsSystemAction.SelectLesson, { index });
+    };
+
     return {
         storage,
         sendStorageData,
@@ -40,6 +44,7 @@ export function useWebSocket() {
         gotoGame,
         setGameStatus,
         setGameMode,
+        selectLesson,
     };
 }
 

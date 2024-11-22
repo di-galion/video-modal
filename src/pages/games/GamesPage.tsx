@@ -82,13 +82,13 @@ export const GameCover = ({
     //const navigate = useNavigate();
 
     const { gotoGame } = useWebSocket();
-    const [, setMode] = useGameLessonMode();
+    //const [, setMode] = useGameLessonMode();
 
     const goToGame = () => {
         if (!isLocked && isReady) {
             //const link = `${URL_MAIN}game/${game}`;
             //navigate(link);
-            setMode('game');
+            //setMode('game');
             gotoGame(game);
         }
     };

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useActions } from './useActions';
 import { GameStatus, SettingValue } from '../typings/game.module';
 import { useTypedSelector } from './useTypedSelector';
@@ -28,25 +28,27 @@ export function useValue<T extends SettingValue>(
 
     return [value, setValue];
 }
-/*
-export const useChangeGameSetting = (reduxKey: string, value: SettingValue) => {
-    const { addNewSetting } = useActions();
-    useEffect(() => {
-        addNewSetting({ [reduxKey]: value });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
-};*/
 
 export const useGame = () => {
     const data = useTypedSelector((state) => state.gameData);
     return data;
 };
 
-export const useGameName: () => [string, (gameName: string) => void] = () => {
+export const useGameName: () => [
+    string,
+    (gameName: string, sync?: boolean) => void
+] = () => {
     const { gameName } = useTypedSelector((state) => state.gameData);
-    //const { setGameName } = useActions();
+    const { setGameName } = useActions();
     const { gotoGame } = useWebSocket();
-    return [gameName, gotoGame];
+    const setGame = useCallback((gameName: string, sync = true) => {
+        if (sync) {
+            gotoGame(gameName);
+        } else {
+            setGameName(gameName);
+        }
+    }, []);
+    return [gameName, setGame];
 };
 
 export function useGameSettings<T extends SettingValue = SettingValue>() {
@@ -56,12 +58,19 @@ export function useGameSettings<T extends SettingValue = SettingValue>() {
 
 export const useGameStatus: () => [
     GameStatus,
-    (status: GameStatus) => void
+    (status: GameStatus, sync?: boolean) => void
 ] = () => {
     const { status } = useGame();
-    //const { setPageStatus } = useActions();
+    const { setPageStatus } = useActions();
     const { setGameStatus } = useWebSocket();
-    return [status, setGameStatus];
+    const setStatus = useCallback((status: GameStatus, sync = true) => {
+        if (sync) {
+            setGameStatus(status);
+        } else {
+            setPageStatus(status);
+        }
+    }, []);
+    return [status, setStatus];
 };
 
 export const useGameCurrentTime: () => [
