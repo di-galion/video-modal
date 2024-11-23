@@ -1,7 +1,7 @@
 import {
     updateSyncAction,
     updateSyncStorage,
-} from '../../store/game-data/gameData';
+} from '../../store/game-data/GameData';
 import { store } from '../../store/store';
 import { WsApi } from './baseApi';
 
