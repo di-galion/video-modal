@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useValue } from '../../../hooks/game';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
-import SliderCustom from "../slider/Slider.tsx";
+import RankSlider from "../rank-slider/RankSlider.tsx";
 import { ControlPropsOf } from '../../../typings/settings.module';
 import { useState } from "react";
 
@@ -44,7 +44,7 @@ const SettingRankOfNumbers: FC<SettingRankOfNumbersProps> = ({
     return (
         <SettingsWrapper disabled={disabled} title={title}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <SliderCustom
+                <RankSlider
                     value={value}
                     min={settings.min}
                     max={settings.max}

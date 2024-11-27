@@ -2,74 +2,47 @@ import Slider from 'rc-slider';
 import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import './styles.scss';
-import { SettingsOf } from "../../../typings/settings.module.ts";
+import { SettingsOf } from '../../../typings/settings.module';
 
 interface SliderCustomProps extends Partial<SettingsOf<'level'>> {
-    variant?: string;
     onChange: (value: number) => void;
-    customValues?: string[];
 }
 
 const SliderCustom: FC<SliderCustomProps> = ({
-                                                 min = 1,
-                                                 max = 5,
-                                                 step = 1,
-                                                 defaultValue,
-                                                 onChange,
-                                                 customValues,
-                                             }) => {
-    const [value, setValue] = useState<number>(defaultValue || min);
-
+    min = 1,
+    max = 5,
+    step = 1,
+    defaultValue,
+    onChange,
+    variant = 'speed',
+    value,
+}) => {
     const onChangeHandler = (value: number | number[]) => {
-        const newValue = Array.isArray(value) ? value[0] : value;
-        setValue(newValue);
-
-        if (customValues) {
-            onChange(Number(customValues[newValue]));
-        } else {
-            onChange(newValue);
-        }
+        onChange(Array.isArray(value) ? value[0] : value);
     };
-
-    const [marks, setMarks] = useState<{ [key: number]: React.ReactNode }>({});
-
+    const [marks, setMarks] = useState({});
     useEffect(() => {
-        if (customValues) {
-            const customMarks: { [key: number]: React.ReactNode } = {};
-            customValues.forEach((val, index) => {
-                customMarks[index] = (
-                    <span className={`${styles.customMark}`} style={{ left: `${(index / (customValues.length - 1)) * 100}%` }}>
-                        {val}
-                    </span>
-                );
-            });
-            setMarks(customMarks);
-        } else {
-            setMarks({
-                [min]: (
-                    <span className={`${styles.customMark} ${styles.markLeft}`}>
-                        {min}
-                    </span>
-                ),
-                [max]: (
-                    <span className={`${styles.customMark} ${styles.markRight}`}>
-                        {max}
-                    </span>
-                ),
-            });
+        const marksObj: Record<number, number> = {};
+        for (let i = 0; i < max - min + 1; i++) {
+            marksObj[min + i] = min + i;
         }
-    }, [min, max, customValues]);
+        setMarks(marksObj);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
-        <div className={styles.sliderContainer}>
-            <Slider
-                value={customValues ? value : value}
-                min={customValues ? 0 : min}
-                max={customValues ? customValues.length - 1 : max}
-                step={customValues ? 1 : step}
-                onChange={onChangeHandler}
-                marks={marks}
-            />
+        <div className={variant}>
+            <div className={styles.controlSlider}>
+                <Slider
+                    value={value}
+                    min={min}
+                    max={max}
+                    step={step}
+                    defaultValue={defaultValue}
+                    onChange={onChangeHandler}
+                    marks={marks}
+                />
+            </div>
         </div>
     );
 };
