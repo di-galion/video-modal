@@ -9,8 +9,8 @@ import bigPullGem from './images/solo-gem(big) (1).png';
 import bigGem from './images/solo-gem(big).png';
 import octagonLeft from './images/walls.png';
 import octagonRight from './images/wallsRight.png'
-import { useGameSettings } from '../../../hooks/game.ts';
-import {register} from "../../../providers/game/register.tsx";
+import { useGameFinish, useGameSettings } from '../../../hooks/game.ts';
+import { register } from "../../../providers/game/register.tsx";
 
 interface Bead {
     id: number;
@@ -21,14 +21,14 @@ interface Bead {
 }
 
 const shapes = [
-    { id: 1, type: 'bigGem' },
-    { id: 2, type: 'bigPullGem' },
-    { id: 3, type: 'topStick' },
-    { id: 4, type: 'bottomStick' },
-    { id: 5, type: 'horizonteStripe' },
-    { id: 6, type: 'verticalLine' },
-    { id: 7, type: 'octagonLeft' },
-    { id: 8, type: 'octagonRight' },
+    { id: 0, type: 'bigGem', position: 0, isPlaced: false },
+    { id: 1, type: 'bigPullGem', position: 1, isPlaced: false },
+    { id: 2, type: 'topStick', position: 2, isPlaced: false },
+    { id: 3, type: 'bottomStick', position: 3, isPlaced: false },
+    { id: 4, type: 'horizonteStripe', position: 4, isPlaced: false },
+    { id: 5, type: 'verticalLine', position: 5, isPlaced: false },
+    { id: 6, type: 'octagonLeft', position: 6, isPlaced: false },
+    { id: 7, type: 'octagonRight', position: 7, isPlaced: false },
 ];
 
 const getImageByType = (type: string) => {
@@ -56,8 +56,8 @@ const getImageByType = (type: string) => {
 
 const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumOfBeads }) => {
     const { numberOfRows, tips } = useGameSettings();
-    const { setPageStatus, addAllAnswers, addCorrectAnswer, setStarCalculationMode, addTime} = useActions();
-
+    const { addAllAnswers, addCorrectAnswer} = useActions();
+    const finish = useGameFinish();
     const initialBeads = shapes.slice(0, initialNumOfBeads).map((shape) => ({
         id: shape.id,
         position: -1,
@@ -75,8 +75,6 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
     const [, setsStickLength] = useState<string>('100%');
     const [, setHorizonteStripe] = useState<string>('100%');
 
-
-
     useEffect(() => {
         if (status === 'game') {
             const timerId = setInterval(() => setGameTime((prev) => prev + 1), 1000);
@@ -86,39 +84,29 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
 
     useEffect(() => {
         if (beads.every((bead) => bead.isPlaced)) {
-            setStatus('finish');
-            addTime(gameTime);
-            setStarCalculationMode('correct')
-            setPageStatus('finish');
+            finish()
         }
-    }, [beads, addTime, gameTime]);
+    }, [beads,  gameTime]);
 
     const handleDrop = (targetSlot, targetRow, rowIndex) => {
-        console.log("Drop called with:", { draggingBeadId, targetSlot, targetRow, rowIndex });
 
         if (!draggingBeadId) {
-            console.warn("No dragging bead!");
             return;
         }
 
         const draggingBeadIdString = String(draggingBeadId);
-        console.log("Dragging bead ID as string:", draggingBeadIdString);
+
 
         const idParts = draggingBeadIdString.split('-');
-        console.log("Parsed ID parts:", idParts);
         if (idParts.length !== 3 || idParts[0] !== 'bead') {
-            console.error("Invalid draggingBeadId format:", draggingBeadIdString);
             return;
         }
 
         const beadId = parseInt(idParts[2], 10);
-        console.log("Parsed bead ID:", beadId);
 
         const beadToPlace = beads.find((bead) => bead.id === beadId);
-        console.log("Bead to place:", beadToPlace);
 
         if (!beadToPlace) {
-            console.error("No bead found for ID:", beadId);
             return;
         }
 
@@ -131,10 +119,8 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
             (beadToPlace.type === 'octagonLeft' && shapes[targetSlot]?.type === 'octagonLeft') ||
             (beadToPlace.type === 'octagonRight' && shapes[targetSlot]?.type === 'octagonRight') ||
             (beadToPlace.type === 'bigPullGem' && shapes[targetSlot]?.type === 'bigPullGem') ||
+            (beadToPlace.type === 'bigGem' && shapes[targetSlot]?.type === 'bigGem') ||
             (targetSlot === beadToPlace.position);
-
-        console.log("Checking position:", { beadToPlace, targetSlot, targetRow, rowIndex });
-        console.log("Is correct position:", isCorrectPosition);
 
         setBeads((prevBeads) =>
             prevBeads.map((bead) => {
@@ -152,10 +138,8 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
     };
 
     const handleDragStart = (beadId) => {
-        console.log("Drag started with beadId:", beadId);
 
         setDraggingBeadId(beadId);
-        console.log("Dragging bead ID set to:", beadId);
 
         const beadElement = document.getElementById(beadId);
         if (beadElement) {
@@ -281,15 +265,8 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
                                                     alt={bead.type}
                                                     style={{
                                                         opacity: bead.isPlaced && bead.position === index ? 1 : 0.5,
-                                                        filter:
-                                                            bead.isPlaced && bead.position === index ||
-                                                            (draggingBeadId === `slot-bead-${rowIndex}-${index}` && tips)
-                                                                ? 'none'
-                                                                : 'grayscale(100%)',
-                                                        backgroundColor:
-                                                            bead.type === 'octagon' && bead.id === 7
-                                                                ? '#fbc130'
-                                                                : 'transparent',
+                                                        filter: bead.isPlaced && bead.position === index || draggingBeadId === bead.id && tips === 1 ? 'none' : 'grayscale(100%)',
+                                                        backgroundColor: bead.type === 'octagon' && bead.id === 7 ? '#fbc130' : 'transparent',
                                                     }}
                                                 />
                                             )}
@@ -379,7 +356,7 @@ export const PuzzleAbacus = () => register(() => <PuzzleAbacusGame initialNumOfB
             title: 'Количество рядов',
             reduxKey: 'numberOfRows',
             settings: {
-                max: 7,
+                max: 6,
                 min: 1,
                 step: 1,
             },
