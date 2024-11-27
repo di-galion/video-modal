@@ -8,10 +8,11 @@ export type ControlType =
     | 'numberOfRows'
     | 'speed'
     | 'items'
-    | 'multiSelect';
+    | 'multiSelect'
+    | 'rankOfNumbers'
 
 export interface IControlSetting {
-    defaultValue?: number | number[];
+    defaultValue?: number | number[] | string | string[];
     value?: number;
 }
 
@@ -41,13 +42,20 @@ export interface IControlSettingNumberOfRows extends IControlSetting {
     min: number;
     step: number;
 }
+export interface IControlSettingsRankOfNumbers extends IControlSetting {
+    min: number;
+    max: number;
+    step: number;
+    values: string[];
+    update?: boolean;
+}
 
 export interface IControlSettingMultiSelect extends IControlSetting {
     values: number[] | undefined;
 }
 
 export interface IControlSettingRatios extends IControlSetting {
-    values: number[] | undefined;
+    values: number[] | string[] | undefined;
 }
 
 export interface IControlSettingTime extends IControlSetting {
@@ -81,6 +89,7 @@ interface SettingsByType extends Record<ControlType, IControlSetting> {
     sliding: IControlSettingSliding;
     multiSelect: IControlSettingMultiSelect;
     items: IControlSettingItems;
+    rankOfNumbers: IControlSettingsRankOfNumbers;
 }
 
 export type SettingsOf<T extends ControlType> = SettingsByType[T];
@@ -103,4 +112,5 @@ export type ControlProps =
     | ControlPropsOf<'numberOfRows'>
     | ControlPropsOf<'tips'>
     | ControlPropsOf<'multiSelect'>
-    | ControlPropsOf<'items'>;
+    | ControlPropsOf<'items'>
+    | ControlPropsOf<'rankOfNumbers'>

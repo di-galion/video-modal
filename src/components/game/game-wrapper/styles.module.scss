@@ -133,6 +133,29 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+        &[data-game='dart'] {
+            background-image: url(./images/dart-bg.png);
+            background-size: cover, contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        &[data-game='completeRow'] {
+            background-image: url(./images/row-bg.png);
+            background-size: cover, contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        &[data-game='puzzleAbacus'] {
+            background-image: radial-gradient(
+                            circle,
+                            rgba(255, 255, 255, 0.5) 10%,
+                            rgba(173, 216, 230, 1) 100%
+            ),
+            url(./images/abacus-bg.png);
+            background-size: cover, contain;
+            background-position: center;
+            background-repeat: no-repeat;;
+        }
     }
 
     &__bottom {

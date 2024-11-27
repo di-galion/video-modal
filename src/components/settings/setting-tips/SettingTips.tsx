@@ -41,7 +41,7 @@ const SettingTips: FC<SettingHintsProps> = ({
                         })}
                     />
                 </label>
-                <div className={styles.status}>{hintsEnabled}</div>
+                {/*<div className={styles.status}>{hintsEnabled}</div>*/}
             </div>
         </SettingsWrapper>
     );

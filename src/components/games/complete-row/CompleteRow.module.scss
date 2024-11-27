@@ -1,0 +1,280 @@
+
+.highlighted {
+  background-color: #EBBB31 !important;
+  color: #111 !important;
+}
+
+
+.slotContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background-color: transparent;
+  z-index: 1;
+  width: 100%;
+}
+.optionsRow {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.slot {
+  width: 40px;
+  height: 24px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+
+
+  &:first-child {
+    padding: 0 0 1px 0;
+    border-bottom: 8px solid #f19919;;
+    padding-left: 1px;
+    width: 100%;
+    border-radius: 3px;
+  }
+}
+
+
+.woodenFrameHorizontal {
+  position: absolute;
+  height: 8px;
+  width: 100%;
+  background: #f19919;
+  border-radius: 1px;
+}
+
+.woodenFrameWrapper:before,
+.woodenFrameWrapper:after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  background-color: #f19919;
+  border-radius: 50%;
+}
+
+.woodenFrameWrapper:before {
+  top: -10px;
+  left: -10px;
+}
+
+.woodenFrameWrapper:after {
+  bottom: -10px;
+  right: -10px;
+}
+
+.centerDivider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 44%;
+  width: 8px;
+  background-color: #f19919;
+  z-index: 0;
+}
+
+
+.woodenFrameHorizontal.top {
+  top: 0;
+}
+
+.woodenFrameHorizontal.bottom {
+  bottom: 0;
+}
+
+.woodenFrameVertical {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  background: #f19919;
+  border-radius: 4px;
+}
+
+.woodenFrameVertical.left {
+  left: 0;
+}
+
+.woodenFrameVertical.right {
+  right: 0;
+}
+
+.slotContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: center;
+  z-index: 1;
+}
+
+.slot img {
+  width: 40px;
+  height: 24px;
+}
+
+
+.woodenFrameContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.gameContainer {
+  height: 74vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.optionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 70%;
+  height: 600px;
+  margin: 0 auto;
+  padding-top: 50px;
+  gap: 0;
+}
+
+.optionsContainer > div:nth-child(-n+5) {
+  width: 58px;
+  margin-top: 50px;
+}
+
+.optionsContainer > div:nth-child(n+6) {
+  width: 58px;
+  margin: 0 20px 0 0;
+}
+
+.optionsContainerTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  height: 400px;
+}
+
+
+.optionButton {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+@keyframes highlightCorrect {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 255, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.8);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-1.75px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.woodenFrameWrapper.correctFrame {
+  animation: highlightCorrect 0.7s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.woodenFrameWrapper.incorrectFrame {
+  animation: shake 0.325s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.optionButton:disabled {
+  pointer-events: none;
+}
+
+.woodenFrameWrapper {
+  background-color: white;
+  position: relative;
+  width: 58px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  margin-right: 25px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+.optionsContainerTop .woodenFrameWrapper {
+  animation: none !important;
+}
+
+.optionsContainerTop .woodenFrameWrapper.correctFrame,
+.optionsContainerTop .woodenFrameWrapper.incorrectFrame {
+  animation: none !important;
+}
+
+.tipContainer {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tipText {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.tipNumber {
+  display: inline-block;
+  font-size: 34px;
+  color: #5fa041;
+}
+
+.numberContainer {
+  padding-top: 100px;
+  padding-bottom: 80px;
+  font-size: 80px;
+  font-weight: bold;
+  color: black;
+}
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}
+.multidigitSlot {
+  display: inline-block;
+  margin-right: 5px;
+  position: relative;
+}
+.woodenFrameWrapperGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

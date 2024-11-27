@@ -57,7 +57,7 @@ const images = playImages.concat(playImages);
 
 export const AboriginalsRiddlesGame: FC = () => {
     const { shownImages = [], updateStorage } = useSyncStorage<{
-        shownImages: string[];
+         shownImages: string[];
     }>();
 
     const setShownImages = useCallback((shownImages: string[]) => {

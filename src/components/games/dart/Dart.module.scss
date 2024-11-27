@@ -1,0 +1,56 @@
+.container {
+  background-image: url(./images/box.png);
+  background-size: cover, contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 860px;
+  height: 650px;
+  bottom: 0;
+  margin-top: 70px;
+  overflow: hidden;
+  position: relative;
+}
+
+.grid {
+  padding-top: 60px;
+  padding-left: 110px;
+  padding-right: 110px;
+  display: grid;
+  grid-template-columns: repeat(5, 80px);
+  gap: 10px;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.balloon {
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.gameOver {
+  margin-top: 20px;
+  font-size: 24px;
+  color: red;
+}
+
+.balloonContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.balloonIndex {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}

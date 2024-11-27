@@ -139,6 +139,9 @@ const gamesList: Record<
             { game: 'flashCards' },
             { game: 'aboriginalsRiddles' },
             { game: 'shadowTheater' },
+            { game: 'dart' },
+            { game: 'completeRow' },
+            { game: 'puzzleAbacus' }
         ],
     },
 };
