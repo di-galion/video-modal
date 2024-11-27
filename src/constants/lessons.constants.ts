@@ -1,6 +1,6 @@
 import { ILesson } from '../typings/lesson.module';
 
-export const LESSONS: ILesson[] = [
+const LESSONS_MULT_TABLE: ILesson[] = [
     {
         title: 'Приветствие',
         secondTitle: '',
@@ -8,14 +8,6 @@ export const LESSONS: ILesson[] = [
         index: 0,
         name: 'welcome',
     },
-    /*{
-        title: 'Игры',
-        secondTitle: 'Таблица умножения',
-        status: true,
-        index: 0,
-        name: 'game',
-        games: ['mountainTrail', 'multTable', 'invasion', 'flashCards'],
-    },*/
     {
         title: 'Проверка знаний',
         secondTitle: 'Реши задачи с микробами на состав числа 10',
@@ -73,4 +65,49 @@ export const LESSONS: ILesson[] = [
     },
 ];
 
-export const LESSON_COUNT = LESSONS.length;
+const LESSONS_MENTAL_ARITH: ILesson[] = [
+    {
+        title: 'Приветствие',
+        secondTitle: '',
+        status: true,
+        index: 0,
+        name: 'welcome',
+    },
+    {
+        title: 'Знакомство с Ментальной арифметикой: Видеопрезентация',
+        secondTitle: '',
+        status: true,
+        index: 1,
+        name: 'MAO_video_present',
+    },
+    {
+        title: 'Знакомство со счетами: Изучение элементов абакуса',
+        secondTitle: '',
+        status: true,
+        index: 2,
+        name: 'schety',
+        games: ['flashCards'],
+    },
+    {
+        title: 'Статистика',
+        secondTitle: '',
+        status: true,
+        index: 3,
+        name: 'MaoStatisticsLesson',
+    },
+];
+
+const LESSONS: Record<string, { themeName: string; lessons: ILesson[] }> = {
+    'mult-table': {
+        themeName: 'Таблица умножения',
+        lessons: LESSONS_MULT_TABLE,
+    },
+    'mental-arithmetics': {
+        themeName: 'Ментальная арифметика',
+        lessons: LESSONS_MENTAL_ARITH,
+    },
+};
+
+export function getLessons(theme: string) {
+    return LESSONS[theme] || [];
+}

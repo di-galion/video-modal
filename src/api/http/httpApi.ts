@@ -20,7 +20,7 @@ export class Api implements BaseApi {
             obj.headers = { Authorization: `Bearer ${this.getToken()}` };
         }
 
-        return fetch(`${process.env.REACT_APP_URL}${url}`, obj)
+        return fetch(`${import.meta.env.VITE_SERVER_URL}${url}`, obj)
             .then((res) => {
                 return res.json();
             })

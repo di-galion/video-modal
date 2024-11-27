@@ -1,5 +1,5 @@
-import LargeVariant from './ large-variant/LargeVariant';
-import SmallVariant from './ small-variant/SmallVariant';
+import LargeVariant from './large-variant/LargeVariant';
+import SmallVariant from './small-variant/SmallVariant';
 import './styles.css';
 
 const SliderCustom = ({

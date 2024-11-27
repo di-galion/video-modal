@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { generateRandomNumberFillArray } from '../../../utils';
 import { TaskLessonPanel } from './task-lesson-panel/TaskLessonPanel';
-import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import { useSyncStorage } from '../../../api/socket/useSyncStorage';
 
 const map = (array: number[]) =>
@@ -11,10 +10,6 @@ const map = (array: number[]) =>
     }));
 
 export const TaskLesson = () => {
-    const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
-        '1': false,
-        '2': true,
-    });
     const {
         array1 = [],
         array2 = [],
@@ -31,33 +26,21 @@ export const TaskLesson = () => {
         });
     }, []);
 
-    const { sendAction } = useWebSocket();
-
-    useWsAction((name, params = {}) => {
-        if (name === 'collapse') {
-            setCollapsed((cold) => ({ ...cold, ...params.value }));
-        }
-    });
-
-    const handleCollapse = (name: string, collapse: boolean) => {
-        sendAction('collapse', { value: { [name]: collapse } });
-    };
-
     return (
         <div>
             <TaskLessonPanel
+                title="Реши примеры"
                 name="1"
                 items={map(array1)}
                 maxLength={2}
-                onCollapse={handleCollapse}
-                collapse={collapsed['1']}
+                collapse={false}
             />
             <TaskLessonPanel
+                title="Реши примеры"
                 name="2"
                 items={map(array2)}
                 maxLength={3}
-                onCollapse={handleCollapse}
-                collapse={collapsed['2']}
+                collapse={true}
             />
         </div>
     );

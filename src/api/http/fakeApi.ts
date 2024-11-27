@@ -1,10 +1,6 @@
-import { LESSONS } from '../../constants/lessons.constants';
 import { BaseApi } from './baseApi';
-import { URL_LESSONS } from './urls';
 
-const fakeData: Record<string, () => Promise<any>> = {
-    [URL_LESSONS]: () => Promise.resolve(LESSONS),
-};
+const fakeData: Record<string, () => Promise<any>> = {};
 
 export class FakeApi implements BaseApi {
     get<Response>(url: string, _useToken: boolean = true) {

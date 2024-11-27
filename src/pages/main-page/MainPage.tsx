@@ -7,14 +7,18 @@ import { MainPageWrapper } from './components/MainPageWrapper';
 import { useApiError } from '../../hooks/apiError';
 import { showNotification } from '../../store/account-data/accountData';
 import { useWsConnect } from '../../hooks/useWsConnect';
+import { useParams } from 'react-router-dom';
 
 const MainPage = () => {
     const { fetchLessons } = useActions();
     const isError = useApiError();
+    const { name } = useParams();
 
     useEffect(() => {
-        fetchLessons();
-    }, []);
+        if (name) {
+            fetchLessons(name);
+        }
+    }, [name]);
 
     useWsConnect();
 

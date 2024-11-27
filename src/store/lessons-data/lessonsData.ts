@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import api from '../../api/http/api';
 import { GameLessonMode, ILesson } from '../../typings/lesson.module';
+import { getLessons } from '../../constants/lessons.constants';
 
 interface ILessonState {
     status: 'settings';
@@ -28,14 +28,12 @@ const initialState: ILessonState = {
     mode: 'list',
 };
 
-export const fetchLessons = createAsyncThunk('api/fetchLessons', async () => {
-    try {
-        const lessons = await api.fetchLessons();
-        return { lessons };
-    } catch (error) {
-        return { lessons: [DEFAULT_LESSON], apiStatus: 'error' };
+export const fetchLessons = createAsyncThunk(
+    'api/fetchLessons',
+    (theme: string) => {
+        return getLessons(theme);
     }
-});
+);
 
 const lessonsData = createSlice({
     name: 'lessonsData',
@@ -52,7 +50,7 @@ const lessonsData = createSlice({
         builder.addCase(fetchLessons.fulfilled, (state, action) => {
             state.lessons = action.payload.lessons;
             state.currentLesson = action.payload.lessons[0];
-            state.themeName = 'Таблица умножения';
+            state.themeName = action.payload.themeName;
         });
     },
 });

@@ -1,18 +1,17 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { MdOutlineCheck } from 'react-icons/md';
 import styles from './styles.module.scss';
-import { useCurrentLessonIndex, useLessonPager } from '../../../hooks/lessons';
-import { useCurrentRole } from '../../../hooks/account';
-import { isTeacher } from '../../../utils/roles';
-import { LESSON_COUNT } from '../../../constants/lessons.constants';
+import {
+    useCurrentLessonIndex,
+    useLessonCount,
+    useLessonPager,
+} from '../../../hooks/lessons';
 import { BottomButton } from '../bottom-button/BottomButton';
 
 const BottomPart = () => {
     const [prev, next] = useLessonPager();
     const page = useCurrentLessonIndex();
-    const role = useCurrentRole();
-
-    if (isTeacher(role)) return <></>;
+    const count = useLessonCount();
 
     return (
         <div className={styles.bottom}>
@@ -31,7 +30,7 @@ const BottomPart = () => {
             </BottomButton>
 
             <BottomButton
-                disabled={page >= LESSON_COUNT - 1}
+                disabled={page >= count - 1}
                 className={styles.bottom__button_right}
                 onClick={() => next()}
             >

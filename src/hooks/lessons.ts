@@ -29,6 +29,11 @@ export function useCurrentLessonIndex() {
     return index;
 }
 
+export function useLessonCount() {
+    const lessons = useTypedSelector((state) => state.lessonsData.lessons);
+    return lessons.length;
+}
+
 export function useLessons() {
     return useTypedSelector((state) => state.lessonsData.lessons);
 }

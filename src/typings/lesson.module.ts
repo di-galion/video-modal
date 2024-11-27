@@ -7,11 +7,15 @@ export type SimpleLessonName =
     | 'empty'
     | 'task'
     | 'signs'
-    | 'canvas';
+    | 'canvas'
+    | 'MAO_video_present'
+    | 'MaoStatisticsLesson';
 
 export type GameLessonName = 'game';
 
 export type SimpleTaskLessonName = 'simpleTask';
+
+export type SchetyLessonName = 'schety';
 
 export type GameLessonItem = {
     name: string;
@@ -22,7 +26,8 @@ export type GameLessonItem = {
 export type LessonName =
     | SimpleLessonName
     | GameLessonName
-    | SimpleTaskLessonName;
+    | SimpleTaskLessonName
+    | SchetyLessonName;
 
 interface IBaseLesson {
     title: string;
@@ -41,7 +46,7 @@ export type LessonGameStatus = 'success' | 'fail' | 'notStarted';
 export type GameLessonMode = 'list' | 'game';
 
 export interface IGameLesson extends IBaseLesson {
-    name: GameLessonName;
+    name: GameLessonName | SchetyLessonName;
     games: string[];
 }
 

@@ -6,8 +6,8 @@ import { URL_LESSONS } from './urls';
 class Api {
     constructor(private usedApi: BaseApi) {}
 
-    fetchLessons() {
-        return this.usedApi.get<ILesson[]>(URL_LESSONS);
+    fetchLessons(theme: string) {
+        return this.usedApi.get<ILesson[]>(`${URL_LESSONS}/${theme}`);
     }
 }
 
