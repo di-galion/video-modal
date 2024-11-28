@@ -4,8 +4,8 @@ import { useActions } from '../hooks/useActions';
 import { LESSONS_MAP } from '../constants/lessonsMap';
 import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
 import { useGameName } from './game';
-import { GAME_DATA_MAP } from '../constants/game.contants';
 import { useWebSocket } from '../api/socket/useWebSocket';
+import { createGames } from '../utils/games';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -95,11 +95,7 @@ export function useLessonGameList() {
     const { games } = useTypedSelector(
         (state) => state.lessonsData.currentLesson as IGameLesson
     );
-    const out = games.map((game) => ({
-        name: game,
-        imgUrl: GAME_DATA_MAP[game].image,
-        title: GAME_DATA_MAP[game].title,
-    }));
+    const out = createGames(games);
     return out || [];
 }
 

@@ -12,6 +12,10 @@ const Router: FC<PropsWithChildren> = () => {
                 <Route element={<Layout />}>
                     <Route path={`/games/:name`} element={<GamesPage />} />
                     <Route
+                        path={`/video-module/:name/:section`}
+                        element={<MainPage />}
+                    />
+                    <Route
                         path={`/video-module/:name`}
                         element={<MainPage />}
                     />

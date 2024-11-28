@@ -1,12 +1,11 @@
+import { useCurrentLesson } from '../../../hooks/lessons';
+import { IImageLesson } from '../../../typings/lesson.module';
 import { Image } from '../../elements/image/Image';
-import imgSrc from './img/welcome.png';
 
-const LessonWelcome = () => {
-    return (
-        <div>
-            <Image src={imgSrc} />
-        </div>
-    );
+export const ImageLesson = () => {
+    const [lesson] = useCurrentLesson();
+    const { url } = lesson as IImageLesson;
+    return <Image src={url} width={800} />;
 };
 
-export default LessonWelcome;
+export default ImageLesson;

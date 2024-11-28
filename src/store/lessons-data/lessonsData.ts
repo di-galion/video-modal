@@ -30,8 +30,8 @@ const initialState: ILessonState = {
 
 export const fetchLessons = createAsyncThunk(
     'api/fetchLessons',
-    (theme: string) => {
-        return getLessons(theme);
+    ({ theme, index }: { theme: string; index: number }) => {
+        return getLessons(theme, index);
     }
 );
 

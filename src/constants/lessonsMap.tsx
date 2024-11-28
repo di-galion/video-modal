@@ -5,12 +5,12 @@ import Lesson2 from '../components/lessons/lesson-2/Lesson2';
 import Lesson3 from '../components/lessons/lesson-3/Lesson3';
 import Lesson4 from '../components/lessons/lesson-4/Lesson4';
 import { MaoStatisticsLesson } from '../components/lessons/MAO-statistics-lesson/MaoStatisticsLesson';
-import { MaoVideoPresentLesson } from '../components/lessons/MAO-video-present-lesson/MaoVideoPresentLesson';
-import { SchetyLesson } from '../components/lessons/schety-lesson/SchetyLesson';
+import { VideoLesson } from '../components/lessons/video-lesson/VideoLesson';
+import { PanelsLesson } from '../components/lessons/panels-lesson/PanelsLesson';
 import { SignsLesson } from '../components/lessons/signs-lesson/SignsLesson';
 import { SimpleTaskLesson } from '../components/lessons/simple-task-lesson/SimpleTaskLesson';
 import { TaskLesson } from '../components/lessons/task-lesson/TaskLesson';
-import LessonWelcome from '../components/lessons/welcome-lesson/LessonWelcome';
+import { ImageLesson } from '../components/lessons/welcome-lesson/LessonWelcome';
 import { LessonName } from '../typings/lesson.module';
 
 export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
@@ -20,12 +20,12 @@ export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     lesson4: () => <Lesson4 />,
     game: () => <GameLesson />,
     empty: () => <></>,
-    welcome: () => <LessonWelcome />,
+    image: () => <ImageLesson />,
     task: () => <TaskLesson />,
     simpleTask: () => <SimpleTaskLesson />,
     signs: () => <SignsLesson />,
     canvas: () => <CanvasLesson />,
-    schety: () => <SchetyLesson />,
-    MAO_video_present: () => <MaoVideoPresentLesson />,
+    panels: () => <PanelsLesson />,
+    video: () => <VideoLesson />,
     MaoStatisticsLesson: () => <MaoStatisticsLesson />,
 };

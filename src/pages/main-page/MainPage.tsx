@@ -12,11 +12,11 @@ import { useParams } from 'react-router-dom';
 const MainPage = () => {
     const { fetchLessons } = useActions();
     const isError = useApiError();
-    const { name } = useParams();
+    const { name, section = 0 } = useParams();
 
     useEffect(() => {
         if (name) {
-            fetchLessons(name);
+            fetchLessons({ theme: name, index: Number(section) });
         }
     }, [name]);
 
