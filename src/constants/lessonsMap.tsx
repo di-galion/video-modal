@@ -10,8 +10,8 @@ import { PanelsLesson } from '../components/lessons/panels-lesson/PanelsLesson';
 import { SignsLesson } from '../components/lessons/signs-lesson/SignsLesson';
 import { SimpleTaskLesson } from '../components/lessons/simple-task-lesson/SimpleTaskLesson';
 import { TaskLesson } from '../components/lessons/task-lesson/TaskLesson';
-import { ImageLesson } from '../components/lessons/welcome-lesson/LessonWelcome';
 import { LessonName } from '../typings/lesson.module';
+import { ImageLesson } from '../components/lessons/image-lesson/ImageLesson';
 
 export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     lesson1: () => <Lesson1 />,

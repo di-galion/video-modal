@@ -7,5 +7,3 @@ export const ImageLesson = () => {
     const { url } = lesson as IImageLesson;
     return <Image src={url} width={800} />;
 };
-
-export default ImageLesson;
