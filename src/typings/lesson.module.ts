@@ -52,8 +52,8 @@ export interface IPanelLesson extends IBaseLesson {
 
 export type ITotalLessonItem = {
     title: string;
-    imgUrl: string;
-    imgWidth: number;
+    imgUrl?: string;
+    imgWidth?: number;
 };
 
 export interface ITotalLesson extends IBaseLesson {

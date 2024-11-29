@@ -1,7 +1,7 @@
-import { ILesson } from '../../../typings/lesson.module';
-import { createPath } from '../../../utils/createPath';
+import { ILesson } from '../../../../typings/lesson.module';
+import { createPath } from '../../../../utils/createPath';
 
-const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
+const LESSONS_MENTAL_ARITH_ADDON_1: ILesson[] = [
     {
         title: 'Приветствие',
         secondTitle: '',
@@ -11,34 +11,10 @@ const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
         url: createPath('/assets/img/lessons/hello.jpg'),
     },
     {
-        title: 'Счет на физическом абакусе. Определение уровня обучения',
+        title: 'Разминка',
         secondTitle: '',
         status: true,
         index: 1,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Счет на воображаемом абакусе. Определение уровня обучения',
-        secondTitle: '',
-        status: true,
-        index: 2,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Игра на общее развитие',
-        secondTitle: '',
-        status: true,
-        index: 3,
-        name: 'game',
-        games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
-    },
-    {
-        title: 'Разминка на абакусе',
-        secondTitle: '',
-        status: true,
-        index: 4,
         name: 'image',
         url: createPath('/assets/img/lessons/ma_addon/universal.5.1.jpg'),
     },
@@ -46,7 +22,7 @@ const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
         title: 'Счет на физическом абакусе',
         secondTitle: '',
         status: true,
-        index: 5,
+        index: 2,
         name: 'game',
         games: [],
     },
@@ -54,7 +30,7 @@ const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
         title: 'Игра с Флешкартами',
         secondTitle: '',
         status: true,
-        index: 6,
+        index: 3,
         name: 'game',
         games: ['flashCards', 'completeRow'],
     },
@@ -62,12 +38,52 @@ const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
         title: 'Счет на воображаемом абакусе',
         secondTitle: '',
         status: true,
+        index: 4,
+        name: 'game',
+        games: [],
+    },
+    {
+        title: 'Игра на общее развитие',
+        secondTitle: '',
+        status: true,
+        index: 5,
+        name: 'game',
+        games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
+    },
+    {
+        title: 'Разминка',
+        secondTitle: '',
+        status: true,
+        index: 6,
+        name: 'image',
+        url: createPath('/assets/img/lessons/ma_addon/universal.5.1.jpg'),
+    },
+    {
+        title: 'Счет на физическом абакусе',
+        secondTitle: '',
+        status: true,
         index: 7,
         name: 'game',
         games: [],
     },
     {
-        title: 'Игра на счет',
+        title: 'Игра с Флешкартами',
+        secondTitle: '',
+        status: true,
+        index: 8,
+        name: 'game',
+        games: ['flashCards', 'completeRow'],
+    },
+    {
+        title: 'Счет на воображаемом абакусе',
+        secondTitle: '',
+        status: true,
+        index: 9,
+        name: 'game',
+        games: [],
+    },
+    {
+        title: 'Игра на общее развитие',
         secondTitle: '',
         status: true,
         index: 8,
@@ -120,4 +136,4 @@ const LESSONS_MENTAL_ARITH_ADDON_2: ILesson[] = [
     },
 ];
 
-export default ['Занятие для определения уровня', LESSONS_MENTAL_ARITH_ADDON_2];
+export default ['Универсальное занятие', LESSONS_MENTAL_ARITH_ADDON_1];

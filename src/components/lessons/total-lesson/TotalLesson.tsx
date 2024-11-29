@@ -15,7 +15,9 @@ export const TotalLesson = () => {
                     <div key={index}>
                         <Switch defaultValue={false} onChange={() => {}} />
                         <div className={styles.text}>{item.title}</div>
-                        <Image src={item.imgUrl} width={item.imgWidth} />
+                        {item.imgUrl ? (
+                            <Image src={item.imgUrl} width={item.imgWidth} />
+                        ) : null}
                     </div>
                 );
             })}
