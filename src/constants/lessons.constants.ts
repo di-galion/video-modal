@@ -1,7 +1,7 @@
 import { ILesson } from '../typings/lesson.module';
 import TU_1 from './lessons/mult-table/1';
 import MAO_1 from './lessons/mental-arith/simple/1-1.tsx';
-import MAO_2 from './lessons/mental-arith/brothers/2-1.tsx'
+import MAO_2 from './lessons/mental-arith/friends/3-21.tsx'
 
 function getLesson(lesson: Array<string | ILesson[]>) {
     return {
