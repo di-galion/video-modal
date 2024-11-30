@@ -11,13 +11,21 @@ export const TotalLesson = () => {
     return (
         <>
             {items.map((item, index) => {
+                const images = Array.isArray(item.imgUrl)
+                    ? item.imgUrl
+                    : [item.imgUrl];
+
                 return (
                     <div key={index}>
                         <Switch defaultValue={false} onChange={() => {}} />
                         <div className={styles.text}>{item.title}</div>
-                        {item.imgUrl ? (
-                            <Image src={item.imgUrl} width={item.imgWidth} />
-                        ) : null}
+                        <div className={styles.row}>
+                            {item.imgUrl
+                                ? images.map((url) => (
+                                      <Image src={url} width={item.imgWidth} />
+                                  ))
+                                : null}
+                        </div>
                     </div>
                 );
             })}
