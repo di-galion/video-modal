@@ -46,15 +46,15 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Разминка',
         secondTitle: '',
         status: true,
-        index: 1,
+        index: 5,
         name: 'image',
         url: createPath('/assets/img/lessons/ma_addon/universal.5.1.jpg'),
     },
     {
-        title: 'Изучение общей темы',
+        title: 'Изучение новой темы',
         secondTitle: 'Тема Друг+Брат 9',
         status: true,
-        index: 2,
+        index: 6,
         name: 'panels',
         items: [
             {
@@ -70,93 +70,84 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
                 ),
             },
             {
-                title: 'Планка',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/planka.gif'),
+                title: 'Правило. Друг+Брат 9 (-9)',
+                type: 'video',
+                url: createPath('/assets/video/720.mp4'),
             },
             {
-                title: 'Ряды',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/ryady.gif'),
-            },
-            {
-                title: 'Земные косточки',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/kostochki.gif'),
-            },
-            {
-                title: 'Небесные косточки',
+                title: 'Друг+Брат 9 (-9)',
                 type: 'image',
                 url: createPath(
-                    '/assets/img/lessons/schety/img/nebesnye_kostochki.gif'
+                    '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.6/2.gif'
                 ),
-            },
-            {
-                title: 'Абакус',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/abacus.jpg'),
-            },
-            {
-                title: 'Игра',
-                type: 'games',
-                games: ['flashCards'],
             },
         ],
     },
     {
-        title: 'Игра с Флешкартами',
-        secondTitle: '',
+        title: 'Счет на физическом абакусе',
+        secondTitle: 'Изучение темы "Друг+Брат 9". Однозначные',
         status: true,
-        index: 3,
-        name: 'game',
-        games: ['flashCards', 'completeRow'],
+        index: 7,
+        name: 'video',
+        url: createPath('/assets/video/720.mp4'),
     },
     {
-        title: 'Счет на воображаемом абакусе',
-        secondTitle: '',
+        title: 'Изучение новой темы',
+        secondTitle: 'Тема Друг+Брат 8',
         status: true,
-        index: 4,
-        name: 'game',
-        games: [],
-    },
-
-    {
-        title: 'Разминка',
-        secondTitle: '',
-        status: true,
-        index: 6,
-        name: 'image',
-        url: createPath('/assets/img/lessons/ma_addon/universal.5.1.jpg'),
+        index: 8,
+        name: 'panels',
+        items: [
+            {
+                title: 'Правило. Друг+Брат 8 (+8)',
+                type: 'video',
+                url: createPath('/assets/video/720.mp4'),
+            },
+            {
+                title: 'Друг+Брат 8 (+8)',
+                type: 'image',
+                url: createPath(
+                    '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.8/1.gif'
+                ),
+            },
+            {
+                title: 'Правило. Друг+Брат 8 (-8)',
+                type: 'video',
+                url: createPath('/assets/video/720.mp4'),
+            },
+            {
+                title: 'Друг+Брат 8 (-8)',
+                type: 'image',
+                url: createPath(
+                    '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.8/2.gif'
+                ),
+            },
+        ],
     },
     {
         title: 'Счет на физическом абакусе',
-        secondTitle: '',
-        status: true,
-        index: 7,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Игра с Флешкартами',
-        secondTitle: '',
-        status: true,
-        index: 8,
-        name: 'game',
-        games: ['flashCards', 'completeRow'],
-    },
-    {
-        title: 'Счет на воображаемом абакусе',
-        secondTitle: '',
+        secondTitle: 'Изучение темы "Друг+Брат 8". Однозначные',
         status: true,
         index: 9,
-        name: 'game',
-        games: [],
+        name: 'panels',
+        items: [
+            {
+                title: 'Демонстрация примера',
+                type: 'video',
+                url: createPath('/assets/video/720.mp4'),
+            },
+            {
+                title: 'Игра',
+                type: 'games',
+                games: ['puzzleAbacus'],
+            },
+        ],
     },
     {
-        title: 'Игра на общее развитие',
+        title: 'Игра на счет',
         secondTitle: '',
         status: true,
-        index: 8,
+        index: 10,
         name: 'game',
         games: [],
     },
@@ -164,36 +155,38 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Заключение',
         secondTitle: '',
         status: true,
-        index: 9,
+        index: 11,
         name: 'total',
         items: [
             {
-                title: 'Определили уровень обучения',
-                imgUrl: createPath(
-                    '/assets/img/lessons/ma_addon/conclusion1.jpg'
-                ),
-                imgWidth: 400,
+                title: 'Изучили правило "Друг + Брат 9"',
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.11/punkt1/1.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.11/punkt1/2.gif'
+                    ),
+                ],
+                imgWidth: 300,
             },
             {
-                title: 'Познакомились с онлайн-обакусом в приложении',
-                imgUrl: createPath(
-                    '/assets/img/lessons/ma_addon/conclusion2.jpg'
-                ),
-                imgWidth: 600,
+                title: 'Освоили счет с правилом "Друг + Брат 9" на физическом абакусе (однозначные)',
             },
             {
-                title: 'Познакомились с режимом Touch',
-                imgUrl: createPath(
-                    '/assets/img/lessons/ma_addon/conclusion.gif'
-                ),
-                imgWidth: 800,
+                title: 'Изучили правило "Друг + Брат 8"',
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.11/punkt3/1.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.11/punkt3/2.gif'
+                    ),
+                ],
+                imgWidth: 300,
             },
             {
-                title: 'Познакомились с развивающими и увлекательными играми',
-                imgUrl: createPath(
-                    '/assets/img/lessons/ma_addon/conclusion4.jpg'
-                ),
-                imgWidth: 800,
+                title: 'Освоили счет с правилом "Друг + Брат 8" на физическом абакусе (однозначные)',
             },
         ],
     },
@@ -201,7 +194,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Статистика',
         secondTitle: '',
         status: true,
-        index: 10,
+        index: 12,
         name: 'MaoStatisticsLesson',
     },
 ];
