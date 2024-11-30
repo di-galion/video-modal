@@ -1,9 +1,9 @@
 import { ILesson } from '../typings/lesson.module';
 import TU_1 from './lessons/mult-table/1';
-import MAO_1 from './lessons/mental-arith/simple/1-1.tsx';
-import MAO_2 from './lessons/mental-arith/brothers/2-1.tsx';
+import MAO_1 from './lessons/mental-arith/brothers/2-1.tsx';
+//import MAO_2 from './lessons/mental-arith/brothers/2-1.tsx';
 import MA_ADDON_1 from './lessons/mental-arith/addon/1.tsx';
-import MA_ADDON_2 from './lessons/mental-arith/addon/2.tsx';
+import MAO_2 from './lessons/mental-arith/addon/2.tsx';
 
 function getLesson(lesson: Array<string | ILesson[]>) {
     return {
@@ -21,7 +21,6 @@ const LESSONS: Record<
         getLesson(MAO_1),
         getLesson(MAO_2),
         getLesson(MA_ADDON_1),
-        getLesson(MA_ADDON_2),
     ],
 };
 

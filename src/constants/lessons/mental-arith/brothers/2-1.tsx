@@ -250,13 +250,59 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
         games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
     },
     {
-        title: 'Статистика',
+        title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 16,
+        name: 'total',
+        items: [
+            {
+                title: 'познакомились с темой братья',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                    )],
+                imgWidth:800,
+            },
+            {
+                title: '',
+                imgUrl: createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/2.jpg'
+                ),
+                imgWidth: 800,
+            },
+            {
+                title: 'Познакомились с режимом Touch',
+                imgUrl: createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/3.jpg'
+                ),
+                imgWidth: 800,
+            },
+            {
+                title: 'Познакомились с развивающими и увлекательными играми',
+                imgUrl: createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/4.jpg'
+                ),
+                imgWidth: 800,
+            },
+        ],
+    },
+    {
+        title: 'Статистика',
+        secondTitle: '',
+        status: true,
+        index: 17,
         name: 'MaoStatisticsLesson',
     },
 ];
 
-export default ['Просто 0 - 4', LESSONS_MENTAL_ARITH_BROTHER_1];
+export default ['Брат 1', LESSONS_MENTAL_ARITH_BROTHER_1];
 
