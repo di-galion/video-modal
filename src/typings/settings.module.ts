@@ -1,3 +1,5 @@
+import { SettingValue } from './game.module';
+
 export type ControlType =
     | 'level'
     | 'range'
@@ -9,10 +11,10 @@ export type ControlType =
     | 'speed'
     | 'items'
     | 'multiSelect'
-    | 'rankOfNumbers'
+    | 'rankOfNumbers';
 
 export interface IControlSetting {
-    defaultValue?: number | number[] | string | string[];
+    defaultValue?: SettingValue;
     value?: number;
 }
 
@@ -113,4 +115,4 @@ export type ControlProps =
     | ControlPropsOf<'tips'>
     | ControlPropsOf<'multiSelect'>
     | ControlPropsOf<'items'>
-    | ControlPropsOf<'rankOfNumbers'>
+    | ControlPropsOf<'rankOfNumbers'>;

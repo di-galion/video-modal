@@ -12,6 +12,7 @@ import { SimpleTaskLesson } from '../components/lessons/simple-task-lesson/Simpl
 import { TaskLesson } from '../components/lessons/task-lesson/TaskLesson';
 import { LessonName } from '../typings/lesson.module';
 import { ImageLesson } from '../components/lessons/image-lesson/ImageLesson';
+import { TotalLesson } from '../components/lessons/total-lesson/TotalLesson';
 
 export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     lesson1: () => <Lesson1 />,
@@ -28,4 +29,5 @@ export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     panels: () => <PanelsLesson />,
     video: () => <VideoLesson />,
     MaoStatisticsLesson: () => <MaoStatisticsLesson />,
+    total: () => <TotalLesson />,
 };

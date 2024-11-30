@@ -1,7 +1,7 @@
 import { ILesson } from '../../../../typings/lesson.module';
 import { createPath } from '../../../../utils/createPath';
 
-const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
+const LESSONS_MENTAL_ARITH_ADDON_1: ILesson[] = [
     {
         title: 'Приветствие',
         secondTitle: '',
@@ -9,38 +9,6 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         index: 0,
         name: 'image',
         url: createPath('/assets/img/lessons/hello.jpg'),
-    },
-    {
-        title: 'Игра на счет',
-        secondTitle: '',
-        status: true,
-        index: 1,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Счет на физическом абакусе',
-        secondTitle: 'Закрепление темы "Друг 1". Однозначные. Двухзначные',
-        status: true,
-        index: 2,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Счет на воображаемом абакусе',
-        secondTitle: 'Закрепление темы "Друг 1". Однозначные. Двухзначные',
-        status: true,
-        index: 3,
-        name: 'game',
-        games: [],
-    },
-    {
-        title: 'Игра на общее развитие',
-        secondTitle: '',
-        status: true,
-        index: 4,
-        name: 'game',
-        games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
     },
     {
         title: 'Разминка',
@@ -51,57 +19,12 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         url: createPath('/assets/img/lessons/ma_addon/universal.5.1.jpg'),
     },
     {
-        title: 'Изучение общей темы',
-        secondTitle: 'Тема Друг+Брат 9',
+        title: 'Счет на физическом абакусе',
+        secondTitle: '',
         status: true,
         index: 2,
-        name: 'panels',
-        items: [
-            {
-                title: 'Правило. Друг+Брат 9 (+9)',
-                type: 'video',
-                url: createPath('/assets/video/720.mp4'),
-            },
-            {
-                title: 'Друг+Брат 9 (+9)',
-                type: 'image',
-                url: createPath(
-                    '/assets/img/lessons/anzan-img/1/ma/friendandbrother1.6/1.gif'
-                ),
-            },
-            {
-                title: 'Планка',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/planka.gif'),
-            },
-            {
-                title: 'Ряды',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/ryady.gif'),
-            },
-            {
-                title: 'Земные косточки',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/kostochki.gif'),
-            },
-            {
-                title: 'Небесные косточки',
-                type: 'image',
-                url: createPath(
-                    '/assets/img/lessons/schety/img/nebesnye_kostochki.gif'
-                ),
-            },
-            {
-                title: 'Абакус',
-                type: 'image',
-                url: createPath('/assets/img/lessons/schety/img/abacus.jpg'),
-            },
-            {
-                title: 'Игра',
-                type: 'games',
-                games: ['flashCards'],
-            },
-        ],
+        name: 'game',
+        games: [],
     },
     {
         title: 'Игра с Флешкартами',
@@ -119,7 +42,14 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         name: 'game',
         games: [],
     },
-
+    {
+        title: 'Игра на общее развитие',
+        secondTitle: '',
+        status: true,
+        index: 5,
+        name: 'game',
+        games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
+    },
     {
         title: 'Разминка',
         secondTitle: '',
@@ -206,4 +136,4 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     },
 ];
 
-export default ['Друг + Брат 9,8', LESSONS_MENTAL_ARITH_ANZAN];
+export default ['Универсальное занятие', LESSONS_MENTAL_ARITH_ADDON_1];

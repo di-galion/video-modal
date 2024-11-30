@@ -19,6 +19,8 @@ export type ImageLessonName = 'image';
 
 export type PanelLessonName = 'panels';
 
+export type TotalLessonName = 'total';
+
 export interface PanelLessonItemBase {
     title: string;
 }
@@ -48,6 +50,17 @@ export interface IPanelLesson extends IBaseLesson {
     items: IPanelLessonItem[];
 }
 
+export type ITotalLessonItem = {
+    title: string;
+    imgUrl?: string;
+    imgWidth?: number;
+};
+
+export interface ITotalLesson extends IBaseLesson {
+    name: TotalLessonName;
+    items: ITotalLessonItem[];
+}
+
 export type GameLessonItem = {
     name: string;
     imgUrl: string;
@@ -60,7 +73,8 @@ export type LessonName =
     | SimpleTaskLessonName
     | VideoLessonName
     | PanelLessonName
-    | ImageLessonName;
+    | ImageLessonName
+    | TotalLessonName;
 
 interface IBaseLesson {
     title: string;
@@ -104,4 +118,5 @@ export type ILesson =
     | ISimpleTaskLesson
     | IVideoLesson
     | IPanelLesson
-    | IImageLesson;
+    | IImageLesson
+    | ITotalLesson;

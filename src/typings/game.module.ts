@@ -1,6 +1,6 @@
 import { ControlProps } from './settings.module';
 
-export type SettingValue = number | number[];
+export type SettingValue = number | number[] | string | string[];
 
 export type GameStatus =
     | 'start'
@@ -56,7 +56,7 @@ export interface IGameState {
     state: object;
     currentTime: number;
     timeDirection: TimeDirection;
-    starCalculationMode?: StarCalculationMode
+    starCalculationMode?: StarCalculationMode;
     data: Partial<GameData>;
     syncStorage: Record<string, any>;
     syncAction: Partial<{
