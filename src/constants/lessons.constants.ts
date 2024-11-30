@@ -1,6 +1,6 @@
 import { ILesson } from '../typings/lesson.module';
 import TU_1 from './lessons/mult-table/1';
-import MAO_1 from './lessons/mental-arith/brothers/2-1.tsx';
+import MAO_1 from './lessons/mental-arith/friends/3-7.tsx';
 //import MAO_2 from './lessons/mental-arith/brothers/2-1.tsx';
 import MA_ADDON_1 from './lessons/mental-arith/addon/1.tsx';
 import MAO_2 from './lessons/mental-arith/addon/2.tsx';

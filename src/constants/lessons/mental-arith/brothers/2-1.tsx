@@ -132,7 +132,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                 title: 'Брат 1 (+1)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/1/ma/brothers1.10/gif1.brat1+1/plus1.gif'),
-                imageWidth: 600,
+                imageWidth: 480,
             },
             {
                 title: 'Правило. Брат 1 (-1)',
@@ -143,7 +143,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                 title: 'Брат 1 (-1)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/1/ma/brothers1.10/gif2.brat1-1/minus1.gif'),
-                imageWidth: 600,
+                imageWidth: 480,
             },
         ]
     },
@@ -259,7 +259,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
         name: 'total',
         items: [
             {
-                title: 'познакомились с темой братья',
+                title: 'познакомились с темой "Братья"',
                 imgUrl: [createPath(
                     '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
                 ),
@@ -272,7 +272,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                     createPath(
                         '/assets/img/lessons/brother-img/1/ma/brothers1.8/4.jpg'
                     )],
-                imgWidth:800,
+                imgWidth:720,
             },
             {
                 title: 'Изучили правило "Брат 1"',

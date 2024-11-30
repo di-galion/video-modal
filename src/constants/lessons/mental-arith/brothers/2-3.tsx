@@ -99,6 +99,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
                 title: 'Брат 2 (+2)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/3/ma/brothers3.8/gif1.brat2/plus2.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило. Брат 2 (-2)',
@@ -108,6 +109,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
                 title: 'Брат 2 (-2)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/3/ma/brothers3.8/gif2.brat2/minus2.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -154,9 +156,34 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         title: 'Заключение',
         secondTitle: '',
         status: true,
-        index: 12,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        index: 16,
+        name: 'total',
+        items: [
+
+            {
+                title: 'Закрепили счет по теме "Брат 1" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Брат 1" на физическом и воображаемом абакусе (двузначные)',
+            },
+            {
+                title: 'изучили правило "Брат 2"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.17/punkt1/brother2.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif1.brat2/plus2.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif2.brat2/minus2.gif'
+                    ),
+                    ],
+                imgWidth: 680
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 2" на физическом абакусе (однозначные)',
+            },
+        ],
     },
     {
         title: 'Статистика',
@@ -167,4 +194,4 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
     },
 ];
 
-export default ['Просто 0 - 4', LESSONS_MENTAL_ARITH_BROTHER_3];
+export default ['Брат 2', LESSONS_MENTAL_ARITH_BROTHER_3];

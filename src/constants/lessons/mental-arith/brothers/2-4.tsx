@@ -126,16 +126,27 @@ const LESSONS_MENTAL_ARITH_BROTHER_4: ILesson[] = [
         status: true,
         index: 10,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
-        //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
     },
+        //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     {
         title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 11,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Брат 2" на физическом абакусе (однозначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 2" на воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 2" на физическом абакусе (двузначные)',
+            },
+
+        ],
     },
     {
         title: 'Статистика',

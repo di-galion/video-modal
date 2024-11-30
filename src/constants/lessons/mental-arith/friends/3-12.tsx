@@ -69,14 +69,23 @@ const LESSONS_MENTAL_ARITH_FRIENDS_12: ILesson[] = [
         games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
-
     {
         title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 7,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 4" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Друг 4" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 4" на воображаемом абакусе (двузначные)',
+            },
+        ],
     },
 
     {

@@ -75,8 +75,18 @@ const LESSONS_MENTAL_ARITH_FRIENDS_6: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 7,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 6" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Друг 6" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 6" на воображаемом абакусе (двузначные)',
+            },
+        ],
     },
 
     {

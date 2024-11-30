@@ -131,6 +131,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 title: 'Друг 9 (+9)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило Друг 9 (-9)',
@@ -141,6 +142,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 title: 'Друг 9 (-9)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.8/gif2/minus9.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -188,6 +190,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 title: 'Друг 8 (+8)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило. Друг 8 (-8)',
@@ -198,6 +201,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 title: 'Друг 8 (-8)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.10/gif2/minus8.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -237,8 +241,69 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 12,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'познакомились с темой "Друзья"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend1.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend2.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend3.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend5.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend6.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend7.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend8.jpg'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'
+                    ),
+                ],
+                imgWidth:720,
+            },
+            {
+                title: 'Изучили правило "Друг 9"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.8/gif2/minus9.gif'
+                    ),
+                ],
+                imgWidth: 400,
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 9" на физическом абакусе (однозначные)',
+            },
+            {
+                title: 'Изучили правило "Друг 8"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.10/gif2/minus8.gif'
+                    ),
+                ],
+                imgWidth: 400,
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 8" на физическом абакусе (однозначные)',
+            },
+        ],
     },
 
     {

@@ -67,6 +67,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_20: ILesson[] = [
                 title: 'Переход 100 (+5)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/20/ma/cross20.6/gif1/crossing-hundred-plus.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило. Переход 100 (-5)',
@@ -77,6 +78,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_20: ILesson[] = [
                 title: 'Переход 100 (-5)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/20/ma/cross20.6/gif2/crossing-hundred-minus.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -128,8 +130,30 @@ const LESSONS_MENTAL_ARITH_FRIENDS_20: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 9,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Переход 50" на физическом и воображаемом абакусе',
+            },
+            {
+                title: 'Закрепили счет по теме "Переход 50" на физическом абакусе',
+            },
+            {
+                title: 'Изучили  правило "Переход 100"',
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/20/ma/cross20.6/gif1/crossing-hundred-plus.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/20/ma/cross20.6/gif2/crossing-hundred-minus.gif'
+                    ),
+                ],
+                imgWidth: 480
+            },
+            {
+                title: 'Освоили счет с правилом "Переход 100" на физическом абакусе',
+            },
+        ],
     },
 
     {

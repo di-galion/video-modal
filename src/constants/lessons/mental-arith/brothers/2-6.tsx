@@ -101,6 +101,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_6: ILesson[] = [
                 title: 'Брат 3 (+3)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/6/ma/brothers6.8/gif1.brat3/plus3.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило. Брат 3 (-3)',
@@ -111,6 +112,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_6: ILesson[] = [
                 title: 'Брат 2 (-3)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/6/ma/brothers6.8/gif2.brat3/minus3.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -160,8 +162,33 @@ const LESSONS_MENTAL_ARITH_BROTHER_6: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 11,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+
+            {
+                title: 'Закрепили счет по теме "Брат 2" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Брат 2" на физическом и воображаемом абакусе (двузначные)',
+            },
+            {
+                title: 'изучили правило "Брат 3"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/brother-img/6/ma/brothers6.8/image1.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/6/ma/brothers6.8/gif1.brat3/plus3.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/brother-img/6/ma/brothers6.8/gif2.brat3/minus3.gif'
+                    ),
+                ],
+                imgWidth: 680
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 3" на физическом абакусе (однозначные)',
+            },
+        ],
     },
 
     {

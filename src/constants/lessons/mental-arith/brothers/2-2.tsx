@@ -121,8 +121,18 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 12,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Брат 1" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Брат 1" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 1" на воображаемом абакусе (двузначные)',
+            },
+        ],
     },
     {
         title: 'Статистика',
@@ -133,4 +143,4 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
     },
 ];
 
-export default ['Просто 0 - 4', LESSONS_MENTAL_ARITH_BROTHER_2];
+export default ['Брат 1', LESSONS_MENTAL_ARITH_BROTHER_2];

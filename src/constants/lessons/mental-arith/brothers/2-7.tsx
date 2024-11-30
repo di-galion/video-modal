@@ -166,8 +166,19 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 11,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Брат 3" на физическом абакусе (однозначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 3" на воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 3" на физическом абакусе (двузначные)',
+            },
+
+        ],
     },
 
     {

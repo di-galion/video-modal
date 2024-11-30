@@ -70,13 +70,24 @@ const LESSONS_MENTAL_ARITH_FRIENDS_9: ILesson[] = [
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
+
     {
         title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 7,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 3" и "Друг 2" на физическом абакусе (однозначные)',
+            },
+            {
+                title: 'Освоили счет с правилами "Друг 3" и "Друг 2" на воображаемом абакусе (двузначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 3" и "Друг 2" на физическом абакусе (двузначные)',
+            },
+        ],
     },
 
     {

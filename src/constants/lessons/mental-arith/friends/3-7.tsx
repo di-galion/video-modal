@@ -71,6 +71,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_7: ILesson[] = [
                 title: 'Друг 5 (+5)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило Друг 5 (-5)',
@@ -81,6 +82,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_7: ILesson[] = [
                 title: 'Друг 5 (-5)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif2/minus5.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -123,8 +125,32 @@ const LESSONS_MENTAL_ARITH_FRIENDS_7: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 8,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 6" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Друг 6" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Изучили правило "Друг 5"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/7/ma/friends7.6/friend5.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/7/ma/friends7.6/gif2/minus5.gif'
+                    ),
+                ],
+                imgWidth: 680
+            },
+            {
+                title: 'Освоили правило "Друг 5" на физическом абакусе (однозначные)',
+            },
+        ],
     },
 
     {

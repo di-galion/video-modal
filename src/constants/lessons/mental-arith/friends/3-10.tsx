@@ -60,7 +60,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
             {
                 title: 'Друг 4 (пчелы 4-6)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/friend5.jpg'),
+                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'),
             },
             {
                 title: 'Правило Друг 4 (+4)',
@@ -71,6 +71,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
                 title: 'Друг 4 (+4)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило Друг 4 (-4)',
@@ -81,6 +82,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
                 title: 'Друг 4 (-4)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif2/minus5.gif'),
+                imageWidth: 480,
             },
             // ассеты не верные нужных пока нет
         ]
@@ -119,13 +121,38 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
+
     {
         title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 8,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 5" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Друг 5" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Изучили правило "Друг 4"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
+                    ),
+                ],
+                imgWidth: 680
+            },
+            {
+                title: 'Освоили правило "Друг 4" на физическом абакусе (однозначные)',
+            },
+        ],
     },
 
     {

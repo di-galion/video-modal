@@ -108,14 +108,24 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
-
     {
         title: 'Заключение',
         secondTitle: '',
         status: true,
         index: 10,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Брат 2" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Брат 2" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 2" на воображаемом абакусе (двузначные)',
+            },
+
+        ],
     },
     {
         title: 'Статистика',

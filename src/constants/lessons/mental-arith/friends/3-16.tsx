@@ -70,6 +70,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
                 title: 'Друг 1 (+9)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/16/ma/friends16.6/gif1/plus1.gif'),
+                imageWidth: 480,
             },
             {
                 title: 'Правило Друг 1 (-9)',
@@ -80,6 +81,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
                 title: 'Друг 1 (-9)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/friends-img/16/ma/friends16.6/gif2/minus1.gif'),
+                imageWidth: 480,
             },
         ]
     },
@@ -121,8 +123,32 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 8,
-        name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        name: 'total',
+        items: [
+            {
+                title: 'Закрепили счет по теме "Друг 2" на физическом и воображаемом абакусе (однозначные)',
+            },
+            {
+                title: 'Закрепили счет по теме "Друг 2" на физическом абакусе (двузначные)',
+            },
+            {
+                title: 'Изучили  правило "Друг 1"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/friends-img/16/ma/friends16.6/friend1.jpg'
+                ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/16/ma/friends16.6/gif1/plus1.gif'
+                    ),
+                    createPath(
+                        '/assets/img/lessons/friends-img/16/ma/friends16.6/gif2/minus1.gif'
+                    ),
+                ],
+                imgWidth: 680
+            },
+            {
+                title: 'Освоили счет с правилом "Друг 1" на физическом абакусе (однозначные)',
+            },
+        ],
     },
 
     {
