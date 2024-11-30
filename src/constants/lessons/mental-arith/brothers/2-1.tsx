@@ -132,6 +132,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                 title: 'Брат 1 (+1)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/1/ma/brothers1.10/gif1.brat1+1/plus1.gif'),
+                imageWidth: 600,
             },
             {
                 title: 'Правило. Брат 1 (-1)',
@@ -142,6 +143,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                 title: 'Брат 1 (-1)',
                 type: 'image',
                 url: createPath('/assets/img/lessons/brother-img/1/ma/brothers1.10/gif2.brat1-1/minus1.gif'),
+                imageWidth: 600,
             },
         ]
     },
@@ -262,35 +264,37 @@ const LESSONS_MENTAL_ARITH_BROTHER_1: ILesson[] = [
                     '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
                 ),
                     createPath(
-                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/2.jpg'
                     ),
                     createPath(
-                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/3.jpg'
                     ),
                     createPath(
-                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/1.jpg'
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.8/4.jpg'
                     )],
                 imgWidth:800,
             },
             {
-                title: '',
-                imgUrl: createPath(
-                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/2.jpg'
+                title: 'Изучили правило "Брат 1"',
+                imgUrl: [createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.10/gif1.brat1+1/plus1.gif'
                 ),
+                    createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.10/gif2.brat1-1/minus1.gif'
+                ),
+                ],
+                imgWidth: 400,
+            },
+            {
+                title: 'Освоили счет с правилом "Брат 1" на физическом абакусе (однозначные)',
                 imgWidth: 800,
             },
             {
-                title: 'Познакомились с режимом Touch',
-                imgUrl: createPath(
-                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/3.jpg'
-                ),
+                title: 'Освоили счет с правилом "Брат 1" на воображаемом абакусе (однозначные)',
                 imgWidth: 800,
             },
             {
-                title: 'Познакомились с развивающими и увлекательными играми',
-                imgUrl: createPath(
-                    '/assets/img/lessons/brother-img/1/ma/brothers1.8/4.jpg'
-                ),
+                title: 'Освоили счет с правилом "Брат 1" на физическом абакусе (двузначные)',
                 imgWidth: 800,
             },
         ],

@@ -30,11 +30,13 @@ export const PanelsLesson = () => {
     }, [lessonIndex]);
 
     const renderItem = useCallback((item: IPanelLessonItem) => {
+        const defaultWidth = 800;
+        const width = item.imageWidth || defaultWidth
         switch (item.type) {
             case 'image':
-                return <Image src={item.url} width={800} />;
+                return <Image src={item.url} width={width} />;
             case 'video':
-                return <Video src={item.url} width={800} />;
+                return <Video src={item.url} width={width} />;
             case 'games':
                 return <GameViewer games={createGames(item.games)} />;
         }
@@ -47,7 +49,6 @@ export const PanelsLesson = () => {
                     <Panel
                         key={index}
                         name={index.toString()}
-                        height={600}
                         title={item.title}
                         collapse={Boolean(index)}
                     >

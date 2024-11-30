@@ -23,6 +23,7 @@ export type TotalLessonName = 'total';
 
 export interface PanelLessonItemBase {
     title: string;
+    imageWidth?: number;
 }
 
 export interface PanelLessonItemVideo extends PanelLessonItemBase {

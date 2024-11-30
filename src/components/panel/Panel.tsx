@@ -5,7 +5,8 @@ import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 
 export const Panel: FC<
     PropsWithChildren<{
-        height: number;
+        height?: number;
+        width: number;
         collapse?: boolean;
         title: string;
         name: string;
