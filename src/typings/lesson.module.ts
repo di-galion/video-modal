@@ -95,7 +95,7 @@ export type GameLessonMode = 'list' | 'game';
 
 export interface IVideoLesson extends IBaseLesson {
     name: VideoLessonName;
-    url: string;
+    url: string | Promise<string | undefined>;
 }
 
 export interface IImageLesson extends IBaseLesson {

@@ -12,8 +12,11 @@
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.2.7",
+        "axios": "^1.7.8",
         "classnames": "^2.5.1",
         "hls.js": "^1.5.15",
+        "js-cookie": "^3.0.5",
+        "jwt-decode": "^4.0.0",
         "rc-collapse": "^3.8.0",
         "rc-input-number": "^9.2.0",
         "rc-slider": "^11.1.6",

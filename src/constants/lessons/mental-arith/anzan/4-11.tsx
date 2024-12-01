@@ -1,3 +1,4 @@
+import api, { CloudType } from '../../../../api/http/api';
 import { ILesson } from '../../../../typings/lesson.module';
 import { createPath } from '../../../../utils/createPath';
 
@@ -47,8 +48,11 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         secondTitle: 'Изучение темы "Анзан". Случаные числа. Двузначные',
         status: true,
         index: 5,
-        name: 'game',
-        games: [],
+        name: 'video',
+        url: api.getCloudVideoUrl(
+            CloudType.Anzan,
+            '20.Демонстрация примера по теме «Анзан. Случайные числа» (Двузначные)..mp4'
+        ),
     },
     {
         title: 'Игра на счет',

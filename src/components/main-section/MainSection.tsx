@@ -13,11 +13,13 @@ const MainSection = () => {
                     <TopPart />
                     <div className={styles.contentInner}>
                         <p className={styles.title}>{currentLesson.title}</p>
-                        {/*<p className={styles.secondTitle}>
-                            {currentLesson.secondTitle}
-                        </p>*/}
-                        {renderLesson()}
+                        {currentLesson.secondTitle && (
+                            <p className={styles.secondTitle}>
+                                : {currentLesson.secondTitle}
+                            </p>
+                        )}
                     </div>
+                    {renderLesson()}
                 </div>
                 <BottomPart />
             </div>

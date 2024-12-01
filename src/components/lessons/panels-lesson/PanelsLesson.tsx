@@ -31,7 +31,7 @@ export const PanelsLesson = () => {
 
     const renderItem = useCallback((item: IPanelLessonItem) => {
         const defaultWidth = 800;
-        const width = item.imageWidth || defaultWidth
+        const width = item.imageWidth || defaultWidth;
         switch (item.type) {
             case 'image':
                 return <Image src={item.url} width={width} />;
