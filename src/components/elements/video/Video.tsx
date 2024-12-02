@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-
-type IVideoLessonPromiseFunc = () => Promise<string | undefined>;
+import api, { CloudType } from '../../../api/http/api';
 
 export const Video: FC<
     React.VideoHTMLAttributes<HTMLVideoElement> & {
-        url?: string | IVideoLessonPromiseFunc;
+        url?: string | [CloudType, string];
     }
 > = ({ url, ...props }) => {
     const [src, setSrc] = useState('');
@@ -15,9 +14,9 @@ export const Video: FC<
             if (typeof url === 'string') {
                 setSrc(url);
             } else {
-                url().then((res) => {
-                    setSrc(res as string);
-                });
+                api.getCloudVideoUrl(url[0], url[1]).then((res) =>
+                    setSrc(res as string)
+                );
             }
         } else {
             setSrc(props.src!);

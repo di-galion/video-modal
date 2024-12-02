@@ -1,6 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
-import api, { CloudType } from '../../../../api/http/api.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
     {
@@ -21,7 +24,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 55». Разминка 1..mp4'
                 ),
@@ -29,7 +32,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 55». Разминка 2..mp4'
                 ),
@@ -37,7 +40,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 55». Разминка 3..mp4'
                 ),
@@ -45,7 +48,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 4',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 55». Разминка 4..mp4'
                 ),
@@ -137,7 +140,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 99». Разминка 1..mp4'
                 ),
@@ -145,7 +148,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 99». Разминка 2..mp4'
                 ),
@@ -153,7 +156,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 99». Разминка 3..mp4'
                 ),
@@ -161,7 +164,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 4',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 6. «Просто 99». Разминка 4..mp4'
                 ),
@@ -178,7 +181,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 99 (зеркальный)',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '17. Демонстрация примера по теме Просто 99 (зеркальный) (1).mp4'
                 ),
@@ -186,7 +189,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 99',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '18. Демонстрация примера по теме Просто 99.mp4'
                 ),

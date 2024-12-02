@@ -1,6 +1,9 @@
-import api, { CloudType } from '../../../../api/http/api';
+import { CloudType } from '../../../../api/http/api';
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {
@@ -49,7 +52,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 5,
         name: 'video',
-        url: api.getCloudVideoUrl(
+        url: createCloudVideoUrl(
             CloudType.Anzan,
             '20.Демонстрация примера по теме «Анзан. Случайные числа» (Двузначные)..mp4'
         ),

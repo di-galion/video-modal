@@ -1,6 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
-import api, { CloudType } from '../../../../api/http/api.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
     {
@@ -21,7 +24,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5. «Просто. Круглые десятки и числа от 10 до 19». Разминка 1..mp4'
                 ),
@@ -29,7 +32,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5. «Просто. Круглые десятки и числа от 10 до 19». Разминка 2..mp4'
                 ),
@@ -37,7 +40,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5. «Просто. Круглые десятки и числа от 10 до 19». Разминка 3..mp4'
                 ),
@@ -45,7 +48,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 4',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5. «Просто. Круглые десятки и числа от 10 до 19». Разминка 4..mp4'
                 ),
@@ -53,7 +56,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 5',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5. «Просто. Круглые десятки и числа от 10 до 19». Разминка 5..mp4'
                 ),
@@ -141,7 +144,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5.1«Просто 44-55». Разминка 1..mp4'
                 ),
@@ -149,7 +152,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5.2 «Просто 44-55». Разминка 2..mp4'
                 ),
@@ -157,7 +160,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 5.3 «Просто 44-55». Разминка 3..mp4'
                 ),
@@ -165,7 +168,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 44 (зеркальный)',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '13. Демонстрация примера по теме Просто 44 (зеркальный).mp4'
                 ),
@@ -173,7 +176,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 55 (зеркальный)',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '14. Демонстрация примера по теме Просто 55 (зеркальный).mp4'
                 ),
@@ -190,7 +193,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 44',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '15. Демонстрация примера по теме Просто 44.mp4'
                 ),
@@ -198,7 +201,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера 55',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '16. Демонстрация примера по теме Просто 55.mp4'
                 ),

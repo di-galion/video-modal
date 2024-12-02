@@ -1,6 +1,9 @@
+import { CloudType } from '../../../../api/http/api.ts';
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
-import api, { CloudType } from '../../../../api/http/api.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
 
 const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
     {
@@ -21,7 +24,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 1..mp4'
                 ),
@@ -29,7 +32,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 2..mp4'
                 ),
@@ -37,7 +40,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 3..mp4'
                 ),
@@ -45,7 +48,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 4',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 4..mp4'
                 ),
@@ -53,7 +56,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 5',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 5..mp4'
                 ),
@@ -61,7 +64,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 6',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 5». Разминка 6..mp4'
                 ),
@@ -167,7 +170,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Цифры 6,7,8,9',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '7. Знакомство с цифрами 6-9.mp4'
                 ),
@@ -199,7 +202,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 6-9». Разминка 1..mp4'
                 ),
@@ -207,7 +210,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 6-9». Разминка 2..mp4'
                 ),
@@ -215,7 +218,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 6-9». Разминка 3..mp4'
                 ),
@@ -223,7 +226,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Разминка 4',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     'Занятие 3. «Просто 6-9». Разминка 4..mp4'
                 ),
@@ -240,7 +243,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: api.getCloudVideoUrl(
+                url: createCloudVideoUrl(
                     CloudType.Simple,
                     '8. Демонстрация примера по теме Просто 9.mp4'
                 ),
