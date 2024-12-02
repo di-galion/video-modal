@@ -5,8 +5,8 @@ import { AuthService } from '../../api/http/auth.service';
 import { useActions } from '../../hooks/useActions';
 
 export const SelectPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('test.online@amakids.ru');
+    const [password, setPassword] = useState('TVD8apGC6JBG2rBg');
     const [index, setIndex] = useState('');
     const { setApiState } = useActions();
     const navigate = useNavigate();

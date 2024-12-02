@@ -3,6 +3,15 @@ import TU_1 from './lessons/mult-table/1';
 import MA_ADDON_1 from './lessons/mental-arith/addon/1.tsx';
 import MA_ADDON_2 from './lessons/mental-arith/addon/2.tsx';
 
+import SIMPLE_1 from './lessons/mental-arith/simple/1-1.tsx';
+import SIMPLE_2 from './lessons/mental-arith/simple/1-2.tsx';
+import SIMPLE_3 from './lessons/mental-arith/simple/1-3.tsx';
+import SIMPLE_4 from './lessons/mental-arith/simple/1-4.tsx';
+import SIMPLE_5 from './lessons/mental-arith/simple/1-5.tsx';
+import SIMPLE_6 from './lessons/mental-arith/simple/1-6.tsx';
+import SIMPLE_7 from './lessons/mental-arith/simple/1-7.tsx';
+import SIMPLE_8 from './lessons/mental-arith/simple/1-8.tsx';
+
 import BROTHERS_1 from './lessons/mental-arith/brothers/2-1.tsx';
 import BROTHERS_2 from './lessons/mental-arith/brothers/2-2.tsx';
 import BROTHERS_3 from './lessons/mental-arith/brothers/2-3.tsx';
@@ -59,6 +68,14 @@ function getLesson(lesson: Array<string | ILesson[]>) {
 const LESSONS: Record<string, Array<Array<string | ILesson[]>>> = {
     'mult-table': [TU_1],
     'mental-arithmetics': [
+        SIMPLE_1,
+        SIMPLE_2,
+        SIMPLE_3,
+        SIMPLE_4,
+        SIMPLE_5,
+        SIMPLE_6,
+        SIMPLE_7,
+        SIMPLE_8,
         BROTHERS_1,
         BROTHERS_2,
         BROTHERS_3,

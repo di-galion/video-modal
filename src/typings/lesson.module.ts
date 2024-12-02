@@ -28,7 +28,7 @@ export interface PanelLessonItemBase {
 
 export interface PanelLessonItemVideo extends PanelLessonItemBase {
     type: 'video';
-    url: string;
+    url: string | IVideoLessonPromiseFunc;
 }
 
 export interface PanelLessonItemImage extends PanelLessonItemBase {
@@ -93,9 +93,11 @@ export type LessonGameStatus = 'success' | 'fail' | 'notStarted';
 
 export type GameLessonMode = 'list' | 'game';
 
+type IVideoLessonPromiseFunc = () => Promise<string | undefined>;
+
 export interface IVideoLesson extends IBaseLesson {
     name: VideoLessonName;
-    url: string | Promise<string | undefined>;
+    url: string | IVideoLessonPromiseFunc;
 }
 
 export interface IImageLesson extends IBaseLesson {

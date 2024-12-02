@@ -36,7 +36,7 @@ export const PanelsLesson = () => {
             case 'image':
                 return <Image src={item.url} width={width} />;
             case 'video':
-                return <Video src={item.url} width={width} />;
+                return <Video url={item.url} width={width} controls />;
             case 'games':
                 return <GameViewer games={createGames(item.games)} />;
         }

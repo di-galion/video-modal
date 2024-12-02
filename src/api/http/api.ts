@@ -12,7 +12,7 @@ class Api {
         return (await instance.get<any, { data: Response }>(url)).data;
     }
 
-    async getCloudVideoUrl(type: CloudType, fileName: string) {
+    getCloudVideo(type: CloudType) {
         const map: Record<CloudType, string[]> = {
             [CloudType.Simple]: [
                 '%2FМатериалы%2FМентальная%20арифметика%20онлайн%2F1.Просто%2FРазминка%2FВидео%2F',
@@ -36,14 +36,24 @@ class Api {
             )
         );
 
-        const response = await Promise.all(request);
+        return Promise.all(request);
+    }
 
-        for (let data of response) {
-            const result = data.files.find((value) => value.name === fileName);
-            if (result) {
-                return result.url;
+    getCloudVideoUrl(type: CloudType, fileName: string) {
+        return async () => {
+            const response = await this.getCloudVideo(type);
+
+            console.log('response', response);
+
+            for (let data of response) {
+                const result = data.files.find(
+                    (value) => value.name.trim() === fileName.trim()
+                );
+                if (result) {
+                    return result.url;
+                }
             }
-        }
+        };
     }
 }
 

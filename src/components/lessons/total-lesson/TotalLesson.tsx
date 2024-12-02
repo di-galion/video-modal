@@ -22,7 +22,11 @@ export const TotalLesson = () => {
                         <div className={styles.row}>
                             {item.imgUrl
                                 ? images.map((url) => (
-                                      <Image src={url} width={item.imgWidth} />
+                                      <Image
+                                          key={url}
+                                          src={url}
+                                          width={item.imgWidth}
+                                      />
                                   ))
                                 : null}
                         </div>
