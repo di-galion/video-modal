@@ -1,9 +1,9 @@
 import { FC, PropsWithChildren } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from '../pages/main-page/MainPage';
-import Layout from '../providers/Layout';
 import { GamesPage } from '../pages/games/GamesPage';
+import MainPage from '../pages/main-page/MainPage';
 import { SelectPage } from '../pages/select-page/SelectPage';
+import Layout from '../providers/Layout';
 
 const Router: FC<PropsWithChildren> = () => {
     return (
