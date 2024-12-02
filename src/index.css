@@ -11,6 +11,7 @@ html {
 body {
     max-width: 1500px;
     font-family: Roboto, Arial, sans-serif;
+    margin: auto;
 }
 
 #root {
