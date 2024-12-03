@@ -1,81 +1,82 @@
 .top {
-	padding: 16px;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	background: #fff;
-	box-shadow: 0 10px 15px rgba(237, 240, 254, 0.8);
-	border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0 10px 15px rgba(237, 240, 254, 0.8);
+    border-radius: 10px;
 
-	&__nameBlock {
-		margin-right: auto;
-	}
-	&__name {
-		margin-bottom: 0;
-		font-size: 20px;
-		line-height: 140%;
-		color: #000;
-	}
+    &__nameBlock {
+        margin-right: auto;
+    }
+    &__name {
+        margin-bottom: 0;
+        font-size: 20px;
+        line-height: 140%;
+        color: #000;
+    }
 
-	&__status {
-		display: inline-block;
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		margin-left: 6px;
+    &__status {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-left: 6px;
+        background: green;
 
-		&_red {
-			background: red;
-		}
-	}
+        &_red {
+            background: red;
+        }
+    }
 }
 
 // settings
 .settingsBlock {
-	display: flex;
+    display: flex;
 
-	&__lessonLink {
-		color: #5e72d9;
-		padding: 5px 25px;
-		margin-right: 14px;
-		margin-bottom: -1px;
-		cursor: pointer;
-		font-size: 14px;
-		line-height: 120%;
-		display: flex;
-		align-items: center;
-		transition: all 0.3s;
-		background: #fff;
-		box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-		border-radius: 10px;
-		&:hover {
-			box-shadow: 0 6px 15px rgba(197, 197, 200, 0.4);
-		}
+    &__lessonLink {
+        color: #5e72d9;
+        padding: 5px 25px;
+        margin-right: 14px;
+        margin-bottom: -1px;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 120%;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s;
+        background: #fff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        &:hover {
+            box-shadow: 0 6px 15px rgba(197, 197, 200, 0.4);
+        }
 
-		& span {
-			padding-left: 6px;
-		}
-	}
-	&__buttons {
-		display: flex;
-		border-radius: 4px;
-		margin-right: -4px;
-	}
+        & span {
+            padding-left: 6px;
+        }
+    }
+    &__buttons {
+        display: flex;
+        border-radius: 4px;
+        margin-right: -4px;
+    }
 
-	&__button {
-		width: 35px;
-		height: 35px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		position: relative;
-		margin: 0 0 0 10px;
-		border-radius: 5px;
-		font-size: 28px;
-		transition: all 0.3s;
+    &__button {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin: 0 0 0 10px;
+        border-radius: 5px;
+        font-size: 28px;
+        transition: all 0.3s;
 
-		&:hover {
-			box-shadow: 0 3px 10px rgba(122, 135, 168, 0.2);
-		}
-	}
+        &:hover {
+            box-shadow: 0 3px 10px rgba(122, 135, 168, 0.2);
+        }
+    }
 }

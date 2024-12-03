@@ -34,8 +34,18 @@ export const SelectPage = () => {
         setTeacher();
     }, []);
 
-    const goToMA = () => {
-        navigate('/video-module/mental-arithmetics/' + index);
+    const goToMATeacher = () => {
+        navigate(
+            '/video-module/mental-arithmetics?role=teacher&lesson=' +
+                import.meta.env.VITE_LESSON_ID
+        );
+    };
+
+    const goToMAStudent = () => {
+        navigate(
+            '/video-module/mental-arithmetics?role=teacher&lesson=' +
+                import.meta.env.VITE_LESSON_ID
+        );
     };
 
     const handleSelectLesson = (value: string) => {
@@ -55,8 +65,11 @@ export const SelectPage = () => {
                 ))}
             </select>
             <input value={index} onChange={(e) => setIndex(e.target.value)} />
-            <button type="button" onClick={goToMA}>
-                Go!
+            <button type="button" onClick={goToMATeacher}>
+                Go as teacher!
+            </button>
+            <button type="button" onClick={goToMAStudent}>
+                Go as student!
             </button>
             <Link to={'/games/mental-arithmetics'}>Ментальная арифметика</Link>
             <Link to={'/games/mult-table'}>Таблица умножения</Link>

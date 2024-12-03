@@ -1,6 +1,6 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER } from './token.constants';
 import { IAuthResponse } from './auth.types';
-// @ts-ignore
+
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
@@ -15,8 +15,8 @@ export const saveToStorage = (data: IAuthResponse, saveRefresh = false) => {
     const user = {
         // statuses: decodedHeader.statuses,
         id: decodedHeader.user_id,
-        username: decodedHeader.username,
-        fullName: decodedHeader.full_name,
+        //username: decodedHeader.username,
+        //fullName: decodedHeader.full_name,
     };
     localStorage?.setItem(USER, JSON.stringify(user));
 };
@@ -31,8 +31,8 @@ export const getAccessToken = () => {
     return Cookies.get(ACCESS_TOKEN);
 };
 
-export const getUserFromStorage = () => {
+export const getUserIdFromStorage = () => {
     if (typeof window !== 'undefined') {
-        return JSON.parse(localStorage?.getItem(USER) || '{}');
+        return Number(JSON.parse(localStorage?.getItem(USER) || '{}').id);
     }
 };

@@ -14,7 +14,7 @@ import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
 import { GAME_DATA_MAP } from '../../constants/game.contants';
 import { createPath } from '../../utils/createPath';
-import { useWsConnect } from '../../hooks/useWsConnect';
+import { useConnection } from '../../hooks/useConnection';
 
 export const GamesPage = () => {
     const backgroundImage = {
@@ -28,7 +28,7 @@ export const GamesPage = () => {
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
 
-    useWsConnect();
+    useConnection();
 
     const { clearSettings } = useActions();
 
@@ -141,7 +141,7 @@ const gamesList: Record<
             { game: 'shadowTheater' },
             { game: 'dart' },
             { game: 'completeRow' },
-            { game: 'puzzleAbacus' }
+            { game: 'puzzleAbacus' },
         ],
     },
 };

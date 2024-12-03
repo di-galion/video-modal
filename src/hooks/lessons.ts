@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTypedSelector } from './useTypedSelector';
 import { useActions } from '../hooks/useActions';
 import { LESSONS_MAP } from '../constants/lessonsMap';
@@ -6,6 +6,7 @@ import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
 import { useGameName } from './game';
 import { useWebSocket } from '../api/socket/useWebSocket';
 import { createGames } from '../utils/games';
+import { useSearchParams } from 'react-router-dom';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -44,7 +45,11 @@ export function useLessonSwitcher() {
 
     const switchLesson = useCallback(
         (index: number) => {
-            addNewLesson(lessons[index]);
+            if (index < lessons.length) {
+                addNewLesson(lessons[index]);
+            } else {
+                console.error('Номер урока выходит за диапазон');
+            }
         },
         [addNewLesson, lessons]
     );
@@ -104,3 +109,14 @@ export function useLessonCurrentGame() {
     const [gameName] = useGameName();
     return games.find((game) => game.name === gameName);
 }
+
+export const useLessonId = () => {
+    const [searchParams] = useSearchParams();
+
+    const id = useMemo(() => {
+        const lesson = searchParams.get('lesson');
+        return lesson ? Number(lesson) : Number(import.meta.env.VITE_LESSON_ID);
+    }, [searchParams]);
+
+    return id;
+};
