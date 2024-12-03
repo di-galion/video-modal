@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -59,31 +63,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
             {
                 title: 'Друг 1 (кораблики 1-9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/16/ma/friends16.6/friend1.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/16/ma/friends16.6/friend1.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 1 (+9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '33.Знакомство с правилом «Друг 1» (+1)..mp4'
+                ),
             },
             {
                 title: 'Друг 1 (+9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/16/ma/friends16.6/gif1/plus1.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/16/ma/friends16.6/gif1/plus1.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 1 (-9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '34.Знакомство с правилом «Друг 1» (-1)..mp4'
+                ),
             },
             {
                 title: 'Друг 1 (-9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/16/ma/friends16.6/gif2/minus1.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/16/ma/friends16.6/gif2/minus1.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -96,7 +112,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '35.Демонстрация примера по теме «Друг 1» (Однозначные)..mp4'
+                ),
             },
 
             {
@@ -104,7 +123,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
 
@@ -114,7 +133,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -133,9 +152,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
             },
             {
                 title: 'Изучили  правило "Друг 1"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/16/ma/friends16.6/friend1.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/16/ma/friends16.6/friend1.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/16/ma/friends16.6/gif1/plus1.gif'
                     ),
@@ -143,7 +163,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
                         '/assets/img/lessons/friends-img/16/ma/friends16.6/gif2/minus1.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили счет с правилом "Друг 1" на физическом абакусе (однозначные)',
@@ -157,7 +177,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_16: ILesson[] = [
         status: true,
         index: 9,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 1', LESSONS_MENTAL_ARITH_FRIENDS_16];

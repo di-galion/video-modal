@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {
@@ -60,7 +64,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 9 (+9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '1.Знакомство с правилом «Друг+Брат 9» (+9)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 9 (+9)',
@@ -72,7 +79,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 9 (-9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '2.Знакомство с правилом «Друг+Брат 9» (-9)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 9 (-9)',
@@ -89,7 +99,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 7,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Anzan,
+            '3.Демонстрация примера по теме «Друг+Брат 9» (Однозначные)..mp4'
+        ),
     },
     {
         title: 'Изучение новой темы',
@@ -101,7 +114,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 8 (+8)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '3.Демонстрация примера по теме «Друг+Брат 9» (Однозначные)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 8 (+8)',
@@ -113,7 +129,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 8 (-8)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '4.Знакомство с правилом «Друг+Брат 8» (+8)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 8 (-8)',
@@ -134,7 +153,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '5.Знакомство с правилом «Друг+Брат 8» (-8)..mp4'
+                ),
             },
             {
                 title: 'Игра',
@@ -144,10 +166,32 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         ],
     },
     {
+        title: 'Изучение новой темы',
+        secondTitle: 'Тема "Друг+Брат 8". Однозначные ',
+        status: true,
+        index: 10,
+        name: 'panels',
+        items: [
+            {
+                title: 'Демонстрация примера',
+                type: 'video',
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '6.Демонстрация примера по теме «Друг+Брат 8» (Однозначные)..mp4'
+                ),
+            },
+            {
+                title: 'Игра',
+                type: 'games',
+                games: [],
+            },
+        ],
+    },
+    {
         title: 'Игра на счет',
         secondTitle: '',
         status: true,
-        index: 10,
+        index: 11,
         name: 'game',
         games: [],
     },
@@ -155,7 +199,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Заключение',
         secondTitle: '',
         status: true,
-        index: 11,
+        index: 12,
         name: 'total',
         items: [
             {
@@ -194,7 +238,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Статистика',
         secondTitle: '',
         status: true,
-        index: 12,
+        index: 13,
         name: 'MaoStatisticsLesson',
     },
 ];

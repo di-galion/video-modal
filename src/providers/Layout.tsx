@@ -17,6 +17,7 @@ const Layout = () => {
                             top: 20,
                             padding: 20,
                             zIndex: 200,
+                            border: '2px solid green',
                         }}
                     >
                         <Link to="/">Auth and select</Link>

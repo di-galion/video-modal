@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {
@@ -54,7 +58,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '7.Демонстрация примера по теме «Друг+Брат 9» (Двузначные)..mp4'
+                ),
             },
             {
                 title: 'Игра',
@@ -73,7 +80,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '8.Демонстрация примера по теме «Друг+Брат 8» (Двузначные)..mp4'
+                ),
             },
             {
                 title: 'Игра',

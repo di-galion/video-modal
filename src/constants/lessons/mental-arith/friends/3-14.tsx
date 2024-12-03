@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -56,7 +60,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
         status: true,
         index: 5,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '31.Демонстрация примера по теме «Друг 3» (Двузначные)..mp4'
+        ),
     },
 
     {
@@ -68,16 +75,17 @@ const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
         games: ['flashCards'],
         //реальные игры['countExamples']
     },
-
     {
         title: 'Изучение новой темы',
         secondTitle: 'Тема "Друг 2". Двузначные',
         status: true,
         index: 7,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '32.Демонстрация примера по теме «Друг 2» (Двузначные)..mp4'
+        ),
     },
-
     {
         title: 'Счет на физическом абакусе',
         secondTitle: 'Изучение темы "Друг 2". Двузначные',
@@ -94,7 +102,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -123,7 +131,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_14: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 3, 2', LESSONS_MENTAL_ARITH_FRIENDS_14];

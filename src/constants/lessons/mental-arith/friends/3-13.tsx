@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -60,31 +64,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
             {
                 title: 'Друг 3 (гномы 3-7)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.6/friend3.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.6/friend3.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 3 (+3)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '25.Знакомство с правилом «Друг 3» (+3)..mp4'
+                ),
             },
             {
                 title: 'Друг 3 (+3)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.6/gif1/plus3.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.6/gif1/plus3.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 3 (-3)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '26.Знакомство с правилом «Друг 3» (-3)..mp4'
+                ),
             },
             {
                 title: 'Друг 3 (-3)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.6/gif2/minus3.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.6/gif2/minus3.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -97,7 +113,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '27.Демонстрация примера по теме «Друг 3» (Однозначные)..mp4'
+                ),
             },
 
             {
@@ -105,7 +124,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
 
@@ -119,31 +138,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
             {
                 title: 'Друг 2 (лягушки 2-8)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.8/friend2.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.8/friend2.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 2 (+2)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '28.Знакомство с правилом «Друг 2» (+2)..mp4'
+                ),
             },
             {
                 title: 'Друг 2 (+2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.8/gif1/plus2.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.8/gif1/plus2.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 2 (-2)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '29.Знакомство с правилом «Друг 2» (-2)..mp4'
+                ),
             },
             {
                 title: 'Друг 2 (-2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/13/ma/friends13.8/gif2/minus2.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/13/ma/friends13.8/gif2/minus2.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -156,18 +187,19 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '30.Демонстрация примера по теме «Друг 2» (Однозначные).mp4'
+                ),
             },
-
             {
                 title: 'Игра',
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
-
 
     {
         title: 'Игра на счет',
@@ -175,7 +207,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -194,9 +226,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
             },
             {
                 title: 'Изучили  правило "Друг 3"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/13/ma/friends13.6/friend3.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/13/ma/friends13.6/friend3.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/13/ma/friends13.6/gif1/plus3.gif'
                     ),
@@ -204,16 +237,17 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
                         '/assets/img/lessons/friends-img/13/ma/friends13.6/gif2/minus3.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили счет с правилом "Друг 3" на физическом абакусе (однозначные)',
             },
             {
                 title: 'Изучили правило "Друг 2"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/13/ma/friends13.8/friend2.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/13/ma/friends13.8/friend2.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/13/ma/friends13.8/gif1/plus2.gif'
                     ),
@@ -221,7 +255,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
                         '/assets/img/lessons/friends-img/13/ma/friends13.8/gif2/minus2.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили счет с  правилом "Друг 2" на физическом абакусе (однозначные)',
@@ -235,7 +269,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_13: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 3, 2', LESSONS_MENTAL_ARITH_FRIENDS_13];

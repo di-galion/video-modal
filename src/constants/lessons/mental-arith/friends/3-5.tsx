@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -56,7 +60,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
         status: true,
         index: 5,
         name: 'video',
-        url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '15.Демонстрация примера по теме «Друг 7» (Двузначные)..mp4'
+        ),
     },
 
     {
@@ -75,7 +82,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
         status: true,
         index: 7,
         name: 'video',
-        url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '16.Демонстрация примера по теме «Друг 6» (Двузначные)..mp4'
+        ),
     },
 
     {
@@ -94,7 +104,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -123,7 +133,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_5: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 7, 6', LESSONS_MENTAL_ARITH_FRIENDS_5];

@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
     {
@@ -21,19 +25,28 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 11. «Брат 4». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 11. «Брат 4». Разминка 2..mp4'
+                ),
             },
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 11. «Брат 4». Разминка 3..mp4'
+                ),
             },
-        ]
+        ],
     },
 
     {
@@ -42,7 +55,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -62,7 +75,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
         status: true,
         index: 4,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers']
     },
 
@@ -91,7 +104,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
 
@@ -111,7 +124,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -134,7 +147,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
             {
                 title: 'Успешно завершили тему "Братья"!',
             },
-
         ],
     },
 
@@ -144,7 +156,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_11: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Брат 4', LESSONS_MENTAL_ARITH_BROTHER_11];

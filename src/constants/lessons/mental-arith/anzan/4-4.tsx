@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {
@@ -52,7 +56,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 7 (+7)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '9.Знакомство с правилом «Друг+Брат 7» (+7)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 7 (+7)',
@@ -64,7 +71,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 7 (-7)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '10.Знакомство с правилом «Друг+Брат 7» (-7)..mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 7 (-7)',
@@ -80,8 +90,22 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         secondTitle: 'Закрепление темы "Друг+Брат 7". Однозначные',
         status: true,
         index: 6,
-        name: 'game',
-        games: [],
+        name: 'panels',
+        items: [
+            {
+                type: 'video',
+                title: 'Демострация примера',
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '11.Демонстрация примера по теме «Друг+Брат 7» (Однозначные)..mp4'
+                ),
+            },
+            {
+                type: 'games',
+                title: 'Игра',
+                games: [],
+            },
+        ],
     },
     {
         title: 'Изучение новой темы',
@@ -93,7 +117,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 6 (+6)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '12.Знакомство с правилом «Друг+Брат 6» (+6).mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 6 (+6)',
@@ -105,7 +132,10 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Правило. Друг+Брат 6 (-6)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '13.Знакомство с правилом «Друг+Брат 6» (-6).mp4'
+                ),
             },
             {
                 title: 'Друг+Брат 6 (-6)',
@@ -121,8 +151,22 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         secondTitle: 'Закрепление темы "Друг+Брат 6". Однозначные',
         status: true,
         index: 8,
-        name: 'game',
-        games: [],
+        name: 'panels',
+        items: [
+            {
+                type: 'video',
+                title: 'Демострация примера',
+                url: createCloudVideoUrl(
+                    CloudType.Anzan,
+                    '14.Демонстрация примера по теме «Друг+Брат 6» (Однозначные)..mp4'
+                ),
+            },
+            {
+                type: 'games',
+                title: 'Игра',
+                games: [],
+            },
+        ],
     },
     {
         title: 'Игра на счет',

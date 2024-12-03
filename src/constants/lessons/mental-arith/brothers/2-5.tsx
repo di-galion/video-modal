@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
     {
@@ -20,19 +24,28 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
             {
                 title: 'Демонстрация примера 1. Круглые десятки',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    'Занятие 5. «Брат 2». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Демонстрация примера 2. Правило в десятках',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    'Занятие 5. «Брат 2». Разминка 2..mp4'
+                ),
             },
             {
                 title: 'Демонстрация примера 3. Зеркальный',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    'Занятие 5. «Брат 2». Разминка 3..mp4'
+                ),
             },
-        ]
+        ],
     },
     {
         title: 'Игра на счет',
@@ -40,7 +53,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -59,7 +72,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         status: true,
         index: 4,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
 
@@ -86,7 +99,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
     {
@@ -104,7 +117,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -124,7 +137,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
             {
                 title: 'Освоили счет с правилом "Брат 2" на воображаемом абакусе (двузначные)',
             },
-
         ],
     },
     {
@@ -133,7 +145,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_5: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Брат 2', LESSONS_MENTAL_ARITH_BROTHER_5];

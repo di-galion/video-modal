@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
     {
@@ -21,14 +25,17 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 7.1 «Брат 3». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Разминка 2',
                 type: 'video',
                 url: createPath('/assets/video/720.mp4'),
             },
-        ]
+        ],
     },
 
     {
@@ -37,7 +44,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -66,7 +73,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
         status: true,
         index: 5,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
 
@@ -95,19 +102,28 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
             {
                 title: 'Демонстрация примера 2. Правило в десятках',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '19.Демонстрация примера по теме «Брат 3» (Правило в десятках)..mp4'
+                ),
             },
             {
                 title: 'Демонстрация примера 3. Зеркальный',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '20.Демонстрация примера по теме «Брат 3» (Зеркальный)..mp4'
+                ),
             },
             {
                 title: 'Демонстрация примера 4. Любые числа',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '21.Демонстрация примера по теме «Брат 3» (Двузначные)..mp4'
+                ),
             },
-        ]
+        ],
     },
 
     {
@@ -120,14 +136,20 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 7. «Брат 3. Двузначные». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 7.2 «Брат 3. Двузначные». Разминка 2..mp4'
+                ),
             },
-        ]
+        ],
     },
 
     {
@@ -145,7 +167,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: ['flashCards']
+                games: ['flashCards'],
                 //реальные игры['countExamples']
             },
         ],
@@ -157,7 +179,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
         status: true,
         index: 10,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -177,7 +199,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
             {
                 title: 'Освоили счет с правилом "Брат 3" на физическом абакусе (двузначные)',
             },
-
         ],
     },
 
@@ -187,7 +208,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_7: ILesson[] = [
         status: true,
         index: 12,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Брат 3', LESSONS_MENTAL_ARITH_BROTHER_7];
