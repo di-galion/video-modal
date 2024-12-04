@@ -70,10 +70,16 @@ const accountData = createSlice({
         setRole: (state, action: PayloadAction<Role>) => {
             state.role = action.payload;
         },
-        setAccountData: (state, action: PayloadAction<IAccountState>) => {
+        setAccountData: (
+            state,
+            action: PayloadAction<
+                Pick<IAccountState, 'role' | 'students' | 'teacher' | 'me'>
+            >
+        ) => {
             state.role = action.payload.role;
             state.students = action.payload.students;
             state.teacher = action.payload.teacher;
+            state.me = action.payload.me;
         },
         addStudent: (state, action: PayloadAction<IUser>) => {
             state.students = [...state.students, action.payload];

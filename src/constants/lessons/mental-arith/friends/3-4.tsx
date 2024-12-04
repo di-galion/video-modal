@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -56,31 +60,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
             {
                 title: 'Друг 7 (тюльпаны 7-3)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 7 (+7)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '9.Знакомство с правилом «Друг 7» (+7)..mp4'
+                ),
             },
             {
                 title: 'Друг 7 (+7)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.6/gif1/plus7.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.6/gif1/plus7.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 7 (-7)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '10.Знакомство с правилом «Друг 7» (-7)..mp4'
+                ),
             },
             {
                 title: 'Друг 7 (-7)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.6/gif2/minus7.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.6/gif2/minus7.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -93,7 +109,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '11.Демонстрация примера по теме «Друг 7» (Однозначные).mp4'
+                ),
             },
 
             {
@@ -101,9 +120,8 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
-
     },
 
     {
@@ -116,33 +134,44 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
             {
                 title: 'Друг 6 (шарики 6-4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.8/friend6.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.8/friend6.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 6 (+6)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '12.Знакомство с правилом «Друг 6» (+6)..mp4'
+                ),
             },
             {
                 title: 'Друг 6 (+6)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.8/gif1/plus6.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.8/gif1/plus6.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 6 (-6)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '13.Знакомство с правилом «Друг 6» (+6)..mp4'
+                ),
             },
             {
                 title: 'Друг 6 (-6)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/4/ma/friends4.8/gif2/minus6.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/4/ma/friends4.8/gif2/minus6.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
-
 
     {
         title: 'Счет на физическом абакусе',
@@ -154,15 +183,17 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '14.Демонстрация примера по теме «Друг 6» (Однозначные).mp4'
+                ),
             },
-
             {
                 title: 'Игра',
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
     {
@@ -171,7 +202,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -189,25 +220,27 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
             },
             {
                 title: 'Изучили правило "Друг 7"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/4/ma/friends4.11/punkt3/friend7.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/4/ma/friends4.6/gif1/plus7.gif'
                     ),
                     createPath(
                         '/assets/img/lessons/friends-img/4/ma/friends4.6/gif2/minus7.gif'
                     ),
-                ]
+                ],
             },
             {
                 title: 'Освоили правило "Друг 7" на физическом абакусе (однозначные)',
             },
             {
                 title: 'Изучили правило "Друг 6"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/4/ma/friends4.8/friend6.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/4/ma/friends4.8/friend6.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/4/ma/friends4.8/gif1/plus6.gif'
                     ),
@@ -215,7 +248,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
                         '/assets/img/lessons/friends-img/4/ma/friends4.8/gif2/minus6.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили правило "Друг 6" на физическом абакусе (однозначные)',
@@ -228,7 +261,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_4: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 7, 6', LESSONS_MENTAL_ARITH_FRIENDS_4];

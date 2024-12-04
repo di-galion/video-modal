@@ -12,6 +12,20 @@ class Api {
         return (await instance.get<any, { data: Response }>(url)).data;
     }
 
+    async getLesson(id: number) {
+        const data = await this.get(`/api/lessons/${id}/?expand=theme_id`);
+        console.log('LESSON_RES', data);
+        return data;
+    }
+
+    async getUserData(id: number) {
+        const data = await this.get(
+            `/api/lessons/${id}/?expand=teacher_id,students.student_id,students`
+        );
+        console.log('USERS_RES', data);
+        return data;
+    }
+
     async getCloudVideoUrl(type: CloudType, fileName: string) {
         const map: Record<CloudType, string[]> = {
             [CloudType.Simple]: [

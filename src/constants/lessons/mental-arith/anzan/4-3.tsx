@@ -1,5 +1,5 @@
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import { createPath } from '../../../../utils/createPath.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {

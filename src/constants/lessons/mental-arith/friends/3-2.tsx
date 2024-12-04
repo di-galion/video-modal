@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
     {
@@ -10,20 +14,19 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
         name: 'image',
         url: createPath('/assets/img/lessons/brother-img/1/ma/hello/hello.jpg'),
     },
-
-
     {
         title: 'Игра на счет',
         secondTitle: '',
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
         title: 'Счет на физическом абакусе',
-        secondTitle: 'Закрепление темы "Друг 9". Закрепление темы "Друг 8". Однозначные',
+        secondTitle:
+            'Закрепление темы "Друг 9". Закрепление темы "Друг 8". Однозначные',
         status: true,
         index: 2,
         name: 'game',
@@ -40,7 +43,8 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
     },
     {
         title: 'Счет на воображаемом абакусе',
-        secondTitle: 'Изучение темы "Друг 9". Изучение темы "Друг 8". Однозначные',
+        secondTitle:
+            'Изучение темы "Друг 9". Изучение темы "Друг 8". Однозначные',
         status: true,
         index: 4,
         name: 'game',
@@ -53,7 +57,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
         status: true,
         index: 5,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '7.Демонстрация примера по теме «Друг 9» (Двузначные)..mp4'
+        ),
     },
 
     {
@@ -71,7 +78,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
         status: true,
         index: 7,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '8.Демонстрация примера по теме «Друг 8» (Двузначные)..mp4'
+        ),
     },
     {
         title: 'Счет на физическом абакусе',
@@ -89,7 +99,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -117,7 +127,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_2: ILesson[] = [
         status: true,
         index: 11,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 9, 8', LESSONS_MENTAL_ARITH_FRIENDS_2];

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { GameLessonMode, ILesson } from '../../typings/lesson.module';
 import { getLessons } from '../../constants/lessons.constants';
+import api from '../../api/http/api';
 
 interface ILessonState {
     status: 'settings';
@@ -30,8 +31,10 @@ const initialState: ILessonState = {
 
 export const fetchLessons = createAsyncThunk(
     'api/fetchLessons',
-    ({ theme, index }: { theme: string; index: number }) => {
-        return getLessons(theme, index);
+    async ({ theme, id }: { theme: string; id: number }) => {
+        const data: any = await api.getLesson(id);
+        console.log('select theme: ', data?.theme_id?.order - 1);
+        return getLessons(theme, data?.theme_id?.order - 1);
     }
 );
 

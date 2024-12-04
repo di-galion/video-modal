@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
     {
@@ -20,19 +24,28 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 3. «Брат 1». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 3. «Брат 1». Разминка 2..mp4'
+                ),
             },
             {
                 title: 'Разминка 3',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 3. «Брат 1». Разминка 3..mp4'
+                ),
             },
-        ]
+        ],
     },
     {
         title: 'Игра на счет',
@@ -40,7 +53,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -57,7 +70,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         status: true,
         index: 4,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
     {
@@ -88,30 +101,43 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
             {
                 title: 'Брат 2 (2-3 бегемотики)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/1/ma/brothers1.17/punkt1/brother2.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/1/ma/brothers1.17/punkt1/brother2.jpg'
+                ),
             },
             {
                 title: 'Правило. Брат 2 (+2)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '8.Знакомство с правилом «Брат 2» (+2)..mp4'
+                ),
             },
             {
                 title: 'Брат 2 (+2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/3/ma/brothers3.8/gif1.brat2/plus2.gif'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif1.brat2/plus2.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило. Брат 2 (-2)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
-            },{
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '9.Знакомство с правилом «Брат 2» (-2).mp4'
+                ),
+            },
+            {
                 title: 'Брат 2 (-2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/3/ma/brothers3.8/gif2.brat2/minus2.gif'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif2.brat2/minus2.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
     {
         title: 'Разминка на абакусе',
@@ -119,8 +145,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         status: true,
         index: 1,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
-
+        url: createCloudVideoUrl(
+            CloudType.Brothers,
+            'Занятие 3.1 «Брат 2». Разминка 1..mp4'
+        ),
     },
     {
         title: 'Счет на физическом абакусе',
@@ -132,7 +160,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '10.Демонстрация примера по теме «Брат 2» (Однозначные).mp4'
+                ),
             },
 
             {
@@ -140,8 +171,8 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
-        ]
+            },
+        ],
     },
     {
         title: 'Игра на счет',
@@ -159,7 +190,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         index: 16,
         name: 'total',
         items: [
-
             {
                 title: 'Закрепили счет по теме "Брат 1" на физическом и воображаемом абакусе (однозначные)',
             },
@@ -168,17 +198,18 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
             },
             {
                 title: 'изучили правило "Брат 2"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/brother-img/1/ma/brothers1.17/punkt1/brother2.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/brother-img/1/ma/brothers1.17/punkt1/brother2.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif1.brat2/plus2.gif'
                     ),
                     createPath(
                         '/assets/img/lessons/brother-img/3/ma/brothers3.8/gif2.brat2/minus2.gif'
                     ),
-                    ],
-                imgWidth: 680
+                ],
+                imgWidth: 680,
             },
             {
                 title: 'Освоили счет с правилом "Брат 2" на физическом абакусе (однозначные)',

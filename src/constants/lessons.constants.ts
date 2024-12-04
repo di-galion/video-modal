@@ -58,14 +58,14 @@ import ANZAN_9 from './lessons/mental-arith/anzan/4-9.tsx';
 import ANZAN_10 from './lessons/mental-arith/anzan/4-10.tsx';
 import ANZAN_11 from './lessons/mental-arith/anzan/4-11.tsx';
 
-function getLesson(lesson: Array<string | ILesson[]>) {
+export function getLesson(lesson: Array<string | ILesson[]>) {
     return {
         themeName: lesson[0] as string,
         lessons: lesson[1] as ILesson[],
     };
 }
 
-const LESSONS: Record<string, Array<Array<string | ILesson[]>>> = {
+export const LESSONS: Record<string, Array<Array<string | ILesson[]>>> = {
     'mult-table': [TU_1],
     'mental-arithmetics': [
         SIMPLE_1,

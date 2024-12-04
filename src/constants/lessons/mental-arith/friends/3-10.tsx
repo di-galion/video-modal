@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -60,32 +64,44 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
             {
                 title: 'Друг 4 (пчелы 4-6)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 4 (+4)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '21.Знакомство с правилом «Друг 4» (+4)..mp4'
+                ),
             },
             {
                 title: 'Друг 4 (+4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 4 (-4)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '22.Знакомство с правилом «Друг 4» (-4)..mp4'
+                ),
             },
             {
                 title: 'Друг 4 (-4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/7/ma/friends7.6/gif2/minus5.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/7/ma/friends7.6/gif2/minus5.gif'
+                ),
                 imageWidth: 480,
             },
             // ассеты не верные нужных пока нет
-        ]
+        ],
     },
 
     {
@@ -98,18 +114,19 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '23.Демонстрация примера по теме «Друг 4» (Однозначные).mp4'
+                ),
             },
-
             {
                 title: 'Игра',
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
-
 
     {
         title: 'Игра на счет',
@@ -117,10 +134,9 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
-
 
     {
         title: 'Заключение',
@@ -137,9 +153,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
             },
             {
                 title: 'Изучили правило "Друг 4"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
                     ),
@@ -147,7 +164,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
                         '/assets/img/lessons/friends-img/7/ma/friends7.6/gif1/plus5.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили правило "Друг 4" на физическом абакусе (однозначные)',
@@ -161,7 +178,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         status: true,
         index: 9,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 4', LESSONS_MENTAL_ARITH_FRIENDS_10];

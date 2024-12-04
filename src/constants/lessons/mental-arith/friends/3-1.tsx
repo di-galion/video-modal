@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
     {
@@ -11,14 +15,13 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
         url: createPath('/assets/img/lessons/brother-img/1/ma/hello/hello.jpg'),
     },
 
-
     {
         title: 'Игра на счет',
         secondTitle: '',
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -57,49 +60,67 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             {
                 title: 'Друг 1 (кораблики 1-9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend1.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend1.jpg'
+                ),
             },
             {
                 title: 'Друг 2 (лягушки 2-8)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend2.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend2.jpg'
+                ),
             },
             {
                 title: 'Друг 3 (гномы 3-7)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend3.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend3.jpg'
+                ),
             },
             {
                 title: 'Друг 4 (пчелы 4-6)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend4.jpg'
+                ),
             },
             {
                 title: 'Друг 5 (рыбки 5-5)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend5.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend5.jpg'
+                ),
             },
             {
                 title: 'Друг 6 (шарики 6-4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend6.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend6.jpg'
+                ),
             },
             {
                 title: 'Друг 7 (тюльпаны 7-3)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend7.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend7.jpg'
+                ),
             },
             {
                 title: 'Друг 8 (попугаи 8-2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend8.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend8.jpg'
+                ),
             },
             {
                 title: 'Друг 9 (обезьяны 9-1)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'
+                ),
             },
-        ]
+        ],
     },
     {
         title: 'Игра на состав числа 10 "Лаборатория"',
@@ -120,31 +141,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             {
                 title: 'Друг 9 (обезьяны 9-1)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'
+                ),
             },
             {
                 title: 'Правило Друг 9 (+9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '1.Знакомство с правилом «Друг 9» (+9)..mp4'
+                ),
             },
             {
                 title: 'Друг 9 (+9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило Друг 9 (-9)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '2.Знакомство с правилом «Друг 9» (-9)..mp4'
+                ),
             },
             {
                 title: 'Друг 9 (-9)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.8/gif2/minus9.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.8/gif2/minus9.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -156,7 +189,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '3.Демонстрация примера по теме «Друг 9» (Однозначные)..mp4'
+                ),
             },
 
             {
@@ -164,9 +200,8 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
-
     },
 
     {
@@ -179,31 +214,43 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             {
                 title: 'Друг 8 (попугаи 8-2)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend8.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend8.jpg'
+                ),
             },
             {
                 title: 'Правило. Друг 8 (+8)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '4.Знакомство с правилом «Друг 8» (+8)..mp4'
+                ),
             },
             {
                 title: 'Друг 8 (+8)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило. Друг 8 (-8)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '5.Знакомство с правилом «Друг 8» (+8)..mp4'
+                ),
             },
             {
                 title: 'Друг 8 (-8)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/1/ma/friends1.10/gif2/minus8.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/1/ma/friends1.10/gif2/minus8.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -216,7 +263,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '5.Знакомство с правилом «Друг 8» (+8)..mp4'
+                ),
             },
 
             {
@@ -224,7 +274,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
     {
@@ -233,7 +283,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
         status: true,
         index: 11,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -245,9 +295,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
         items: [
             {
                 title: 'познакомились с темой "Друзья"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend1.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend1.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend2.jpg'
                     ),
@@ -273,13 +324,14 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
                         '/assets/img/lessons/friends-img/1/ma/friends1.13/punkt1/friend9.jpg'
                     ),
                 ],
-                imgWidth:720,
+                imgWidth: 720,
             },
             {
                 title: 'Изучили правило "Друг 9"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.8/gif1/plus9.gif'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/1/ma/friends1.8/gif2/minus9.gif'
                     ),
@@ -291,9 +343,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
             },
             {
                 title: 'Изучили правило "Друг 8"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/friends-img/1/ma/friends1.10/gif1/plus8.gif'
+                    ),
                     createPath(
                         '/assets/img/lessons/friends-img/1/ma/friends1.10/gif2/minus8.gif'
                     ),
@@ -312,7 +365,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_1: ILesson[] = [
         status: true,
         index: 13,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 9, 8', LESSONS_MENTAL_ARITH_FRIENDS_1];

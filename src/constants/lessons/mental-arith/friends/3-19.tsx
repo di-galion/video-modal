@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -56,30 +60,39 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
         index: 5,
         name: 'panels',
         items: [
-
             {
                 title: 'Правило. Переход 50 (+5)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '37.Знакомство с правилом «Переход 50» (+5)..mp4'
+                ),
             },
             {
                 title: 'Переход 50 (+5)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/19/ma/cross19.6/gif1/crossing-fifty-plus.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/19/ma/cross19.6/gif1/crossing-fifty-plus.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило. Переход 50 (-5)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '38.Знакомство с правилом «Переход 50» (-5)..mp4'
+                ),
             },
             {
                 title: 'Переход 50 (-5)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/friends-img/19/ma/cross19.6/gif2/crossing-fifty-minus.gif'),
+                url: createPath(
+                    '/assets/img/lessons/friends-img/19/ma/cross19.6/gif2/crossing-fifty-minus.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -88,9 +101,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
         status: true,
         index: 6,
         name: 'image',
-        url: createPath('/assets/img/lessons/friends-img/19/files/ma/lessons/universal/universal.5.1.jpg'),
+        url: createPath(
+            '/assets/img/lessons/friends-img/19/files/ma/lessons/universal/universal.5.1.jpg'
+        ),
     },
-
 
     {
         title: 'Счет на физическом абакусе',
@@ -102,7 +116,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Friends,
+                    '39.Демонстрация примера по теме «Переход 50»..mp4'
+                ),
             },
 
             {
@@ -110,7 +127,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
+            },
         ],
     },
 
@@ -120,7 +137,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
         status: true,
         index: 8,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -147,7 +164,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
                         '/assets/img/lessons/friends-img/19/ma/cross19.6/gif2/crossing-fifty-minus.gif'
                     ),
                 ],
-                imgWidth: 480
+                imgWidth: 480,
             },
             {
                 title: 'Освоили счет с правилом "Переход 50" на физическом абакусе',
@@ -161,7 +178,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_19: ILesson[] = [
         status: true,
         index: 10,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Переход через 50', LESSONS_MENTAL_ARITH_FRIENDS_19];

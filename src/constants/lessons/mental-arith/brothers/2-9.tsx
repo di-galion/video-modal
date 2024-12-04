@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
     {
@@ -21,14 +25,20 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
             {
                 title: 'Разминка 1',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 9. «Брат 3». Разминка 1..mp4'
+                ),
             },
             {
                 title: 'Разминка 2',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 9. «Брат 3». Разминка 2..mp4'
+                ),
             },
-        ]
+        ],
     },
 
     {
@@ -37,7 +47,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -57,7 +67,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 4,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
 
@@ -80,7 +90,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
     },
 
-
     {
         title: 'Изучение новой темы',
         secondTitle: 'Тема "Брат 4". Однозначные',
@@ -91,31 +100,43 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
             {
                 title: 'Брат 4 (4-1 тигрята)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/9/ma/brothers9.12/punkt3/picture1/brother4.jpg'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/9/ma/brothers9.12/punkt3/picture1/brother4.jpg'
+                ),
             },
             {
                 title: 'Правило. Брат 4 (+4)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '22.Знакомство с правилом «Брат 4» (+4)..mp4'
+                ),
             },
             {
                 title: 'Брат 4 (+4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/9/ma/brothers9.8/gif1.brat4/plus4.gif'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/9/ma/brothers9.8/gif1.brat4/plus4.gif'
+                ),
                 imageWidth: 480,
             },
             {
                 title: 'Правило. Брат 4 (-4)',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '23.Знакомство с правилом «Брат 4» (-4)..mp4'
+                ),
             },
             {
                 title: 'Брат 4 (-4)',
                 type: 'image',
-                url: createPath('/assets/img/lessons/brother-img/9/ma/brothers9.8/gif2.brat4/minus4.gif'),
+                url: createPath(
+                    '/assets/img/lessons/brother-img/9/ma/brothers9.8/gif2.brat4/minus4.gif'
+                ),
                 imageWidth: 480,
             },
-        ]
+        ],
     },
 
     {
@@ -124,7 +145,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 8,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Brothers,
+            'Занятие 9. «Брат 4». Разминка 1..mp4'
+        ),
     },
 
     {
@@ -137,12 +161,15 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    '24.Демонстрация примера по теме «Брат 4» (Однозначные).mp4'
+                ),
             },
             {
                 title: 'Игра',
                 type: 'games',
-                games: ['flashCards']
+                games: ['flashCards'],
                 //реальные игры['countExamples']
             },
         ],
@@ -154,7 +181,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 10,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -165,7 +192,6 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         index: 11,
         name: 'total',
         items: [
-
             {
                 title: 'Закрепили счет по теме "Брат 3" на физическом и воображаемом абакусе (однозначные)',
             },
@@ -174,9 +200,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
             },
             {
                 title: 'изучили правило "Брат 4"',
-                imgUrl: [createPath(
-                    '/assets/img/lessons/brother-img/9/ma/brothers9.12/punkt3/picture1/brother4.jpg'
-                ),
+                imgUrl: [
+                    createPath(
+                        '/assets/img/lessons/brother-img/9/ma/brothers9.12/punkt3/picture1/brother4.jpg'
+                    ),
                     createPath(
                         '/assets/img/lessons/brother-img/9/ma/brothers9.8/gif1.brat4/plus4.gif'
                     ),
@@ -184,7 +211,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
                         '/assets/img/lessons/brother-img/9/ma/brothers9.8/gif2.brat4/minus4.gif'
                     ),
                 ],
-                imgWidth: 680
+                imgWidth: 680,
             },
             {
                 title: 'Освоили счет с правилом "Брат 4" на физическом абакусе (однозначные)',
@@ -198,7 +225,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 12,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Брат 4', LESSONS_MENTAL_ARITH_BROTHER_9];

@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
     {
@@ -16,9 +20,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         status: true,
         index: 1,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
-
-
+        url: createCloudVideoUrl(
+            CloudType.Brothers,
+            'Занятие 2.1 «Брат 1». Разминка 1.mp4'
+        ),
     },
     {
         title: 'Игра на счет',
@@ -42,7 +47,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         status: true,
         index: 4,
         name: 'game',
-        games: ['flashCards','flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
     },
     {
         title: 'Счет на воображаемом абакусе',
@@ -67,7 +72,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards']
+        games: ['flashCards'],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -79,7 +84,10 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
             {
                 title: 'Демонстрация примера',
                 type: 'video',
-                url: createPath('/assets/video/720.mp4'),
+                url: createCloudVideoUrl(
+                    CloudType.Brothers,
+                    'Занятие 2.2 «Брат 1. Двузначные». Разминка 1..mp4'
+                ),
             },
 
             {
@@ -87,8 +95,8 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
                 type: 'games',
                 games: ['flashCards'],
                 //реальные игры['countExamples']
-            }
-        ]
+            },
+        ],
     },
 
     {

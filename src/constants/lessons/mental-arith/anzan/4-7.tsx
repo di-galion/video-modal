@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module';
-import { createPath } from '../../../../utils/createPath';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
     {
@@ -14,7 +18,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Счет на физическом абакусе',
         secondTitle: 'Закрепление "Друг+Брат 6". Однозначные. Двузначные',
         status: true,
-        index: 2,
+        index: 1,
         name: 'game',
         games: [],
     },
@@ -22,7 +26,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Счет на воображаемом абакусе',
         secondTitle: 'Закрепление "Друг+Брат 6". Однозначные. Двузначные',
         status: true,
-        index: 3,
+        index: 2,
         name: 'game',
         games: [],
     },
@@ -30,7 +34,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Игра на общее развитие',
         secondTitle: '',
         status: true,
-        index: 4,
+        index: 3,
         name: 'game',
         games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
     },
@@ -39,15 +43,18 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         secondTitle:
             'Тема "Анзан". Только сложение. Однозначные с промежуточным двузначным ответом',
         status: true,
-        index: 5,
+        index: 4,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Anzan,
+            '17.Демонстрация примера по теме «Анзан. Только сложение» (Однозначные)..mp4'
+        ),
     },
     {
         title: 'Счет на физическом абакусе',
         secondTitle: 'Изучение темы "Анзан". Только сложение',
         status: true,
-        index: 6,
+        index: 5,
         name: 'game',
         games: [],
     },
@@ -55,7 +62,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Игра на счет',
         secondTitle: '',
         status: true,
-        index: 7,
+        index: 6,
         name: 'game',
         games: [],
     },
@@ -63,7 +70,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Заключение',
         secondTitle: '',
         status: true,
-        index: 8,
+        index: 7,
         name: 'total',
         items: [
             {
@@ -84,7 +91,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         title: 'Статистика',
         secondTitle: '',
         status: true,
-        index: 9,
+        index: 8,
         name: 'MaoStatisticsLesson',
     },
 ];

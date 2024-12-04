@@ -1,5 +1,9 @@
 import { ILesson } from '../../../../typings/lesson.module.ts';
-import { createPath } from '../../../../utils/createPath.ts';
+import {
+    createCloudVideoUrl,
+    createPath,
+} from '../../../../utils/createPath.ts';
+import { CloudType } from '../../../../api/http/api.ts';
 
 const LESSONS_MENTAL_ARITH_FRIENDS_17: ILesson[] = [
     {
@@ -17,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_17: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -56,7 +60,10 @@ const LESSONS_MENTAL_ARITH_FRIENDS_17: ILesson[] = [
         status: true,
         index: 5,
         name: 'video',
-        url: createPath('/assets/video/720.mp4'),
+        url: createCloudVideoUrl(
+            CloudType.Friends,
+            '36.Демонстрация примера по теме «Друг 1» (Двузначные)..mp4'
+        ),
     },
 
     {
@@ -75,7 +82,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_17: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards','flashCards'],
+        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -103,7 +110,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_17: ILesson[] = [
         status: true,
         index: 9,
         name: 'MaoStatisticsLesson',
-    }
+    },
 ];
 
 export default ['Друг 1', LESSONS_MENTAL_ARITH_FRIENDS_17];
