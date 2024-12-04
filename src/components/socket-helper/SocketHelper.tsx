@@ -7,6 +7,17 @@ import { Notification } from '../notification/Notification';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { WsSystemAction } from '../../api/socket/constants';
+import { useLessonId, useLessonSwitcher } from '../../hooks/lessons';
+//import { useConnection } from '../../hooks/useConnection';
+import {
+    getAccessToken,
+    getUserIdFromStorage,
+} from '../../api/http/auth.helper';
+import { useSearchParams } from 'react-router-dom';
+import { Role } from '../../constants/roles.constants';
+import api from '../../api/http/api';
+import { parseUserData } from '../../utils/user';
 
 export const SocketHelper = () => {
     const {
@@ -22,35 +33,105 @@ export const SocketHelper = () => {
         setLessonMode,
     } = useActions();
     const { role, userCount } = useAccount();
+    const selectLesson = useLessonSwitcher();
     const { sendAction } = useWebSocket();
     const multiPlayer = useTypedSelector(
         (store) => store.accountData.multiPlayer
     );
 
-    useWsAction((name, params) => {
+    const [searchParams] = useSearchParams();
+    const { setMultiplayer, setAccountData } = useActions();
+    const { connect } = useWebSocket();
+    const account = useAccount();
+
+    useEffect(() => {
+        if (account.role === Role.None) {
+            return;
+        }
+
+        console.log('account', account);
+
+        const token = getAccessToken();
+        const room = searchParams.get('lesson');
+        const mode = searchParams.get('mode');
+
+        console.log('lesson', room, 'token', token);
+
+        if (room) {
+            sessionStorage.setItem('ROOM', room);
+        }
+        if (token && room) {
+            setMultiplayer(true);
+            connect();
+        } else if (
+            (!token && !sessionStorage.getItem('ROOM')) ||
+            mode === 'offline'
+        ) {
+            setMultiplayer(false);
+        }
+        if (mode === 'offline') {
+            sessionStorage.clear();
+        }
+    }, [account.role, searchParams]);
+
+    const id = useLessonId();
+
+    useEffect(() => {
+        //console.log('1');
+        if (!id) {
+            return;
+        }
+        //console.log('2');
+
+        api.getUserData(id).then((data: any) => {
+            console.log('data', data);
+            const teacher = parseUserData(data.teacher_id.user_id);
+            const students: any[] = data.students.map((student: any) =>
+                parseUserData(student.student_id.user_id)
+            );
+            let role;
+            let me;
+            if (getUserIdFromStorage() === teacher.id) {
+                role = Role.Teacher;
+                me = teacher;
+            } else {
+                role = Role.Student;
+                me = students.find(
+                    (student) => student.id === getUserIdFromStorage()
+                );
+            }
+            console.log('ACCOUNT_DATA', { teacher, students, me, role });
+            setAccountData({ teacher, students, me, role });
+        });
+    }, [id]);
+
+    useWsAction((name, params = {}) => {
         switch (name) {
-            case 'userEnter':
+            case WsSystemAction.UserEnter:
                 addUserCount();
                 break;
-            case 'ready':
+            case WsSystemAction.Ready:
                 setReady(true);
                 break;
-            case 'gotoGame':
+            case WsSystemAction.GotoGame:
                 clearResult();
                 clearSettings();
                 clearStorage();
                 setPageStatus('settings');
                 setLessonMode('game');
-                setGameName(params?.game);
+                setGameName(params.game);
                 break;
-            case 'setMode':
-                setLessonMode(params?.mode);
+            case WsSystemAction.SetMode:
+                setLessonMode(params.mode);
                 break;
-            case 'gameStatus':
-                setPageStatus(params?.status);
+            case WsSystemAction.GameStatus:
+                setPageStatus(params.status);
                 break;
-            case 'settings':
-                addNewSetting({ [params?.reduxKey]: params?.value });
+            case WsSystemAction.Settings:
+                addNewSetting({ [params.reduxKey]: params.value });
+                break;
+            case WsSystemAction.SelectLesson:
+                selectLesson(params.index);
                 break;
         }
     });
@@ -67,7 +148,7 @@ export const SocketHelper = () => {
             !multiPlayer ||
             userCount >= Number(import.meta.env.VITE_USER_COUNT)
         ) {
-            sendAction('ready');
+            sendAction(WsSystemAction.Ready);
         }
     }, [userCount, multiPlayer]);
 

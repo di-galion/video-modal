@@ -1,13 +1,12 @@
 import { FC } from 'react';
 import styles from './styles.module.scss';
+import classNames from 'classnames';
 
-interface ImageProps {
-    src: string;
-    alt?: string;
-}
-
-export const Image: FC<ImageProps> = ({ src, alt = '' }) => (
+export const Image: FC<React.ImgHTMLAttributes<HTMLImageElement>> = (props) => (
     <div className={styles.imgWrapper}>
-        <img className={styles.imgWrapper__img} src={src} alt={alt} />
+        <img
+            {...props}
+            className={classNames(styles.imgWrapper__img, props.className)}
+        />
     </div>
 );

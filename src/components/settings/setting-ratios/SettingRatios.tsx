@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper';
-
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 import { useValue } from '../../../hooks/game';
@@ -12,6 +11,8 @@ export const SettingRatios: FC<SettingRatiosProps> = ({
     title,
     settings = {
         values: [1, 2, 3, 4],
+        defaultValue: 1,
+        update: false,
     },
     reduxKey,
     disabled,

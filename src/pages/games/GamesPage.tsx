@@ -14,7 +14,7 @@ import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
 import { GAME_DATA_MAP } from '../../constants/game.contants';
 import { createPath } from '../../utils/createPath';
-import { useWsConnect } from '../../hooks/useWsConnect';
+import { useConnection } from '../../hooks/useConnection';
 
 export const GamesPage = () => {
     const backgroundImage = {
@@ -28,7 +28,7 @@ export const GamesPage = () => {
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
 
-    useWsConnect();
+    //useConnection();
 
     const { clearSettings } = useActions();
 
@@ -82,13 +82,13 @@ export const GameCover = ({
     //const navigate = useNavigate();
 
     const { gotoGame } = useWebSocket();
-    const [, setMode] = useGameLessonMode();
+    //const [, setMode] = useGameLessonMode();
 
     const goToGame = () => {
         if (!isLocked && isReady) {
             //const link = `${URL_MAIN}game/${game}`;
             //navigate(link);
-            setMode('game');
+            //setMode('game');
             gotoGame(game);
         }
     };
@@ -139,6 +139,9 @@ const gamesList: Record<
             { game: 'flashCards' },
             { game: 'aboriginalsRiddles' },
             { game: 'shadowTheater' },
+            { game: 'dart' },
+            { game: 'completeRow' },
+            { game: 'puzzleAbacus' },
         ],
     },
 };

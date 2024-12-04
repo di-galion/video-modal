@@ -6,6 +6,11 @@ export function useCurrentRole() {
     return index;
 }
 
+export function useStudents() {
+    const students = useTypedSelector((state) => state.accountData.students);
+    return students;
+}
+
 export function useAccount() {
     const data = useTypedSelector((state) => state.accountData);
     return data;

@@ -2,15 +2,12 @@ import classNames from 'classnames';
 import { FC, PropsWithChildren } from 'react';
 import styles from './styles.module.scss';
 
-export const TaskLessonWrap: FC<
-    PropsWithChildren<{ collapse: boolean; disabled?: boolean }>
-> = ({ children, collapse, disabled }) => {
+export const TaskLessonWrap: FC<PropsWithChildren<{ disabled?: boolean }>> = ({
+    children,
+    disabled,
+}) => {
     return (
-        <div
-            className={classNames(styles.content, {
-                [styles.collapse]: collapse,
-            })}
-        >
+        <div className={classNames(styles.content)}>
             <div className={styles.content__box}>
                 <div className={styles.content__wrap}>
                     <p className={styles.content__text}>

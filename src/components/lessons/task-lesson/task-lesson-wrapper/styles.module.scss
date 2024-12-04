@@ -1,9 +1,7 @@
 .content {
-    overflow: hidden;
     color: #666;
-    padding: 0 16px;
+    padding: 16px 16px;
     background-color: #fff;
-    max-height: 800px;
     transition: all 0.3s;
     box-sizing: border-box;
 
@@ -94,9 +92,4 @@
     &__btn_text {
         margin-left: 5px;
     }
-}
-
-.collapse {
-    max-height: 0;
-    transition: all 0.3s;
 }

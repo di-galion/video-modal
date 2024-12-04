@@ -1,0 +1,39 @@
+.collapse {
+    &__header {
+        display: flex;
+        align-items: center;
+        line-height: 22px;
+        padding: 10px 16px;
+        color: #666;
+        cursor: pointer;
+    }
+
+    &__title {
+        color: #000;
+        font-size: 16px;
+        line-height: 140%;
+        order: -1;
+        margin-right: auto;
+    }
+}
+
+.expand__icon > i {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.rotate {
+    transform: rotateZ(180deg);
+    transition: all 0.3s;
+}
+
+.child {
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.collapse {
+    max-height: 0 !important;
+    transition: all 0.3s;
+}

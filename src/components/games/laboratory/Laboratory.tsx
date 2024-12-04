@@ -7,6 +7,8 @@ import { useGameSettings } from '../../../hooks/game';
 import { useActions } from '../../../hooks/useActions';
 import classNames from 'classnames';
 import { register } from '../../../providers/game/register';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage';
+import { useGameAccess } from '../../../hooks/account';
 
 function generateGerms(
     from: number,
@@ -35,22 +37,44 @@ const LEVEL_GERMS: Record<number, number> = {
 const LaboratoryGame = () => {
     const [step, setStep] = useState(0);
 
-    const settings = useGameSettings();
+    const settings = useGameSettings<number>();
 
     const { addAllAnswers, addCorrectAnswer } = useActions();
 
-    const maxGermCount = useMemo(
-        () => LEVEL_GERMS[settings.mode as number],
-        []
-    );
+    const maxGermCount = useMemo(() => LEVEL_GERMS[settings.mode], []);
 
-    const [germCount, setGermCount] = useState(random(1, maxGermCount));
+    const isAccess = useGameAccess();
 
-    const { count, index, germs } = useMemo(() => {
+    const {
+        count = [],
+        index = [],
+        germs = [],
+        germCount = 0,
+        updateStorage,
+    } = useSyncStorage<{
+        count: number[];
+        index: number[];
+        germs: any[];
+        germCount: number;
+    }>();
+
+    //const [germCount, setGermCount] = useState(random(1, maxGermCount));
+
+    /*const { count, index, germs } = useMemo(() => {
         const count = generateRandomNumberFillArray(1, 9);
         const index = generateRandomNumberFillArray(0, 8);
         const germs = generateGerms(0, 4, germCount, 16);
         return { count, index, germs };
+    }, [germCount]);*/
+
+    useEffect(() => {
+        if (isAccess) {
+            updateStorage({
+                count: generateRandomNumberFillArray(1, 9),
+                index: generateRandomNumberFillArray(0, 8),
+                germs: generateGerms(0, 4, germCount, 16),
+            });
+        }
     }, [germCount]);
 
     const [animated, setAnimated] = useState(false);
@@ -70,11 +94,13 @@ const LaboratoryGame = () => {
     };
 
     useEffect(() => {
-        let newValue = random(1, maxGermCount);
-        while (newValue === germCount) {
-            newValue = random(1, maxGermCount);
+        if (isAccess) {
+            let newValue = random(1, maxGermCount);
+            while (newValue === germCount) {
+                newValue = random(1, maxGermCount);
+            }
+            updateStorage({ germCount: newValue });
         }
-        setGermCount(newValue);
     }, [step]);
 
     return (
@@ -110,6 +136,7 @@ export const Laboratory = () =>
     register(LaboratoryGame, () => ({
         title: 'Лаборатория',
         timeDirection: 'left',
+        starCalculationMode: 'correct',
         infoSettings: [
             {
                 title: 'Правила игры',

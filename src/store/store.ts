@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { accountDataReducer } from './account-data/accountData';
-import { apiDataReducer } from './api-status-data/apiStatusData';
 import { apiMiddleware } from './apiMiddleware';
-import { gameDataReducer } from './game-data/GameData';
 import { lessonsDataReducer } from './lessons-data/lessonsData';
 import { sectionDataReducer } from './section-data/sectionData';
-import { SettingsReducer } from './settings-data/SettingsData';
+import { apiDataReducer } from './api-status-data/apiStatusData';
+import { gameDataReducer } from './game-data/gamesData';
+import { SettingsReducer } from './settings-data/settingData';
 
 export const store = configureStore({
     reducer: {

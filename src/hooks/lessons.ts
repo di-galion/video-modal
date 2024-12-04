@@ -1,11 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTypedSelector } from './useTypedSelector';
 import { useActions } from '../hooks/useActions';
 import { LESSONS_MAP } from '../constants/lessonsMap';
 import { GameLessonMode, IGameLesson, ILesson } from '../typings/lesson.module';
 import { useGameName } from './game';
-import { GAME_DATA_MAP } from '../constants/game.contants';
 import { useWebSocket } from '../api/socket/useWebSocket';
+import { createGames } from '../utils/games';
+import { useSearchParams } from 'react-router-dom';
 
 export function useLessonRenderer() {
     const { currentLesson } = useTypedSelector((state) => state.lessonsData);
@@ -29,6 +30,11 @@ export function useCurrentLessonIndex() {
     return index;
 }
 
+export function useLessonCount() {
+    const lessons = useTypedSelector((state) => state.lessonsData.lessons);
+    return lessons.length;
+}
+
 export function useLessons() {
     return useTypedSelector((state) => state.lessonsData.lessons);
 }
@@ -39,7 +45,11 @@ export function useLessonSwitcher() {
 
     const switchLesson = useCallback(
         (index: number) => {
-            addNewLesson(lessons[index]);
+            if (index < lessons.length) {
+                addNewLesson(lessons[index]);
+            } else {
+                console.error('Номер урока выходит за диапазон');
+            }
         },
         [addNewLesson, lessons]
     );
@@ -48,16 +58,16 @@ export function useLessonSwitcher() {
 }
 
 export function useLessonPager() {
-    const change = useLessonSwitcher();
+    const { selectLesson } = useWebSocket();
     const index = useCurrentLessonIndex();
     const lessons = useLessons();
 
     const next = useCallback(
-        () => index < lessons.length - 1 && change(index + 1),
+        () => index < lessons.length - 1 && selectLesson(index + 1),
         [index, lessons]
     );
     const prev = useCallback(
-        () => index > 0 && change(index - 1),
+        () => index > 0 && selectLesson(index - 1),
         [index, lessons]
     );
 
@@ -66,24 +76,31 @@ export function useLessonPager() {
 
 export function useGameLessonMode(): [
     GameLessonMode,
-    (mode: GameLessonMode) => void
+    (mode: GameLessonMode, sync?: boolean) => void
 ] {
     const { mode } = useTypedSelector((state) => state.lessonsData);
-    //const { setLessonMode } = useActions();
+    const { setLessonMode } = useActions();
     const { setGameMode } = useWebSocket();
 
-    return [mode, setGameMode];
+    const setMode = useCallback(
+        (mode: GameLessonMode, sync: boolean = true) => {
+            if (sync) {
+                setGameMode(mode);
+            } else {
+                setLessonMode(mode);
+            }
+        },
+        []
+    );
+
+    return [mode, setMode];
 }
 
 export function useLessonGameList() {
     const { games } = useTypedSelector(
         (state) => state.lessonsData.currentLesson as IGameLesson
     );
-    const out = games.map((game) => ({
-        name: game,
-        imgUrl: GAME_DATA_MAP[game].image,
-        title: GAME_DATA_MAP[game].title,
-    }));
+    const out = createGames(games);
     return out || [];
 }
 
@@ -92,3 +109,14 @@ export function useLessonCurrentGame() {
     const [gameName] = useGameName();
     return games.find((game) => game.name === gameName);
 }
+
+export const useLessonId = () => {
+    const [searchParams] = useSearchParams();
+
+    const id = useMemo(() => {
+        const lesson = searchParams.get('lesson');
+        return lesson ? Number(lesson) : Number(import.meta.env.VITE_LESSON_ID);
+    }, [searchParams]);
+
+    return id;
+};

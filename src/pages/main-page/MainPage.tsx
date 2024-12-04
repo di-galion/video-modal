@@ -6,17 +6,26 @@ import { useActions } from '../../hooks/useActions';
 import { MainPageWrapper } from './components/MainPageWrapper';
 import { useApiError } from '../../hooks/apiError';
 import { showNotification } from '../../store/account-data/accountData';
-import { useWsConnect } from '../../hooks/useWsConnect';
+import { useConnection } from '../../hooks/useConnection';
+import { useParams } from 'react-router-dom';
+import { useLessonId } from '../../hooks/lessons';
 
 const MainPage = () => {
     const { fetchLessons } = useActions();
     const isError = useApiError();
+    const { name } = useParams();
+    const id = useLessonId();
 
     useEffect(() => {
-        fetchLessons();
-    }, []);
+        if (name) {
+            fetchLessons({
+                theme: name,
+                id,
+            });
+        }
+    }, [name]);
 
-    useWsConnect();
+    //useConnection();
 
     useEffect(() => {
         if (isError) {

@@ -68,7 +68,7 @@ const Levels: FC<LevelProps> = ({ level }) => {
                     d="M424.47 117.78H18.85a17.42 17.42 0 01-17.42-17.42V74A17.41 17.41 0 0116.5 56.75L422.12 1.59a17.42 17.42 0 0119.77 17.26v81.51a17.42 17.42 0 01-17.42 17.42z"
                     stroke="#5d2816"
                     strokeMiterlimit="10"
-                    stroke-width="2.85"
+                    strokeWidth="2.85"
                     fill="url(#prefix__a)"
                 ></path>
             </svg>

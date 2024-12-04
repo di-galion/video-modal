@@ -28,7 +28,7 @@ const MultTableGame = () => {
     const [autoCheck, setAutoCheck] = useState(false);
 
     useEffect(() => {
-        updateStorage('data', createAll(count, 2, 10, theme, actionType));
+        updateStorage({ data: createAll(count, 2, 10, theme, actionType) });
     }, []);
 
     const sign = useMemo(() => (!currentData[2] ? '•' : ':'), [currentData]);

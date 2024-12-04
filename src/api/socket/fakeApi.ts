@@ -1,18 +1,18 @@
 import {
     updateSyncAction,
     updateSyncStorage,
-} from '../../store/game-data/GameData';
+} from '../../store/game-data/gamesData';
 import { store } from '../../store/store';
 import { WsApi } from './baseApi';
 
 export class WsFakeApi implements WsApi {
-    sendMessage(name: string, value: any) {
+    connect() {}
+
+    sendMessage(data: Record<string, string>) {
         setTimeout(() => {
-            this.onMessage(name, value);
+            this.onMessage(data);
         }, 100);
     }
-
-    connect() {}
 
     sendAction(name: string, params?: Record<string, any>) {
         setTimeout(() => {
@@ -20,9 +20,9 @@ export class WsFakeApi implements WsApi {
         }, 100);
     }
 
-    onMessage(name: string, value: any) {
-        if (value) {
-            store.dispatch(updateSyncStorage({ [name]: value } as any));
+    onMessage(data: Record<string, string>) {
+        if (data) {
+            store.dispatch(updateSyncStorage(data));
         }
     }
 

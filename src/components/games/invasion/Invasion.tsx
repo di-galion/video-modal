@@ -81,7 +81,9 @@ const InvasionGame = () => {
     const getNumber = useCallback((step: number) => (step % count) + 1, []);
 
     useEffect(() => {
-        updateStorage('data', createShapeData(getNumber(step), getCount(step)));
+        updateStorage({
+            data: createShapeData(getNumber(step), getCount(step)),
+        });
     }, [theme, step]);
 
     const length = useMemo(() => count * theme.length || 1, [theme]);

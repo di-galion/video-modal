@@ -67,10 +67,9 @@ const FlashCardsGame = () => {
     }, [data]);
 
     const initializeNewNumber = () => {
-        updateStorage(
-            'data',
-            generateRandomNumbers(level, ratios, correctAnswer)
-        );
+        updateStorage({
+            data: generateRandomNumbers(level, ratios, correctAnswer),
+        });
     };
 
     const calculateGemsCount = (digit: number) => {

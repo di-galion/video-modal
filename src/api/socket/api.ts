@@ -6,15 +6,19 @@ import {
 import {
     updateSyncAction,
     updateSyncStorage,
-} from '../../store/game-data/GameData';
+} from '../../store/game-data/gamesData';
 import { store } from '../../store/store';
+import { getAccessToken } from '../http/auth.helper';
 import { WsApi } from './baseApi';
+import { WsSystemAction } from './constants';
 
 export class SocketApi implements WsApi {
     socket: WebSocket | null = null;
     ready: boolean = false;
 
     connect() {
+        console.log('connect');
+
         const room = sessionStorage.getItem('ROOM');
         if (!room) {
             store.dispatch(
@@ -31,10 +35,10 @@ export class SocketApi implements WsApi {
         if (this.socket) {
             this.socket.onopen = () => {
                 console.log('[open] Соединение установлено');
-                const token = sessionStorage.getItem('TOKEN');
+                const token = getAccessToken();
                 this.socket?.send(`Bearer ${token}`);
                 this.ready = true;
-                this.sendAction('userEnter');
+                this.sendAction(WsSystemAction.UserEnter);
             };
         }
 
@@ -43,9 +47,9 @@ export class SocketApi implements WsApi {
                 console.log(
                     `[message] Данные получены с сервера: ${event.data}`
                 );
-                const { name, value, type, params } = JSON.parse(event.data);
+                const { name, data, type, params } = JSON.parse(event.data);
                 if (type === 'message') {
-                    this.onMessage(name, value);
+                    this.onMessage(data);
                 } else if (type === 'action') {
                     this.onAction(name, params);
                 }
@@ -55,6 +59,7 @@ export class SocketApi implements WsApi {
         if (this.socket) {
             this.socket.onclose = (event) => {
                 this.ready = false;
+                //this.socket?.close();
                 this.socket = null;
 
                 if (event.wasClean) {
@@ -67,6 +72,12 @@ export class SocketApi implements WsApi {
 
                 store.dispatch(resetUserCount());
                 store.dispatch(setReady(false));
+
+                /*if (event.reason === 'Another connection received') {
+                    this.connect();
+                    return;
+                }*/
+
                 store.dispatch(
                     showNotification({
                         text: 'Соединение разорвано',
@@ -83,11 +94,11 @@ export class SocketApi implements WsApi {
         }
     }
 
-    sendMessage(name: string, value: any) {
+    sendMessage(data: Record<string, string>) {
         if (this.socket && this.ready) {
-            this.socket.send(JSON.stringify({ type: 'message', name, value }));
+            this.socket.send(JSON.stringify({ type: 'message', data }));
         }
-        this.onMessage(name, value);
+        this.onMessage(data);
     }
 
     sendAction(name: string, params?: Record<string, any>) {
@@ -97,9 +108,9 @@ export class SocketApi implements WsApi {
         this.onAction(name, params);
     }
 
-    onMessage(name: string, value: any) {
-        if (value) {
-            store.dispatch(updateSyncStorage({ [name]: value }));
+    onMessage(data: Record<string, string>) {
+        if (data) {
+            store.dispatch(updateSyncStorage(data));
         }
     }
 

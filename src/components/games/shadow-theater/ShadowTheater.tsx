@@ -103,12 +103,13 @@ const ShadowTheaterGame: React.FC = () => {
                 2
             );
 
-            updateStorage('shownImages', initialImages);
-            updateStorage('lastAddedImages', initialImages);
-            updateStorage(
-                'shuffledIndices',
-                shuffleArray(Array.from(Array(images.length).keys()))
-            );
+            updateStorage({
+                shownImages: initialImages,
+                lastAddedImages: initialImages,
+                shuffledIndices: shuffleArray(
+                    Array.from(Array(images.length).keys())
+                ),
+            });
         }
 
         setTimeout(() => {
@@ -220,8 +221,10 @@ const ShadowTheaterGame: React.FC = () => {
                 ...shownImages,
                 ...newImagesToAdd,
             ]);
-            updateStorage('shownImages', combinedImages);
-            updateStorage('lastAddedImages', newImagesToAdd);
+            updateStorage({
+                shownImages: combinedImages,
+                lastAddedImages: newImagesToAdd,
+            });
         }
     };
 
