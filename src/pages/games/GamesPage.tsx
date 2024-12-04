@@ -28,7 +28,7 @@ export const GamesPage = () => {
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
 
-    useConnection();
+    //useConnection();
 
     const { clearSettings } = useActions();
 
@@ -141,7 +141,7 @@ const gamesList: Record<
             { game: 'shadowTheater' },
             { game: 'dart' },
             { game: 'completeRow' },
-            { game: 'puzzleAbacus' }
+            { game: 'puzzleAbacus' },
         ],
     },
 };

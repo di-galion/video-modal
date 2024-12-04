@@ -25,7 +25,7 @@ const MainPage = () => {
         }
     }, [name]);
 
-    useConnection();
+    //useConnection();
 
     useEffect(() => {
         if (isError) {

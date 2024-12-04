@@ -7,13 +7,22 @@ import { getAccessToken, getUserIdFromStorage } from '../api/http/auth.helper';
 import api from '../api/http/api';
 import { parseUserData } from '../utils/user';
 import { useLessonId } from './lessons';
+import { useAccount } from './account';
 
 export const useConnection = () => {
+    //console.log('useConnection');
     const [searchParams] = useSearchParams();
     const { setMultiplayer, setAccountData } = useActions();
     const { connect } = useWebSocket();
+    const account = useAccount();
 
     useEffect(() => {
+        if (account.role === Role.None) {
+            return;
+        }
+
+        console.log('account', account);
+
         const token = getAccessToken();
         const room = searchParams.get('lesson');
         const mode = searchParams.get('mode');
@@ -33,11 +42,17 @@ export const useConnection = () => {
         if (mode === 'offline') {
             sessionStorage.clear();
         }
-    }, [searchParams]);
+    }, [account.role]);
 
     const id = useLessonId();
 
     useEffect(() => {
+        //console.log('1');
+        if (!id) {
+            return;
+        }
+        //console.log('2');
+
         api.getUserData(id).then((data: any) => {
             console.log('data', data);
             const teacher = parseUserData(data.teacher_id.user_id);
