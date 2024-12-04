@@ -13,10 +13,11 @@ const Start = () => {
     const [, setPageStatus] = useGameStatus();
     const settings = useGameSettings();
     const { start: data } = useGameData();
-    const { clearResult } = useActions();
+    const { clearResult, clearStorage } = useActions();
 
     const onClickOk = () => {
         clearResult();
+        clearStorage();
         setPageStatus('waiting');
     };
 

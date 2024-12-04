@@ -15,6 +15,7 @@ import { toTimeFormat } from '../../../utils';
 import { GameWrapper } from '../game-wrapper/GameWrapper';
 import { Stars } from './stars/Stars';
 import styles from './styles.module.scss';
+import { useActions } from '../../../hooks/useActions.ts';
 
 export const GameFinish = () => {
     const result = useGameResult();

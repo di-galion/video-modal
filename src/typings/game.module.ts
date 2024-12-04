@@ -34,7 +34,7 @@ export type GameData = {
     infoSettings: InfoSetting[];
     settings: ControlProps[];
     start: StartGameProps;
-    startTable?: { text: string; value: string | number | number[] }[];
+    startTable?: { text: string; value: SettingValue }[];
     starCalculationMode?: StarCalculationMode;
 };
 

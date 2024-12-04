@@ -1,20 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-import styles from "./Dart.module.scss";
+import { useState, useEffect, useRef, useMemo } from 'react';
+import styles from './Dart.module.scss';
 import balloonGreen from './images/balloons/balloon_img1_type1.png';
 import balloonGreenBoom from './images/balloons/balloon_img1_type0.png';
 import balloonRed from './images/balloons/balloon_img0_type1.png';
 import balloonRedBoom from './images/balloons/balloon_img0_type0.png';
-import balloonDarkBlue from './images/balloons/balloon_img2_type1.png'
+import balloonDarkBlue from './images/balloons/balloon_img2_type1.png';
 import balloonBlue from './images/balloons/balloon_img4_type1.png';
 import balloonBlueBoom from './images/balloons/balloon_img4_type0.png';
 import balloonViolet from './images/balloons/balloon_img3_type1.png';
 import balloonVioletBoom from './images/balloons/balloon_img3_type0.png';
-import {useGameFinish, useGameSettings} from "../../../hooks/game.ts";
-import { register } from "../../../providers/game/register.tsx";
-import { useActions } from "../../../hooks/useActions.ts";
-import { useTypedSelector } from "../../../hooks/useTypedSelector.ts";
-import {useWsAction, useWebSocket} from "../../../api/socket/useWebSocket.ts";
-import {useSyncStorage} from "../../../api/socket/useSyncStorage.ts";
+import { useGameFinish, useGameSettings } from '../../../hooks/game.ts';
+import { register } from '../../../providers/game/register.tsx';
+import { useActions } from '../../../hooks/useActions.ts';
+import { useTypedSelector } from '../../../hooks/useTypedSelector.ts';
+import { useWsAction, useWebSocket } from '../../../api/socket/useWebSocket.ts';
+import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
+import { useGameAccess } from '../../../hooks/account.ts';
 
 const COLORS = [
     { normal: balloonGreen, boom: balloonGreenBoom },
@@ -25,24 +26,71 @@ const COLORS = [
 ];
 
 const Dart = () => {
-    const {ratios, numberOfRows, level} = useGameSettings();
-    const [field, setField] = useState([]);
-    const [userSequence, setUserSequence] = useState([]);
+    const { ratios } = useGameSettings<string>();
+    const { numberOfRows, level } = useGameSettings<number>();
+    const [field, setField] = useState<any[]>([]);
+    const [userSequence, setUserSequence] = useState<any[]>([]);
     const [currentStep, setCurrentStep] = useState<number>(3);
     const [, setIsUserTurn] = useState(false);
-    const {addCorrectAnswer, addAllAnswers, setPageStatus} = useActions();
-    const fieldRef = useRef([]);
-    const sequenceRef = useRef([]);
+    const { addCorrectAnswer, addAllAnswers } = useActions();
+    const fieldRef = useRef<any[]>([]);
+    const sequenceRef = useRef<any[]>([]);
     const [answer, setAnswer] = useState<number>(0);
     const count = useTypedSelector((state) => state.gameData.result.allAnswers);
     const [isSequenceActive, setIsSequenceActive] = useState(false);
     const finish = useGameFinish();
+    const isAccess = useGameAccess();
+    const { storedField, storedSequence, updateStorage } = useSyncStorage<{
+        storedField: any[];
+        storedSequence: any[];
+    }>();
+    const { sendAction } = useWebSocket();
 
+    const [rows, columns] = useMemo(
+        () => ratios.split('x').map(Number),
+        [ratios]
+    );
 
-    const generateField = (rows: number, columns: number) => {
+    useEffect(() => {
+        startSequence();
+    }, []);
+
+    useEffect(() => {
+        if (storedField && storedField) {
+            console.log(storedField, storedSequence);
+            fieldRef.current = storedField;
+            setField(storedField);
+            sequenceRef.current = storedSequence;
+
+            setUserSequence([]);
+            setIsUserTurn(false);
+            showSequence(storedSequence);
+        }
+    }, [storedField, storedSequence]);
+
+    useEffect(() => {
+        if (isSequenceActive && isAccess) {
+            const newField = generateField();
+            const newSequence = generateUniqueSequence(
+                currentStep,
+                newField.length
+            );
+
+            updateStorage({
+                storedField: newField,
+                storedSequence: newSequence,
+            });
+        }
+    }, [isSequenceActive]);
+
+    const startSequence = () => {
+        setIsSequenceActive(true);
+    };
+
+    const generateField = () => {
         const totalCells = rows * columns;
         const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-        return Array.from({length: totalCells}, () => ({
+        return Array.from({ length: totalCells }, () => ({
             ...randomColor,
             isHighlighted: false,
             index: -1,
@@ -50,30 +98,7 @@ const Dart = () => {
         }));
     };
 
-    useEffect(() => {
-        const [rows, columns] = ratios.split("x").map(Number);
-        const newField = generateField(rows, columns);
-        fieldRef.current = newField;
-        setField(newField);
-        startSequence();
-    }, []);
-
-    const startSequence = () => {
-        setIsSequenceActive(true);
-
-        const [rows, columns] = ratios.split("x").map(Number);
-        const newField = generateField(rows, columns);
-        fieldRef.current = newField;
-        setField(newField);
-
-        const newSequence = generateUniqueSequence(currentStep, newField.length);
-        sequenceRef.current = newSequence;
-        setUserSequence([]);
-        setIsUserTurn(false);
-        showSequence(newSequence);
-    };
-
-    const generateUniqueSequence = (length, totalCells) => {
+    const generateUniqueSequence = (length: number, totalCells: number) => {
         const sequence = new Set();
         while (sequence.size < length) {
             const index = Math.floor(Math.random() * totalCells);
@@ -82,16 +107,22 @@ const Dart = () => {
         return Array.from(sequence);
     };
 
-    const showSequence = (newSequence) => {
+    const showSequence = (newSequence: any[]) => {
         const currentColors = new Set(field.map((balloon) => balloon.normal));
-        const originalColors = new Set(field.map((balloon) => balloon.originalColor.normal));
+        const originalColors = new Set(
+            field.map((balloon) => balloon.originalColor.normal)
+        );
         const availableColors = COLORS.filter(
-            (color) => !currentColors.has(color.normal) && !originalColors.has(color.normal)
+            (color) =>
+                !currentColors.has(color.normal) &&
+                !originalColors.has(color.normal)
         );
 
         const highlightColor =
             availableColors.length > 0
-                ? availableColors[Math.floor(Math.random() * availableColors.length)]
+                ? availableColors[
+                      Math.floor(Math.random() * availableColors.length)
+                  ]
                 : COLORS[Math.floor(Math.random() * COLORS.length)];
 
         newSequence.forEach((index, i) => {
@@ -170,12 +201,13 @@ const Dart = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(isSequenceActive, 'active')
-    }, [isSequenceActive])
+    useWsAction((name, params = {}) => {
+        if (name === 'click') {
+            handleBalloonClick(params.index);
+        }
+    });
 
     const handleBalloonClick = (index: number) => {
-
         setField((prevField) =>
             prevField.map((balloon, balloonIndex) => {
                 if (balloonIndex === index) {
@@ -195,7 +227,9 @@ const Dart = () => {
 
         const correctIndex =
             level === 3 || level === 4
-                ? sequenceRef.current[sequenceRef.current.length - newUserSequence.length]
+                ? sequenceRef.current[
+                      sequenceRef.current.length - newUserSequence.length
+                  ]
                 : sequenceRef.current[newUserSequence.length - 1];
 
         if (index !== correctIndex) {
@@ -213,7 +247,7 @@ const Dart = () => {
 
             setIsUserTurn(false);
 
-            setTimeout(() => startSequence(currentStep), 2000);
+            setTimeout(() => startSequence(), 2000);
             return;
         }
 
@@ -224,15 +258,15 @@ const Dart = () => {
             setIsUserTurn(false);
             const nextStep = currentStep + 1;
             setCurrentStep(nextStep);
-            setTimeout(() => startSequence(currentStep + 1), 1000)
+            setTimeout(() => startSequence(), 1000);
         }
     };
 
     useEffect(() => {
         if (numberOfRows === count) {
-            finish()
+            finish();
         }
-    }, [count, numberOfRows, setPageStatus]);
+    }, [count, numberOfRows]);
 
     return (
         <div className={styles.container}>
@@ -240,121 +274,132 @@ const Dart = () => {
             <div
                 className={styles.grid}
                 style={{
-                    gridTemplateColumns: `repeat(${ratios.split("x")[1]}, 1fr)`,
-                    gridTemplateRows: `repeat(${ratios.split("x")[0]}, 1fr)`,
+                    gridTemplateColumns: `repeat(${ratios.split('x')[1]}, 1fr)`,
+                    gridTemplateRows: `repeat(${ratios.split('x')[0]}, 1fr)`,
                 }}
             >
                 {field.map((balloon, index) => (
                     <div key={index} className={styles.balloonContainer}>
                         <img
-                            src={balloon.isHighlighted ? balloon.normal : balloon.normal}
+                            src={
+                                balloon.isHighlighted
+                                    ? balloon.normal
+                                    : balloon.normal
+                            }
                             className={styles.balloon}
-                            onClick={() => handleBalloonClick(index)}
+                            onClick={() => sendAction('click', { index })}
                             alt="balloon"
                             style={{
-                                filter: isSequenceActive || balloon.isDisabled ? 'brightness(0.75)' : 'none',
+                                filter:
+                                    isSequenceActive || balloon.isDisabled
+                                        ? 'brightness(0.75)'
+                                        : 'none',
                             }}
                         />
                         {balloon.index !== -1 && (
                             <span className={styles.balloonIndex}>
-                        {balloon.index}
-                    </span>
+                                {balloon.index}
+                            </span>
                         )}
                     </div>
                 ))}
             </div>
         </div>
     );
-}
+};
 
-export const DartGame = () => register(Dart, (settings) => ({
-    timeDirection: 'right',
-    title: 'Парк развлечений',
-    starCalculationMode: 'correct',
-    infoSettings: [
-        {
-            title: 'Урвоень',
-            texts: [
-                'В зависимости от уровня меняются правила игры:',
-                '1 - Необходимо востановить прямую последовательность в которой загорелись шарики',
-                '2 - Необходимо востановить прямую последовательность в которой моргнули шарики',
-                '3 - Необходимо востановить обратную прямую последовательность в которой загорелись шарики',
-                '4 - Необходимо востановить обратную прямую последовательность в которой моргнули шарики',
-            ]
-        },
-        {
-            title: 'Размер поля',
-            texts: [
-                'Выбор размера игрового поля'
-            ]
-        },
-        {
-            title: 'Колличество ответов',
-            texts: [
-                'Выбор количества последовательностей',
-            ]
-        },
-    ],
-    settings: [
-        {
-            type: "level",
-            title: 'Уровень',
-            reduxKey: 'level',
-            settings: {
-                max: 4,
-                min: 1,
-                step: 1,
-            }
-        },
-        {
-            type: 'ratios',
-            title: 'Размер поля',
-            reduxKey: 'ratios',
-            settings: {
-                values: ['3x3', '3x4', '4x5',],
-                defaultValue: '4x5'
-            }
-        },
-        {
-            type: 'numberOfRows',
-            title: 'Количество ответов',
-            reduxKey: 'numberOfRows',
-            settings: {
-                max: 20,
-                min: 5,
-                step: 1,
+export const DartGame = () =>
+    register(Dart, (settings) => ({
+        timeDirection: 'right',
+        title: 'Парк развлечений',
+        starCalculationMode: 'correct',
+        infoSettings: [
+            {
+                title: 'Урвоень',
+                texts: [
+                    'В зависимости от уровня меняются правила игры:',
+                    '1 - Необходимо востановить прямую последовательность в которой загорелись шарики',
+                    '2 - Необходимо востановить прямую последовательность в которой моргнули шарики',
+                    '3 - Необходимо востановить обратную прямую последовательность в которой загорелись шарики',
+                    '4 - Необходимо востановить обратную прямую последовательность в которой моргнули шарики',
+                ],
             },
-        },
-    ],
+            {
+                title: 'Размер поля',
+                texts: ['Выбор размера игрового поля'],
+            },
+            {
+                title: 'Колличество ответов',
+                texts: ['Выбор количества последовательностей'],
+            },
+        ],
+        settings: [
+            {
+                type: 'level',
+                title: 'Уровень',
+                reduxKey: 'level',
+                settings: {
+                    max: 4,
+                    min: 1,
+                    step: 1,
+                },
+            },
+            {
+                type: 'ratios',
+                title: 'Размер поля',
+                reduxKey: 'ratios',
+                settings: {
+                    values: ['3x3', '3x4', '4x5'],
+                    defaultValue: '4x5',
+                },
+            },
+            {
+                type: 'numberOfRows',
+                title: 'Количество ответов',
+                reduxKey: 'numberOfRows',
+                settings: {
+                    max: 20,
+                    min: 5,
+                    step: 1,
+                },
+            },
+        ],
 
-    start:
-        settings.level === 1
-            ? {
-                title: 'Парк развлечений',
-                subTitle1: 'Запомни последовательность в которой загораются шары и лопни их по порядку',
-                titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-            }
-            : settings.level === 2
+        start:
+            settings.level === 1
                 ? {
-                    title: 'Парк развлечений',
-                    subTitle1: 'Запомни последовательность в которой мигают шары и лопни их по порядку',
-                    titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-                }
+                      title: 'Парк развлечений',
+                      subTitle1:
+                          'Запомни последовательность в которой загораются шары и лопни их по порядку',
+                      titleBottom:
+                          'Не допускай ошибок для успешного завершения игры.',
+                  }
+                : settings.level === 2
+                ? {
+                      title: 'Парк развлечений',
+                      subTitle1:
+                          'Запомни последовательность в которой мигают шары и лопни их по порядку',
+                      titleBottom:
+                          'Не допускай ошибок для успешного завершения игры.',
+                  }
                 : settings.level === 3
-                    ? {
-                        title: 'Парк развлечений',
-                        subTitle1: 'Запомни обратную последовательность в которой загораются шары и лопни их по порядку',
-                        titleBottom: 'Ошибок быть не должно, удачи!',
-                    }
-                    : settings.level === 4
-                        ? {
-                            title: 'Парк развлечений',
-                            subTitle1: 'Запомни обратную последовательность в которой мигают шары и лопни их по порядку',
-                            titleBottom: 'Всё зависит от тебя. Победа близка!',
-                        }
-                        : {
-                            title: 'Парк развлечений',
-                            subTitle1: 'Похоже, что-то пошло не так. Уровень не найден.',
-                            titleBottom: 'Попробуй снова!',
-                        }
-}))
+                ? {
+                      title: 'Парк развлечений',
+                      subTitle1:
+                          'Запомни обратную последовательность в которой загораются шары и лопни их по порядку',
+                      titleBottom: 'Ошибок быть не должно, удачи!',
+                  }
+                : settings.level === 4
+                ? {
+                      title: 'Парк развлечений',
+                      subTitle1:
+                          'Запомни обратную последовательность в которой мигают шары и лопни их по порядку',
+                      titleBottom: 'Всё зависит от тебя. Победа близка!',
+                  }
+                : {
+                      title: 'Парк развлечений',
+                      subTitle1:
+                          'Похоже, что-то пошло не так. Уровень не найден.',
+                      titleBottom: 'Попробуй снова!',
+                  },
+    }));
