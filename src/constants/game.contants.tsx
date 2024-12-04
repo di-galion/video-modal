@@ -22,6 +22,7 @@ import { DartGame } from "../components/games/dart/Dart.tsx";
 import { PuzzleAbacus } from "../components/games/collect-abacus/PuzzleAbacus.tsx";
 import { CompleteRow } from "../components/games/complete-row/CompleteRow.tsx";
 import SettingRankOfNumbers from "../components/settings/setting-rank-of-numbers/SettingRankOfNumbers.tsx";
+import {CountExamples} from "../components/games/count-examples/countExamples.tsx";
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -101,7 +102,8 @@ export const GAME_MAP: Record<string, () => ReactElement> = {
     shadowTheater: () => <ShadowTheater />,
     dart: () => <DartGame/>,
     puzzleAbacus: () => <PuzzleAbacus/>,
-    completeRow: () => <CompleteRow/>
+    completeRow: () => <CompleteRow/>,
+    countExamples: () => <CountExamples/>,
 };
 
 export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
@@ -145,4 +147,8 @@ export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
         image: createPath('/assets/img/gameCovers/puzzleAbacus.png'),
          title: 'Собери абакус'
     },
+    countExamples: {
+        image: createPath('/assets/img/gameCovers/countingExamples.png'),
+        title: 'Счет примеров'
+    }
 };

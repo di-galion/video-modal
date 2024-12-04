@@ -63,6 +63,7 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
         position: -1,
         isPlaced: false,
         type: shape.type,
+        rowIndex: undefined
     }));
 
     const [beads, setBeads] = useState<Bead[]>(initialBeads);
@@ -88,55 +89,46 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
         }
     }, [beads,  gameTime]);
 
-    const handleDrop = (targetSlot, targetRow, rowIndex) => {
-
+    const handleDrop = (targetSlot: number, targetRow: number) => {
         if (!draggingBeadId) {
             return;
         }
 
-        const draggingBeadIdString = String(draggingBeadId);
-
-
-        const idParts = draggingBeadIdString.split('-');
+        const beadIdString = String(draggingBeadId);
+        const idParts = beadIdString.split('-');
         if (idParts.length !== 3 || idParts[0] !== 'bead') {
             return;
         }
 
         const beadId = parseInt(idParts[2], 10);
-
         const beadToPlace = beads.find((bead) => bead.id === beadId);
 
         if (!beadToPlace) {
             return;
         }
 
-        const isCorrectPosition =
-            (beadToPlace.type === 'octagon' && beadToPlace.position === targetSlot) ||
-            (beadToPlace.type === 'topStick' && shapes[targetSlot]?.type === 'topStick') ||
-            (beadToPlace.type === 'bottomStick' && shapes[targetSlot]?.type === 'bottomStick') ||
-            (beadToPlace.type === 'horizonteStripe' && shapes[targetSlot]?.type === 'horizonteStripe') ||
-            (beadToPlace.type === 'verticalLine' && shapes[targetSlot]?.type === 'verticalLine') ||
-            (beadToPlace.type === 'octagonLeft' && shapes[targetSlot]?.type === 'octagonLeft') ||
-            (beadToPlace.type === 'octagonRight' && shapes[targetSlot]?.type === 'octagonRight') ||
-            (beadToPlace.type === 'bigPullGem' && shapes[targetSlot]?.type === 'bigPullGem') ||
-            (beadToPlace.type === 'bigGem' && shapes[targetSlot]?.type === 'bigGem') ||
-            (targetSlot === beadToPlace.position);
+        const isAlreadyPlacedInSlot = beadToPlace.position === targetSlot;
+        if (isAlreadyPlacedInSlot) {
+
+            return;
+        }
 
         setBeads((prevBeads) =>
             prevBeads.map((bead) => {
                 if (bead.id === beadId) {
                     return {
                         ...bead,
-                        position: isCorrectPosition ? targetSlot : bead.position,
-                        isPlaced: isCorrectPosition,
+                        position: targetSlot,
+                        rowIndex: targetRow,
+                        isPlaced: true,
                     };
                 }
                 return bead;
             })
         );
+
         setDraggingBeadId(null);
     };
-
     const handleDragStart = (beadId) => {
 
         setDraggingBeadId(beadId);
@@ -219,6 +211,7 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
         updateSlotDimensionsByRows();
     }, [numberOfRows]);
 
+
     return (
         <div className={`${styles.collectAbacus}`}>
             <div className={styles.abacus}>
@@ -291,7 +284,7 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
                                     {containerBeads.map((bead, index) => (
                                         <div
                                             key={`bead-${rowIndex}-${index}`}
-                                            id={`bead-${rowIndex}-${index}`}
+                                            id={`bead-${rowIndex}-${index}-${bead.id}`}
                                             className={`${styles.bead} ${styles[`bead${index + 1}`]} ${draggingBeadId === `bead-${rowIndex}-${index}` ? styles.dragging : ''} ${bead.isPlaced ? styles.placed : ''}`}
                                             draggable
                                             onDragStart={() => handleDragStart(`bead-${rowIndex}-${index}`)}

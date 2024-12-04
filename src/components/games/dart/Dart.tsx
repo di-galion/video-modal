@@ -89,16 +89,15 @@ const Dart = () => {
             (color) => !currentColors.has(color.normal) && !originalColors.has(color.normal)
         );
 
-
         const highlightColor =
             availableColors.length > 0
                 ? availableColors[Math.floor(Math.random() * availableColors.length)]
                 : COLORS[Math.floor(Math.random() * COLORS.length)];
 
-
         newSequence.forEach((index, i) => {
             setTimeout(() => {
                 if (level === 2 || level === 4) {
+                    setIsSequenceActive(false);
                     setField((prevField) =>
                         prevField.map((balloon, balloonIndex) => {
                             if (balloonIndex === index) {
@@ -122,7 +121,7 @@ const Dart = () => {
                                         ...balloon,
                                         normal: balloon.originalColor.normal,
                                         isHighlighted: false,
-                                        index: -1,
+                                        index: index + 1,
                                     };
                                 }
                                 return balloon;
@@ -152,7 +151,7 @@ const Dart = () => {
                                     return {
                                         ...balloon,
                                         isHighlighted: false,
-                                        index: -1,
+                                        index: index + 1,
                                     };
                                 }
                                 return balloon;
@@ -171,6 +170,10 @@ const Dart = () => {
         });
     };
 
+    useEffect(() => {
+        console.log(isSequenceActive, 'active')
+    }, [isSequenceActive])
+
     const handleBalloonClick = (index: number) => {
 
         setField((prevField) =>
@@ -180,6 +183,7 @@ const Dart = () => {
                         ...balloon,
                         isHighlighted: false,
                         normal: balloon.boom,
+                        index: -1,
                     };
                 }
                 return balloon;
@@ -203,6 +207,7 @@ const Dart = () => {
                     ...balloon,
                     isHighlighted: false,
                     normal: balloon.boom,
+                    index: -1,
                 }))
             );
 
@@ -247,7 +252,7 @@ const Dart = () => {
                             onClick={() => handleBalloonClick(index)}
                             alt="balloon"
                             style={{
-                                filter: isSequenceActive || balloon.isDisabled ? 'brightness(0.75)' : 'none', // затемнение всех шаров
+                                filter: isSequenceActive || balloon.isDisabled ? 'brightness(0.75)' : 'none',
                             }}
                         />
                         {balloon.index !== -1 && (

@@ -51,6 +51,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 30px;
+  pointer-events: none;
   color: white;
   font-weight: bold;
 }
