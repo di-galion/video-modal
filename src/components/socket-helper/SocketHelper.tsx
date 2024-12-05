@@ -9,6 +9,7 @@ import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { WsSystemAction } from '../../api/socket/constants';
 import { useLessonSwitcher } from '../../hooks/lessons';
+import { useConnection } from '../../hooks/useConnection';
 
 export const SocketHelper = () => {
     const {
@@ -29,6 +30,8 @@ export const SocketHelper = () => {
     const multiPlayer = useTypedSelector(
         (store) => store.accountData.multiPlayer
     );
+
+    useConnection();
 
     useWsAction((name, params = {}) => {
         switch (name) {

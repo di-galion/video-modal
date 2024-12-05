@@ -8,6 +8,7 @@ import {
     updateSyncStorage,
 } from '../../store/game-data/gamesData';
 import { store } from '../../store/store';
+import { getAccessToken } from '../http/auth.helper';
 import { WsApi } from './baseApi';
 import { WsSystemAction } from './constants';
 
@@ -16,6 +17,8 @@ export class SocketApi implements WsApi {
     ready: boolean = false;
 
     connect() {
+        console.log('connect');
+
         const room = sessionStorage.getItem('ROOM');
         if (!room) {
             store.dispatch(
@@ -32,7 +35,7 @@ export class SocketApi implements WsApi {
         if (this.socket) {
             this.socket.onopen = () => {
                 console.log('[open] Соединение установлено');
-                const token = sessionStorage.getItem('TOKEN');
+                const token = getAccessToken();
                 this.socket?.send(`Bearer ${token}`);
                 this.ready = true;
                 this.sendAction(WsSystemAction.UserEnter);
@@ -56,6 +59,7 @@ export class SocketApi implements WsApi {
         if (this.socket) {
             this.socket.onclose = (event) => {
                 this.ready = false;
+                //this.socket?.close();
                 this.socket = null;
 
                 if (event.wasClean) {
@@ -68,6 +72,12 @@ export class SocketApi implements WsApi {
 
                 store.dispatch(resetUserCount());
                 store.dispatch(setReady(false));
+
+                /*if (event.reason === 'Another connection received') {
+                    this.connect();
+                    return;
+                }*/
+
                 store.dispatch(
                     showNotification({
                         text: 'Соединение разорвано',

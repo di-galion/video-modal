@@ -21,7 +21,6 @@ export const GameFinish = () => {
     const [, setStatus] = useGameStatus();
     const { level = 1, mode } = useGameSettings<number>();
     const { starCalculationMode } = useTypedSelector((state) => state.gameData);
-    //console.log(starCalculationMode, level, mode, result.time)
 
     const handleClick = () => {
         setStatus('start');

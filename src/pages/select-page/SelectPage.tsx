@@ -61,8 +61,21 @@ export const SelectPage = () => {
             <button type="button" onClick={goToMA}>
                 Go
             </button>
-            <Link to={'/games/mental-arithmetics'}>Ментальная арифметика</Link>
-            <Link to={'/games/mult-table'}>Таблица умножения</Link>
+            <Link
+                to={
+                    '/games/mental-arithmetics?lesson=' +
+                    import.meta.env.VITE_LESSON_ID
+                }
+            >
+                Ментальная арифметика
+            </Link>
+            <Link
+                to={
+                    '/games/mult-table?lesson=' + import.meta.env.VITE_LESSON_ID
+                }
+            >
+                Таблица умножения
+            </Link>
             <div>
                 <button onClick={setTeacher}>TEACHER</button>
             </div>
