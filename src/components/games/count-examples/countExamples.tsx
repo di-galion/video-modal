@@ -1,11 +1,11 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import styles from './countExamples.module.scss';
 import { useGameFinish, useGameSettings } from "../../../hooks/game.ts";
 import { useActions } from "../../../hooks/useActions.ts";
 import { ExampleIcon } from '../mult-table/components/ExampleIcon.tsx'
 import { NextIcon } from '../mult-table/components/NextIcon.tsx'
-import { RepeatIcon} from '../mult-table/components/RepeatIcon.tsx'
-import { FinishIcon} from '../mult-table/components/FinishIcon.tsx'
+import { RepeatIcon } from '../mult-table/components/RepeatIcon.tsx'
+import { FinishIcon } from '../mult-table/components/FinishIcon.tsx'
 import { register } from "../../../providers/game/register.tsx";
 
 export const CountExamplesGame = () => {
@@ -16,9 +16,10 @@ export const CountExamplesGame = () => {
     const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
     const [currentStage, setCurrentStage] = useState<0 | 1 | 2 | 3>(0);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const {level, ratios, numberOfRows, speed} = useGameSettings();
+    const { level, ratios, numberOfRows, speed } = useGameSettings();
     const [isExampleVisible, setIsExampleVisible] = useState(false);
-    const {addAllAnswers, addCorrectAnswer} = useActions();
+    const [dynamicSpeed, setDynamicSpeed] = useState(speed);
+    const { addAllAnswers, addCorrectAnswer} = useActions();
     const finish = useGameFinish();
 
     const blueShades = ['#003366', '#003B5C', '#002D4C', '#001F3C'];
@@ -29,10 +30,10 @@ export const CountExamplesGame = () => {
         if (isNaN(rank)) return;
 
         const ranges = [
-            {min: 2, max: 9, resultMax: 9},
-            {min: 10, max: 99, resultMax: 99},
-            {min: 100, max: 999, resultMax: 999},
-            {min: 1000, max: 9999, resultMax: 9999},
+            { min: 2, max: 9, resultMax: 9 },
+            { min: 10, max: 99, resultMax: 99 },
+            { min: 100, max: 999, resultMax: 999 },
+            { min: 1000, max: 9999, resultMax: 9999 },
         ];
 
         const {min, max, resultMax} = ranges[rank - 1] || {};
@@ -44,7 +45,7 @@ export const CountExamplesGame = () => {
             if (Math.random() > 0.5) num1 *= -1;
             if (Math.random() > 0.5) num2 *= -1;
             result = num1 + num2;
-        } while (result <= 0 || result > resultMax);
+        } while (result <= -1 || result > resultMax);
 
         setFirstNumber(num1);
         setSecondNumber(num2);
@@ -60,6 +61,13 @@ export const CountExamplesGame = () => {
 
     const restartThisExample = () => {
 
+        setInputValue('');
+        setIsAnswerCorrect(null);
+        setCurrentStage(0);
+
+        setFirstNumber(firstNumber);
+        setSecondNumber(secondNumber);
+        setCorrectAnswer(correctAnswer);
     };
 
     const showThisExample = () => {
@@ -78,6 +86,11 @@ export const CountExamplesGame = () => {
             setIsAnswerCorrect(true);
             addCorrectAnswer();
             setCorrectAnswersCount((prev) => prev + 1);
+
+
+            if (level === 2) {
+                setDynamicSpeed((prevSpeed) => prevSpeed * 0.85);
+            }
         } else {
             setIsAnswerCorrect(false);
         }
@@ -98,11 +111,11 @@ export const CountExamplesGame = () => {
 
     useEffect(() => {
         if (currentStage === 0) {
-            setTimeout(() => setCurrentStage(1), speed * 1000);
+            setTimeout(() => setCurrentStage(1), dynamicSpeed  * 1000);
         } else if (currentStage === 1) {
-            setTimeout(() => setCurrentStage(2), speed * 1000);
+            setTimeout(() => setCurrentStage(2), dynamicSpeed  * 1000);
         }
-    }, [currentStage, speed]);
+    }, [currentStage, dynamicSpeed ]);
 
     useEffect(() => {
         console.log("Current stage changed:", currentStage);
@@ -116,7 +129,31 @@ export const CountExamplesGame = () => {
             setInputValue((prev) => prev + value);
         }
     };
+//клава
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                if (currentStage === 2 && inputValue) {
+                    checkAnswer();
+                } else if (currentStage === 3) {
+                    startNewExample();
+                }
+            } else if (currentStage === 2) {
+                if (event.key >= '0' && event.key <= '9') {
+                    handleInput(event.key);
+                } else if (event.key === 'Backspace') {
+                    handleInput('⌫');
+                } else if (event.key.toLowerCase() === 'c') {
+                    handleInput('C');
+                }
+            }
+        };
 
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [currentStage, inputValue, startNewExample, checkAnswer]);
 
     return (
         <div className={styles.calculatorContainer}>
@@ -221,7 +258,7 @@ export const CountExamplesGame = () => {
     <div
         className={styles.example}
                 style={{
-                    visibility: currentStage >= 1 ? 'visible' : 'hidden',
+                    visibility: isExampleVisible === true && currentStage === 3 ? 'visible' : 'hidden',
                 }}
             >
                 {`${firstNumber} + ${secondNumber} = ${correctAnswer}`}
