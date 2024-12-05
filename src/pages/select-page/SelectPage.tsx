@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AuthService } from '../../api/http/auth.service';
 import { useActions } from '../../hooks/useActions';
 import { LESSONS } from '../../constants/lessons.constants';
+import { timeout, timeouts } from '../../utils';
 
 export const SelectPage = () => {
     const [email, setEmail] = useState('');
@@ -46,6 +47,16 @@ export const SelectPage = () => {
     };
 
     const themes = LESSONS['mental-arithmetics'].map((lesson) => lesson[0]);
+
+    const [number, setNumber] = useState(-1);
+
+    const handleTimer = async () => {
+        await timeout(() => setNumber(0), 1000);
+        await timeouts(
+            (index) => setNumber(index + 1),
+            [1000, 1000, 1000, 1000, 1000]
+        );
+    };
 
     return (
         <div className={styles.div}>
@@ -98,6 +109,8 @@ export const SelectPage = () => {
                     Auth
                 </button>
             </form>
+            <button onClick={handleTimer}>RUN TIMER</button>
+            <div>number: {number}</div>
         </div>
     );
 };
