@@ -102,6 +102,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         index: 6,
         name: 'game',
         games: [],
+        //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
         title: 'Знакомство с новой темой',
@@ -159,6 +160,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         index: 8,
         name: 'game',
         games: [],
+        //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
     {
         title: 'Разминка на абакусе',
@@ -217,7 +219,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: [],
+                games: ['countExamples'],
             },
         ],
     },

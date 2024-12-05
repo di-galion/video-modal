@@ -15,16 +15,16 @@ const CompleteRowGame = () => {
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
     const [score, setScore] = useState<number>(0);
     const { addCorrectAnswer, setStarCalculationMode, setPageStatus,  addAllAnswers } = useActions();
-    const { speed, numberOfRows, level, tips,rankOfNumbers } = useGameSettings();
+    const { speed, numberOfRows, level, tips,ratios } = useGameSettings();
     const [answerCount, setAnswerCount] = useState<number>(0);
     const generateNumbers = () => {
         let rangeStart = 0;
         let rangeEnd = 9;
 
-        if (rankOfNumbers === '1') {
+        if (ratios === 2) {
             rangeStart = 10;
             rangeEnd = 99;
-        } else if (rankOfNumbers === '2') {
+        } else if (ratios === 3) {
             rangeStart = 100;
             rangeEnd = 999;
         }
@@ -38,17 +38,17 @@ const CompleteRowGame = () => {
             ];
 
             const digitArray = nums.flatMap(num =>
-                rankOfNumbers === '0'
-                    ? [num] // Если однозначные, каждое число отдельно
+                ratios === 1
+                    ? [num]
                     : String(num).split('').map(Number)
             );
 
             const startIndex = Math.floor(Math.random() * nums.length);
-            const digitStartIndex = rankOfNumbers === '0'
-                ? startIndex // Если однозначные, индекс числа = индекс цифры
-                : startIndex * (rankOfNumbers === '2' ? 3 : 2);
+            const digitStartIndex = ratios === 1
+                ? startIndex
+                : startIndex * (ratios === 1 ? 3 : 2);
 
-            for (let i = 0; i < (rankOfNumbers === '2' ? 3 : rankOfNumbers === '1' ? 2 : 1); i++) {
+            for (let i = 0; i < (ratios === 3 ? 3 : ratios === 2 ? 2 : 1); i++) {
                 digitArray[digitStartIndex + i] = null;
             }
 
@@ -56,71 +56,53 @@ const CompleteRowGame = () => {
             setMissingIndex(digitStartIndex);
         } else if (level === 2) {
             const randomNum = Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
-            const nums = rankOfNumbers === '0'
-                ? [randomNum] // Если однозначные, сохраняем как есть
+            const nums = ratios === 1
+                ? [randomNum] // Если однозначное число
                 : String(randomNum).split('').map(Number);
 
             setNumbers(nums);
             setMissingIndex(null);
         }
     };
+
     const generateOptions = (correctAnswer: number) => {
-        const optionsSet = new Set<number>();
         let rangeStart = 0;
         let rangeEnd = 9;
 
-        if (rankOfNumbers === '1') {
+        if (ratios === 2) {
             rangeStart = 10;
             rangeEnd = 99;
-        } else if (rankOfNumbers === '2') {
+        } else if (ratios === 3) {
             rangeStart = 100;
             rangeEnd = 999;
         }
 
-        const optionsCount =
-            rankOfNumbers === '1'
-                ? 10
-                : rankOfNumbers === '2'
-                    ? 9
-                    : 10;
+        const optionsCount = ratios === 2 ? 10 : ratios === 3 ? 9 : 10;
 
-        optionsSet.add(correctAnswer);
+        const correctAnswerString = String(correctAnswer);
 
-        while (optionsSet.size < optionsCount) {
+        const optionsArray: number[] = [];
+        while (optionsArray.length < optionsCount - 1) {
             const randomOption = Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
 
-            if (rankOfNumbers === '2') {
-                const digits = String(randomOption).split('').map(Number);
-                digits.forEach(digit => {
-                    if (digit >= 0 && digit <= 9) {
-                        optionsSet.add(digit);
-                    }
-                });
-            } else if (rankOfNumbers === '1') {
-                const digits = String(randomOption).split('').map(Number);
-                digits.forEach(digit => {
-                    if (digit >= 0 && digit <= 9) {
-                        optionsSet.add(digit);
-                    }
-                });
-            } else {
-                if (randomOption >= 0 && randomOption <= 9) {
-                    optionsSet.add(randomOption);
-                }
+            if (!optionsArray.includes(randomOption)) {
+                optionsArray.push(randomOption);
             }
         }
 
-        const optionsArray = Array.from(optionsSet);
+        optionsArray.push(correctAnswer);
 
-        // Перемешиваем опции
         for (let i = optionsArray.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]];
         }
 
+        if (!optionsArray.includes(correctAnswer)) {
+            optionsArray.push(correctAnswer);
+        }
+
         setOptions(optionsArray);
     };
-
     const calculateGemsCount = (num: number) => {
         return num >= 5 ? num - 4 : num + 1;
     };
@@ -131,22 +113,42 @@ const CompleteRowGame = () => {
 
     useEffect(() => {
         if (numbers.length) {
-            const correctAnswer = level === 1
-                ? (missingIndex !== null
-                    ? (missingIndex > 0 ? numbers[missingIndex - 1] + 1 : numbers[missingIndex + 1] - 1)
-                    : numbers[missingIndex])
-                : numbers[0];
+            let correctAnswer: number[];
+
+            if (level === 1) {
+                if (missingIndex !== null) {
+                    if (missingIndex > 0) {
+                        correctAnswer = [numbers[missingIndex - 1] + 1, numbers[missingIndex + 1] - 1];
+                    } else {
+                        correctAnswer = [numbers[missingIndex + 1] - 1];
+                    }
+                } else {
+                    correctAnswer = [numbers[missingIndex]];
+                }
+            } else {
+                correctAnswer = [numbers[0]];
+            }
+
+            if (ratios === 2) {
+                if (correctAnswer.length === 1) {
+                    correctAnswer = [correctAnswer[0], correctAnswer[0] + 1];
+                }
+            } else if (ratios === 3) {
+                if (correctAnswer.length === 1) {
+                    correctAnswer = [correctAnswer[0], correctAnswer[0] + 1, correctAnswer[0] + 2];
+                }
+            }
 
             generateOptions(correctAnswer);
         }
-    }, [numbers, missingIndex]);
+    }, [numbers, missingIndex, ratios]);
 
     const handleOptionClick = (number: number) => {
         setSelectedAnswer(number);
 
         const correctAnswer = level === 1
             ? (missingIndex !== null
-                ? (rankOfNumbers === '1'
+                ? (ratios === 2
                     ? numbers.map(num => (num !== null ? String(num).split('').map(Number) : [null]))
                         .flat()[missingIndex]
                     : (missingIndex > 0 ? numbers[missingIndex - 1] + 1 : numbers[missingIndex + 1] - 1))
@@ -186,7 +188,7 @@ const CompleteRowGame = () => {
                 <div
                     className={`${styles.numberContainer} ${isAnswerCorrect === true ? styles.correct : isAnswerCorrect === false ? styles.incorrect : ''}`}
                 >
-                    {numbers[0]}
+                    {numbers.join('')}
                 </div>
             ) : (
                 <div
@@ -199,13 +201,13 @@ const CompleteRowGame = () => {
                         height: '400px',
                         margin: '0 auto',
                         paddingTop: '50px',
-                        ...(rankOfNumbers === '0' ? {
+                        ...(ratios === 1 ? {
                             gap: '40px',
                         } : {}),
-                        ...(rankOfNumbers === '1' ? {
+                        ...(ratios === 2 ? {
                             marginTop: '0px',
                         } : {}),
-                        ...(rankOfNumbers === '2' ? {
+                        ...(ratios === 3 ? {
                             marginTop: '0px',
                         } : {}),
                     }}
@@ -217,13 +219,13 @@ const CompleteRowGame = () => {
                             style={{
                                 width: '58px',
                                 margin: '0',
-                                ...(rankOfNumbers === '0' ? {
+                                ...(ratios === 1 ? {
                                     margin: '0 20px 0 0',
                                 } : {}),
-                                ...(rankOfNumbers === '1' && index % 2 === 1 ? {
+                                ...(ratios === 2 && index % 2 === 1 ? {
                                     marginRight: '30px',
                                 } : {}),
-                                ...(rankOfNumbers === '2' && index % 3 === 2 ? {
+                                ...(ratios === 3 && index % 3 === 2 ? {
                                     marginRight: '20px',
                                 } : {}),
                             }}
@@ -257,9 +259,9 @@ const CompleteRowGame = () => {
                             {tips && (
                                 <div className={styles.tipContainer}>
                                     <p className={styles.tipText}>
-            <span className={styles.tipNumber}>
-              {num !== null ? num : '?'}
-            </span>
+                                        <span className={styles.tipNumber}>
+                                          {num !== null ? num : '?'}
+                                        </span>
                                     </p>
                                 </div>
                             )}
@@ -276,13 +278,13 @@ const CompleteRowGame = () => {
                         style={{
                             width: '58px',
                             margin: '0',
-                            ...(rankOfNumbers === '0' ? {
+                            ...(ratios === 1 ? {
                                 margin: '0 20px 0 0',
                             } : {}),
-                            ...(rankOfNumbers === '1' && index % 2 === 0 ? {
+                            ...(ratios === 2 && index % 2 === 0 ? {
                                 marginLeft: '20px',
                             } : {}),
-                            ...(rankOfNumbers === '2' && index % 3 === 0 ? {
+                            ...(ratios === 3 && index % 3 === 0 ? {
                                 marginLeft: '20px',
                             } : {}),
                         }}
@@ -389,26 +391,15 @@ export const CompleteRow = () => register(CompleteRowGame, () => ({
             }
         },
         {
-            type: 'rankOfNumbers',
+            type: 'ratios',
             title: 'Разряд чисел',
-            reduxKey: 'rankOfNumbers',
+            reduxKey: 'ratios',
             settings: {
-                min: 0,
-                max: 2,
-                step: 1,
-                defaultValue: 0,
-                values: ['1', '0', '0'],
+                values: [1, 2, 3],
+                defaultValue: 1,
             },
         },
-        // {
-        //     type: 'ratios',
-        //     title: 'Количество ФК',
-        //     reduxKey: 'ratios',
-        //     settings: {
-        //         values: [3, 5],
-        //         defaultValue: 3,
-        //     },
-        // },
+
         {
             type: 'ratios',
             title: 'Подтема',

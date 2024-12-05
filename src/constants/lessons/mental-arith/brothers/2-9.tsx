@@ -57,7 +57,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_9: ILesson[] = [
         status: true,
         index: 3,
         name: 'game',
-        games: ['flashCards'],
+        games: ['countExamples'],
         //реальные игры['countExamples']
     },
 

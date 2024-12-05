@@ -22,7 +22,7 @@ const SettingUnderTheme: FC<SubThemeSelectorProps> = ({
     );
 
     const themeOptions = [
-        { label: 'Просто', value: [4, 2, 3, 4] },
+        { label: 'Просто', value: [4, 5, 6, 7, 8, 9, 10, 19, 100] },
         { label: 'Братья', value: [1, 2, 3, 4] },
         { label: 'Друзья', value: [9, 8, 7, 6, 5, 4, 3, 2, 1] },
         { label: 'Переход', value: [50, 100] },

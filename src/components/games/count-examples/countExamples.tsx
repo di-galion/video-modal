@@ -17,11 +17,12 @@ export const CountExamplesGame = () => {
     const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
     const [showCalculator, setShowCalculator] = useState(false);
     const [isResultVisible, setIsResultVisible] = useState(false);
+    const [restartFlag, setRestartFlag] = useState(false);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const { level, rankOfNumbers, numberOfRows, speed } = useGameSettings();
+    const { level, ratios, numberOfRows, speed, theme, underTheme } = useGameSettings();
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const [showExample, setShowExample] = useState(false);
-    const [currentNumber, setCurrentNumber] = useState<1 | 2>(1);
+    const [, setCurrentNumber] = useState<1 | 2>(1);
     const [currentTimer, setCurrentTimer] = useState(speed * 1000);
     const [currentNumberToShow, setCurrentNumberToShow] = useState<1 | 2>(1);
     const finish = useGameFinish();
@@ -38,29 +39,81 @@ export const CountExamplesGame = () => {
 
     const generateNumbers = () => {
         let num1, num2, result;
+        // switch (theme) {
+        //     case 'Просто':
+        //         return [4, 5, 6, 7, 8, 9, 10, 19, 100];
+        //
+        //     case 'Братья':
+        //         switch (underTheme) {
+        //             case '1':
+        //                 num1 = 5;
+        //                 num2 = -4;
+        //                 result = num1 + num2;
+        //                 break;
+        //             case '2':
+        //                 num1 = 5;
+        //                 num2 = -3;
+        //                 result = num1 + num2;
+        //                 break;
+        //             case '3':
+        //                 num1 = 5;
+        //                 num2 = -4;
+        //                 result = num1 + num2;
+        //                 break;
+        //             case '4':
+        //                 num1 = 5;
+        //                 num2 = -5;
+        //                 result = num1 + num2;
+        //                 break;
+        //             default:
+        //                 num1 = Math.floor(Math.random() * 10) + 1;
+        //                 num2 = Math.floor(Math.random() * 10) + 1;
+        //                 result = num1 + num2;
+        //                 break;
+        //         }
+        //         break;
+        //
+        //     case 'Друзья':
+        //         return [9, 8, 7, 6, 5, 4, 3, 2, 1];
+        //
+        //     case 'Переход':
+        //         return [50, 100];
+        //
+        //     case 'Друзья и Братья':
+        //         return [9, 8, 7, 6];
+        //
+        //     case 'Анзан':
+        //         return ['Сложение', 'Вычитание', 'Случайно'];
+        //
+        //     default:
+        //         return;
+        // }
 
-        const rankString = Array.isArray(rankOfNumbers)
-            ? rankOfNumbers[0]
-            : rankOfNumbers;
+        const rankString = Array.isArray(ratios) ? ratios[0] : ratios;
 
         const rank = parseInt(rankString as string, 10);
 
         if (isNaN(rank)) {
-            console.error('Invalid rankOfNumbers value:', rankOfNumbers);
+            console.error('Invalid rankOfNumbers value:', ratios);
             return;
         }
 
-        const min = rank === 0 ? 1 : Math.pow(10, rank);
-        const max = Math.pow(10, rank + 1) - 1;
-
-        let resultMax;
-        if (rank === 0) {
+        let min, max, resultMax;
+        if (rank === 1) {
+            min = 2;
+            max = 9;
             resultMax = 9;
-        } else if (rank === 1) {
-            resultMax = 99; //
         } else if (rank === 2) {
-            resultMax = 999;
+            min = 10;
+            max = 99;
+            resultMax = 99;
         } else if (rank === 3) {
+            min = 100;
+            max = 999;
+            resultMax = 999;
+        } else if (rank === 4) {
+            min = 1000;
+            max = 9999;
             resultMax = 9999;
         } else {
             console.error('Unsupported rank value:', rank);
@@ -103,6 +156,8 @@ export const CountExamplesGame = () => {
         setIsResultVisible(false);
         setShowCalculator(false);
         setIsHidden(true);
+
+        setRestartFlag((prev) => !prev);
 
         setTimeout(() => {
             setShowCalculator(true);
@@ -203,11 +258,26 @@ export const CountExamplesGame = () => {
             showNextNumber();
 
         }, 1000);
-    }, [firstNumber, secondNumber]);
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            showNextNumber();
+
+        }, 1000);
+    }, [firstNumber, secondNumber, restartFlag]);
 
     useEffect(() => {
         startNewExample();
     }, []);
+
+    useEffect(() => {
+        generateNumbers()
+    }, [])
+
+
+    console.log(firstNumber)
+    console.log(secondNumber)
 
     return (
         <div className={styles.calculatorContainer}>
@@ -405,15 +475,12 @@ export const CountExamples = () => register(CountExamplesGame, (settings) => ({
             },
         },
         {
-            type: 'rankOfNumbers',
+            type: 'ratios',
             title: 'Разряд чисел',
-            reduxKey: 'rankOfNumbers',
+            reduxKey: 'ratios',
             settings: {
-                min: 0,
-                max: 3,
-                step: 1,
-                defaultValue: '0',
-                values: ['1', '0', '0', '0'],
+                values: ['1', '2', '3', '4'],
+                defaultValue: '1',
             },
         },
         {
@@ -450,9 +517,9 @@ export const CountExamples = () => register(CountExamplesGame, (settings) => ({
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
     },
     startTable: [
-        { text: 'Тема', value: '' },
-        { text: 'Подтема', value: '' },
-        { text: 'Разряд чисел', value: settings.rankOfNumbers },
+        { text: 'Тема', value: settings.theme },
+        { text: 'Подтема', value: settings.underTheme },
+        { text: 'Разряд чисел', value: settings.ratios },
         { text: 'Колличество действий', value: settings.numberOfRows },
         { text: 'Скорость', value: settings.speed },
     ]
@@ -460,7 +527,7 @@ export const CountExamples = () => register(CountExamplesGame, (settings) => ({
 
 // switch (theme) {
 //     case 'Просто':
-//         return [4, 2, 3, 4]
+//         return  [4, 5, 6, 7, 8, 9, 10, 19, 100]
 //     case 'Бртья':
 //         return [1, 2, 3, 4]
 //     case 'Друзья':
