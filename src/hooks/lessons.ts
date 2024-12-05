@@ -115,7 +115,7 @@ export const useLessonId = () => {
 
     const id = useMemo(() => {
         const lesson = searchParams.get('lesson');
-        return lesson ? Number(lesson) : Number(import.meta.env.VITE_LESSON_ID);
+        return lesson ? Number(lesson) : 0;
     }, [searchParams]);
 
     return id;
