@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { ControlPropsOf } from '../../../typings/settings.module.ts';
-import { useActions } from '../../../hooks/useActions.ts';
 import { useValue } from '../../../hooks/game';
 import SettingsWrapper from '../settings-wrapper/SettingsWrapper.tsx';
 import styles from './styles.module.scss';
@@ -8,17 +7,15 @@ import styles from './styles.module.scss';
 type ThemeSelectorProps = ControlPropsOf<'theme'>;
 
 const SettingTheme: FC<ThemeSelectorProps> = ({
-                                                  title,
-                                                  settings = { defaultValue: 'Просто' },
-                                                  reduxKey,
-                                                  disabled,
-                                              }) => {
+    title,
+    settings = { defaultValue: 'Просто' },
+    reduxKey,
+    disabled,
+}) => {
     const [theme, setTheme] = useValue<string>(
         reduxKey,
-        settings.defaultValue || 'Просто'
+        (settings.defaultValue as string) || 'Просто'
     );
-
-    const { addNewSetting } = useActions();
 
     const themeOptions = [
         'Просто',
@@ -32,7 +29,6 @@ const SettingTheme: FC<ThemeSelectorProps> = ({
     const handleThemeChange = (value: string) => {
         if (!disabled) {
             setTheme(value);
-            addNewSetting({ [reduxKey]: value });
         }
     };
 

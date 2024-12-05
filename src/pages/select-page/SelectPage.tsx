@@ -69,6 +69,9 @@ export const SelectPage = () => {
             >
                 Ментальная арифметика
             </Link>
+            <Link to={'/games/mental-arithmetics?mode=offline'}>
+                Ментальная арифметика оффлайн
+            </Link>
             <Link
                 to={
                     '/games/mult-table?lesson=' + import.meta.env.VITE_LESSON_ID
