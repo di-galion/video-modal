@@ -40,7 +40,7 @@ export const SocketHelper = () => {
     );
 
     const [searchParams] = useSearchParams();
-    const { setMultiplayer, setAccountData } = useActions();
+    const { setMultiplayer, setAccountData, setRole } = useActions();
     const { connect } = useWebSocket();
     const account = useAccount();
 
@@ -53,24 +53,14 @@ export const SocketHelper = () => {
 
         const token = getAccessToken();
         const room = searchParams.get('lesson');
-        const mode = searchParams.get('mode');
 
         console.log('lesson', room, 'token', token);
 
-        if (room) {
-            sessionStorage.setItem('ROOM', room);
-        }
         if (token && room) {
             setMultiplayer(true);
-            connect();
-        } else if (
-            (!token && !sessionStorage.getItem('ROOM')) ||
-            mode === 'offline'
-        ) {
+            connect(room);
+        } else if (!room) {
             setMultiplayer(false);
-        }
-        if (mode === 'offline') {
-            sessionStorage.clear();
         }
     }, [account.role, searchParams]);
 
@@ -79,6 +69,7 @@ export const SocketHelper = () => {
     useEffect(() => {
         //console.log('1');
         if (!id) {
+            setRole(Role.Teacher);
             return;
         }
         //console.log('2');

@@ -12,12 +12,16 @@ export function useWebSocket() {
         wsApi.sendMessage(data);
     };
 
-    const sendAction = (name: string, params?: Record<string, any>) => {
-        wsApi.sendAction(name, params);
+    const sendAction = (
+        name: string,
+        params?: Record<string, any>,
+        self = true
+    ) => {
+        wsApi.sendAction(name, params, self);
     };
 
-    const connect = () => {
-        wsApi.connect();
+    const connect = (room: string) => {
+        wsApi.connect(room);
     };
 
     const gotoGame = (game: string) => {
