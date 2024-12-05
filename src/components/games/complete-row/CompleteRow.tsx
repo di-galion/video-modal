@@ -217,7 +217,6 @@ const CompleteRowGame = () => {
                             style={{
                                 width: '58px',
                                 margin: '0',
-                                marginLeft: '7px',
                                 ...(rankOfNumbers === '0' ? {
                                     margin: '0 20px 0 0',
                                 } : {}),

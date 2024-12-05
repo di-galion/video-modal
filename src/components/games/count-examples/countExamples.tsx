@@ -109,6 +109,26 @@ export const CountExamplesGame = () => {
             setShowExample(false);
             setIsHidden(false);
         }, calculateTimer());
+
+        if (level === 2) {
+            setCurrentTimer((prevTimer) => Math.max(prevTimer * 0.85, 1000));
+        }
+
+        const timer = calculateTimer();
+
+        setTimeout(() => {
+            setShowCalculator(true);
+            setShowExample(false);
+            setIsHidden(false);
+            setCurrentNumber(1)
+        }, timer);
+
+        setTimeout(() => {
+            setShowCalculator(true);
+            setShowExample(false);
+            setCurrentNumber(2)
+            setIsHidden(false);
+        }, timer);
     };
 
     const showThisExample = () => {
@@ -133,13 +153,14 @@ export const CountExamplesGame = () => {
         setTimeout(() => {
             setIsHidden(false);
             setCurrentNumber(1);
+            showNextNumber();
         }, timer);
 
         setTimeout(() => {
             setIsHidden(false);
             setShowCalculator(true);
             setCurrentNumber(2);
-        }, timer + 500);
+        }, timer);
     };
 
     const checkAnswer = () => {
@@ -165,9 +186,7 @@ export const CountExamplesGame = () => {
         }
     };
 
-    useEffect(() => {
-        startNewExample();
-    }, []);
+
 
     useEffect(() => {
         if (correctAnswersCount >= numberOfRows) {
@@ -182,8 +201,13 @@ export const CountExamplesGame = () => {
     useEffect(() => {
         setTimeout(() => {
             showNextNumber();
+
         }, 1000);
     }, [firstNumber, secondNumber]);
+
+    useEffect(() => {
+        startNewExample();
+    }, []);
 
     return (
         <div className={styles.calculatorContainer}>
@@ -303,7 +327,7 @@ export const CountExamplesGame = () => {
         </div>
     );
 };
-export const CountExamples = () => register(CountExamplesGame, () => ({
+export const CountExamples = () => register(CountExamplesGame, (settings) => ({
     timeDirection: 'right',
     title: 'Счет примеров',
     starCalculationMode: 'correct',
@@ -363,22 +387,23 @@ export const CountExamples = () => register(CountExamplesGame, () => ({
                 step: 1,
             }
         },
-        // {
-        //     type: 'theme',
-        //     title: 'Тема',
-        //     reduxKey: 'theme',
-        //     settings: {
-        //         values: ['Просто', 'Друзья', 'Братья', 'Анзан'],
-        //     },
-        // // },
-        // {
-        //     type: 'underTheme',//переписать на новый редакс кей
-        //     title: 'Подтема',
-        //     reduxKey: 'underTheme',
-        //     settings: {
-        //
-        //     },
-        // },
+        {
+            type: 'theme',
+            title: 'Тема',
+            reduxKey: 'theme',
+            settings: {
+                values: ['Просто', 'Друзья', 'Братья', 'Анзан'],
+                defaultValue: 'Просто',
+            },
+        },
+        {
+            type: 'underTheme',
+            title: 'Подтема',
+            reduxKey: 'underTheme',
+            settings: {
+                defaultValue: 'Сложение',
+            },
+        },
         {
             type: 'rankOfNumbers',
             title: 'Разряд чисел',
@@ -414,9 +439,38 @@ export const CountExamples = () => register(CountExamplesGame, () => ({
             },
         },
     ],
-    start: {
+    start: settings.level === 1 ? {
         title: 'Счет примеров',
         subTitle1: 'Посчитай примеры.',
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-    }
+    } : {
+        title: 'Счет примеров',
+        subTitle1: 'Посчитай примеры.',
+        subTitle2: 'Будь внимателен! скорость вывода действий постепенно изменяется.',
+        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+    },
+    startTable: [
+        { text: 'Тема', value: '' },
+        { text: 'Подтема', value: '' },
+        { text: 'Разряд чисел', value: settings.rankOfNumbers },
+        { text: 'Колличество действий', value: settings.numberOfRows },
+        { text: 'Скорость', value: settings.speed },
+    ]
 }));
+
+// switch (theme) {
+//     case 'Просто':
+//         return [4, 2, 3, 4]
+//     case 'Бртья':
+//         return [1, 2, 3, 4]
+//     case 'Друзья':
+//         return [9, 8, 7, 6, 5, 4, 3, 2, 1]
+//     case 'Переход':
+//         return [50, 100]
+//     case 'Друзья и Братья':
+//         return [9, 8, 7, 6]
+//     case 'Анзан':
+//         return ['Сложение', 'Вычитание', 'Случайно']
+// }
+
+

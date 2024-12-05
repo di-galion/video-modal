@@ -18,6 +18,8 @@ import { createPath } from '../utils/createPath';
 import { AboriginalsRiddles } from '../components/games/abarigens-riddles/aboriginalsRiddles';
 import { ShadowTheater } from '../components/games/shadow-theater/ShadowTheater.tsx';
 import SettingItems from "../components/settings/setting-items/SettingItems.tsx";
+import SettingUnderTheme from "../components/settings/setting-undertheme/SettingUnderTheme.tsx";
+import SettingTheme from "../components/settings/setting-theme/SettingTheme.tsx";
 import { DartGame } from "../components/games/dart/Dart.tsx";
 import { PuzzleAbacus } from "../components/games/collect-abacus/PuzzleAbacus.tsx";
 import { CompleteRow } from "../components/games/complete-row/CompleteRow.tsx";
@@ -87,6 +89,18 @@ export const CONTROLS_MAP = (item: ControlProps) => ({
     rankOfNumbers: () => (
         <SettingRankOfNumbers
             {...(item as ControlPropsOf<'rankOfNumbers'>)}
+            key={item.reduxKey}
+        />
+    ),
+    theme: () => (
+        <SettingTheme
+            {...(item as ControlPropsOf<'theme'>)}
+            key={item.reduxKey}
+        />
+    ),
+    underTheme: () => (
+        <SettingUnderTheme
+            {...(item as ControlPropsOf<'underTheme'>)}
             key={item.reduxKey}
         />
     )

@@ -141,7 +141,8 @@ const gamesList: Record<
             { game: 'shadowTheater' },
             { game: 'dart' },
             { game: 'completeRow' },
-            { game: 'puzzleAbacus' }
+            { game: 'puzzleAbacus' },
+            { game: 'countExamples'}
         ],
     },
 };
