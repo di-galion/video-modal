@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import api, { CloudType } from '../../../api/http/api';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 
 export const Video: FC<
     React.VideoHTMLAttributes<HTMLVideoElement> & {
@@ -8,6 +9,7 @@ export const Video: FC<
     }
 > = ({ url, ...props }) => {
     const [src, setSrc] = useState('');
+    const [autoPlay, setAutoPlay] = useState(false);
 
     useEffect(() => {
         if (url) {
@@ -23,11 +25,21 @@ export const Video: FC<
         }
     }, [url]);
 
+    useWsAction((name, params = {}) => {
+        if (name === 'playVideo' && params.src === src) {
+            setAutoPlay(true);
+        }
+    });
+
+    const { sendAction } = useWebSocket();
+
     return (
         <div className={styles.videoWrapper}>
             {src ? (
                 <video
                     {...props}
+                    autoPlay={autoPlay}
+                    onPlay={() => sendAction('playVideo', { src }, false)}
                     src={src}
                     className={styles.videoWrapper__video}
                 />

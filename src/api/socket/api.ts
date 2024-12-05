@@ -9,17 +9,16 @@ import {
 } from '../../store/game-data/gamesData';
 import { store } from '../../store/store';
 import { getAccessToken } from '../http/auth.helper';
-import { WsApi } from './baseApi';
 import { WsSystemAction } from './constants';
 
-export class SocketApi implements WsApi {
+export class SocketApi {
     socket: WebSocket | null = null;
     ready: boolean = false;
 
-    connect() {
+    connect(room: string) {
         console.log('connect');
 
-        const room = sessionStorage.getItem('ROOM');
+        //const room = sessionStorage.getItem('ROOM');
         if (!room) {
             store.dispatch(
                 showNotification({
@@ -101,11 +100,13 @@ export class SocketApi implements WsApi {
         this.onMessage(data);
     }
 
-    sendAction(name: string, params?: Record<string, any>) {
+    sendAction(name: string, params?: Record<string, any>, self = true) {
         if (this.socket && this.ready) {
             this.socket.send(JSON.stringify({ type: 'action', name, params }));
         }
-        this.onAction(name, params);
+        if (self) {
+            this.onAction(name, params);
+        }
     }
 
     onMessage(data: Record<string, string>) {

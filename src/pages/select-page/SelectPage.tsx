@@ -69,7 +69,7 @@ export const SelectPage = () => {
             >
                 Ментальная арифметика
             </Link>
-            <Link to={'/games/mental-arithmetics?mode=offline'}>
+            <Link to={'/games/mental-arithmetics'}>
                 Ментальная арифметика оффлайн
             </Link>
             <Link
