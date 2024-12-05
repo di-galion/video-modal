@@ -11,127 +11,38 @@ import { register } from "../../../providers/game/register.tsx";
 export const CountExamplesGame = () => {
     const [inputValue, setInputValue] = useState('');
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<null | boolean>(null);
-    const [isHidden, setIsHidden] = useState(true);
     const [firstNumber, setFirstNumber] = useState(0);
     const [secondNumber, setSecondNumber] = useState(0);
     const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
-    const [showCalculator, setShowCalculator] = useState(false);
-    const [isResultVisible, setIsResultVisible] = useState(false);
-    const [restartFlag, setRestartFlag] = useState(false);
+    const [currentStage, setCurrentStage] = useState<0 | 1 | 2 | 3>(0);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const { level, ratios, numberOfRows, speed, theme, underTheme } = useGameSettings();
-    const { addAllAnswers, addCorrectAnswer } = useActions();
-    const [showExample, setShowExample] = useState(false);
-    const [, setCurrentNumber] = useState<1 | 2>(1);
-    const [currentTimer, setCurrentTimer] = useState(speed * 1000);
-    const [currentNumberToShow, setCurrentNumberToShow] = useState<1 | 2>(1);
+    const {level, ratios, numberOfRows, speed} = useGameSettings();
+    const [isExampleVisible, setIsExampleVisible] = useState(false);
+    const {addAllAnswers, addCorrectAnswer} = useActions();
     const finish = useGameFinish();
 
     const blueShades = ['#003366', '#003B5C', '#002D4C', '#001F3C'];
-    const redShades = ['#8B0000', '#B22222', '#9C1C1C', '#7F0000',];
-
-    const calculateTimer = () => {
-        if (level === 2) {
-            return currentTimer;
-        }
-        return speed * 1000;
-    };
+    const redShades = ['#8B0000', '#B22222', '#9C1C1C', '#7F0000'];
 
     const generateNumbers = () => {
+        const rank = parseInt((Array.isArray(ratios) ? ratios[0] : ratios) as string, 10);
+        if (isNaN(rank)) return;
+
+        const ranges = [
+            {min: 2, max: 9, resultMax: 9},
+            {min: 10, max: 99, resultMax: 99},
+            {min: 100, max: 999, resultMax: 999},
+            {min: 1000, max: 9999, resultMax: 9999},
+        ];
+
+        const {min, max, resultMax} = ranges[rank - 1] || {};
         let num1, num2, result;
-        // switch (theme) {
-        //     case 'Просто':
-        //         return [4, 5, 6, 7, 8, 9, 10, 19, 100];
-        //
-        //     case 'Братья':
-        //         switch (underTheme) {
-        //             case '1':
-        //                 num1 = 5;
-        //                 num2 = -4;
-        //                 result = num1 + num2;
-        //                 break;
-        //             case '2':
-        //                 num1 = 5;
-        //                 num2 = -3;
-        //                 result = num1 + num2;
-        //                 break;
-        //             case '3':
-        //                 num1 = 5;
-        //                 num2 = -4;
-        //                 result = num1 + num2;
-        //                 break;
-        //             case '4':
-        //                 num1 = 5;
-        //                 num2 = -5;
-        //                 result = num1 + num2;
-        //                 break;
-        //             default:
-        //                 num1 = Math.floor(Math.random() * 10) + 1;
-        //                 num2 = Math.floor(Math.random() * 10) + 1;
-        //                 result = num1 + num2;
-        //                 break;
-        //         }
-        //         break;
-        //
-        //     case 'Друзья':
-        //         return [9, 8, 7, 6, 5, 4, 3, 2, 1];
-        //
-        //     case 'Переход':
-        //         return [50, 100];
-        //
-        //     case 'Друзья и Братья':
-        //         return [9, 8, 7, 6];
-        //
-        //     case 'Анзан':
-        //         return ['Сложение', 'Вычитание', 'Случайно'];
-        //
-        //     default:
-        //         return;
-        // }
-
-        const rankString = Array.isArray(ratios) ? ratios[0] : ratios;
-
-        const rank = parseInt(rankString as string, 10);
-
-        if (isNaN(rank)) {
-            console.error('Invalid rankOfNumbers value:', ratios);
-            return;
-        }
-
-        let min, max, resultMax;
-        if (rank === 1) {
-            min = 2;
-            max = 9;
-            resultMax = 9;
-        } else if (rank === 2) {
-            min = 10;
-            max = 99;
-            resultMax = 99;
-        } else if (rank === 3) {
-            min = 100;
-            max = 999;
-            resultMax = 999;
-        } else if (rank === 4) {
-            min = 1000;
-            max = 9999;
-            resultMax = 9999;
-        } else {
-            console.error('Unsupported rank value:', rank);
-            return;
-        }
 
         do {
             num1 = Math.floor(Math.random() * (max - min + 1)) + min;
             num2 = Math.floor(Math.random() * (max - min + 1)) + min;
-
-            if (rank === 0) {
-                num1 *= Math.random() > 0.5 ? 1 : -1;
-                num2 *= Math.random() > 0.5 ? 1 : -1;
-            } else {
-                if (Math.random() > 0.5) num1 *= -1;
-                if (Math.random() > 0.5) num2 *= -1;
-            }
-
+            if (Math.random() > 0.5) num1 *= -1;
+            if (Math.random() > 0.5) num2 *= -1;
             result = num1 + num2;
         } while (result <= 0 || result > resultMax);
 
@@ -144,93 +55,58 @@ export const CountExamplesGame = () => {
         const color = num >= 0
             ? redShades[Math.floor(Math.random() * redShades.length)]
             : blueShades[Math.floor(Math.random() * blueShades.length)];
-
-        return (
-            <span style={{ color }}>{num >= 0 ? `+${num}` : `${num}`}</span>
-        );
+        return <span style={{color}}>{num >= 0 ? `+${num}` : `${num}`}</span>;
     };
 
     const restartThisExample = () => {
-        setIsAnswerCorrect(null);
-        setInputValue('');
-        setIsResultVisible(false);
-        setShowCalculator(false);
-        setIsHidden(true);
 
-        setRestartFlag((prev) => !prev);
-
-        setTimeout(() => {
-            setShowCalculator(true);
-            setShowExample(false);
-            setIsHidden(false);
-        }, calculateTimer());
-
-        if (level === 2) {
-            setCurrentTimer((prevTimer) => Math.max(prevTimer * 0.85, 1000));
-        }
-
-        const timer = calculateTimer();
-
-        setTimeout(() => {
-            setShowCalculator(true);
-            setShowExample(false);
-            setIsHidden(false);
-            setCurrentNumber(1)
-        }, timer);
-
-        setTimeout(() => {
-            setShowCalculator(true);
-            setShowExample(false);
-            setCurrentNumber(2)
-            setIsHidden(false);
-        }, timer);
     };
 
     const showThisExample = () => {
-        setShowExample((prev) => !prev);
+        setIsExampleVisible((prev) => !prev);
     };
 
     const startNewExample = () => {
-        setIsHidden(true);
         setInputValue('');
         setIsAnswerCorrect(null);
-        setIsResultVisible(false);
-        setShowCalculator(false);
+        setCurrentStage(0);
         generateNumbers();
-        setShowExample(false);
-
-        if (level === 2) {
-            setCurrentTimer((prevTimer) => Math.max(prevTimer * 0.85, 1000));
-        }
-
-        const timer = calculateTimer();
-
-        setTimeout(() => {
-            setIsHidden(false);
-            setCurrentNumber(1);
-            showNextNumber();
-        }, timer);
-
-        setTimeout(() => {
-            setIsHidden(false);
-            setShowCalculator(true);
-            setCurrentNumber(2);
-        }, timer);
     };
-
     const checkAnswer = () => {
         const userAnswer = parseInt(inputValue, 10);
         if (userAnswer === correctAnswer) {
             setIsAnswerCorrect(true);
             addCorrectAnswer();
-            setCorrectAnswersCount(prev => prev + 1);
+            setCorrectAnswersCount((prev) => prev + 1);
         } else {
             setIsAnswerCorrect(false);
         }
-        setIsResultVisible(true);
         addAllAnswers();
+
+        setCurrentStage(3);
     };
 
+    useEffect(() => {
+        if (correctAnswersCount >= numberOfRows) {
+            finish();
+        }
+    }, [correctAnswersCount, numberOfRows, finish]);
+
+    useEffect(() => {
+        startNewExample();
+    }, []);
+
+    useEffect(() => {
+        if (currentStage === 0) {
+            setTimeout(() => setCurrentStage(1), speed * 1000);
+        } else if (currentStage === 1) {
+            setTimeout(() => setCurrentStage(2), speed * 1000);
+        }
+    }, [currentStage, speed]);
+
+    useEffect(() => {
+        console.log("Current stage changed:", currentStage);
+    }, [currentStage]);
     const handleInput = (value: string) => {
         if (value === 'C') {
             setInputValue('');
@@ -242,161 +118,117 @@ export const CountExamplesGame = () => {
     };
 
 
-
-    useEffect(() => {
-        if (correctAnswersCount >= numberOfRows) {
-            finish();
-        }
-    }, [correctAnswersCount, numberOfRows, finish]);
-
-    const showNextNumber = () => {
-        setCurrentNumberToShow((prev) => (prev === 1 ? 2 : 1));
-    };
-
-    useEffect(() => {
-        setTimeout(() => {
-            showNextNumber();
-
-        }, 1000);
-    }, []);
-
-    useEffect(() => {
-        setTimeout(() => {
-            showNextNumber();
-
-        }, 1000);
-    }, [firstNumber, secondNumber, restartFlag]);
-
-    useEffect(() => {
-        startNewExample();
-    }, []);
-
-    useEffect(() => {
-        generateNumbers()
-    }, [])
-
-
-    console.log(firstNumber)
-    console.log(secondNumber)
-
     return (
         <div className={styles.calculatorContainer}>
             <div className={styles.displayWrapper}>
-                {isHidden ? (
+                <div className={styles.generatedNumbers}>
+                    {currentStage === 0 && <div className={styles.number}>{formatNumber(firstNumber)}</div>}
+                    {currentStage === 1 && <div className={styles.number}>{formatNumber(secondNumber)}</div>}
+                </div>
+                {currentStage === 2 && (
                     <>
-                        <div className={styles.generatedNumbers}>
-                            {currentNumberToShow === 1 ? (
-                                <div className={styles.number}>{formatNumber(firstNumber)}</div>
-                            ) : (
-                                <div className={styles.number}>{formatNumber(secondNumber)}</div>
-                            )}
+                        <input
+                            type="text"
+                            className={`${styles.display} ${
+                                isAnswerCorrect === false ? styles.incorrect : ''
+                            } ${isAnswerCorrect === true ? styles.correct : ''}`}
+                            value={inputValue}
+                            readOnly
+                        />
+                        <div className={styles.numpad}>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map((num) => (
+                                <button
+                                    key={num}
+                                    className={styles.numpadBtn}
+                                    onClick={() => handleInput(String(num))}
+                                >
+                                    {num}
+                                </button>
+                            ))}
                         </div>
+                        <button
+                            className={styles.checkButton}
+                            style={{
+                                backgroundColor: inputValue ? '#FCBD11' : '#ccc',
+                                color: inputValue ? '#c4521a' : '#666666',
+                                cursor: inputValue ? 'pointer' : 'not-allowed',
+                                transition: 'background-color 0.3s, box-shadow 0.3s',
+                                boxShadow: inputValue ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                            }}
+                            onClick={checkAnswer}
+                            disabled={!inputValue}
+                        >
+                            Проверить
+                        </button>
                     </>
-                ) : (
-                    <>
-                        {showCalculator && (
-                            <>
-                                <input
-                                    type="text"
-                                    className={`${styles.display} ${
-                                        isAnswerCorrect === false ? styles.incorrect : ''
-                                    } ${isAnswerCorrect === true ? styles.correct : ''}`}
-                                    value={inputValue}
-                                    readOnly
-                                />
-                                {showCalculator && !isResultVisible && (
-                                    <div className={styles.numpad}>
-                                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map((num) => (
-                                            <button
-                                                key={num}
-                                                className={styles.numpadBtn}
-                                                onClick={() => handleInput(String(num))}
-                                            >
-                                                {num}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </>
-                        )}
+                )}
+
+                {currentStage === 3 && (
+                    <><input
+                        type="text"
+                        className={`${styles.display} ${
+                            isAnswerCorrect === false ? styles.incorrect : ''
+                        } ${isAnswerCorrect === true ? styles.correct : ''}`}
+                        value={inputValue}
+                        readOnly
+                    />
+                    <div className={styles.resultInner}>
+                <div className={styles.result} data-correct={Number(isAnswerCorrect)}>
+                    <span>{isAnswerCorrect ? 'Верно' : 'Не верно'}</span>
+                </div>
+                <div className={styles.buttons}>
+                    <button
+                        className={styles.button_big}
+                                onClick={() => restartThisExample()}
+                            >
+                        <span>
+                            <RepeatIcon/>
+                        </span>
+                            </button>
+                            <button
+                                className={styles.button_big}
+                                onClick={() => showThisExample()}
+                            >
+                        <span>
+                            <ExampleIcon/>
+                        </span>
+                            </button>
+                            <button
+                                className={styles.button_big}
+                                onClick={() => startNewExample()}
+                            >
+                        <span>
+                            <NextIcon/>
+                        </span>
+                            </button>
+                        </div>
+                    </div>
                     </>
                 )}
             </div>
 
-            {isResultVisible && (
-                <div className={styles.resultInner}>
-                    <div className={styles.result} data-correct={Number(isAnswerCorrect)}>
-                        <span>{isAnswerCorrect ? 'Верно' : 'Не верно'}</span>
-                    </div>
-                    <div className={styles.buttons}>
-                        <button
-                            className={styles.button_big}
-                            onClick={() => restartThisExample()}
-                        >
-                        <span>
-                            <RepeatIcon/>
-                        </span>
-                        </button>
-                        <button
-                            className={styles.button_big}
-                            onClick={() => showThisExample()}
-                        >
-                        <span>
-                            <ExampleIcon/>
-                        </span>
-                        </button>
-                        <button
-                            className={styles.button_big}
-                            onClick={() => startNewExample()}
-                        >
-                        <span>
-                            <NextIcon/>
-                        </span>
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            <div
-                className={styles.example}
-                style={{
-                    visibility: showExample ? 'visible' : 'hidden',
-                }}
-            >
-                {`${firstNumber} + ${secondNumber} = ${correctAnswer}`}
-            </div>
-
-            {!isAnswerCorrect && !isResultVisible && (
-                <button
-                    className={styles.checkButton}
-                    style={{
-                        backgroundColor: inputValue ? '#FCBD11' : '#ccc',
-                        color: inputValue ? '#c4521a' : '#666666',
-                        cursor: inputValue ? 'pointer' : 'not-allowed',
-                        transition: 'background-color 0.3s, box-shadow 0.3s',
-                        boxShadow: inputValue ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                    }}
-                    onClick={checkAnswer}
-                    disabled={!inputValue}
-                >
-                    Проверить
-                </button>
-            )}
             <div className={styles.finish_btn}>
-            {isResultVisible && (
-                <button
+                {currentStage === 3 && (<button
                     className={styles.button_big}
                     onClick={() => finish()}
                 >
                     <span>
                         <FinishIcon/>
                     </span>
-                </button>
-                )}
+                </button>)}
+        </div>
+
+    <div
+        className={styles.example}
+                style={{
+                    visibility: currentStage >= 1 ? 'visible' : 'hidden',
+                }}
+            >
+                {`${firstNumber} + ${secondNumber} = ${correctAnswer}`}
             </div>
         </div>
     );
-};
+}
 export const CountExamples = () => register(CountExamplesGame, (settings) => ({
     timeDirection: 'right',
     title: 'Счет примеров',
@@ -540,4 +372,53 @@ export const CountExamples = () => register(CountExamplesGame, (settings) => ({
 //         return ['Сложение', 'Вычитание', 'Случайно']
 // }
 
+// switch (theme) {
+//     case 'Просто':
+//         return [4, 5, 6, 7, 8, 9, 10, 19, 100];
+//
+//     case 'Братья':
+//         switch (underTheme) {
+//             case '1':
+//                 num1 = 5;
+//                 num2 = -4;
+//                 result = num1 + num2;
+//                 break;
+//             case '2':
+//                 num1 = 5;
+//                 num2 = -3;
+//                 result = num1 + num2;
+//                 break;
+//             case '3':
+//                 num1 = 5;
+//                 num2 = -4;
+//                 result = num1 + num2;
+//                 break;
+//             case '4':
+//                 num1 = 5;
+//                 num2 = -5;
+//                 result = num1 + num2;
+//                 break;
+//             default:
+//                 num1 = Math.floor(Math.random() * 10) + 1;
+//                 num2 = Math.floor(Math.random() * 10) + 1;
+//                 result = num1 + num2;
+//                 break;
+//         }
+//         break;
+//
+//     case 'Друзья':
+//         return [9, 8, 7, 6, 5, 4, 3, 2, 1];
+//
+//     case 'Переход':
+//         return [50, 100];
+//
+//     case 'Друзья и Братья':
+//         return [9, 8, 7, 6];
+//
+//     case 'Анзан':
+//         return ['Сложение', 'Вычитание', 'Случайно'];
+//
+//     default:
+//         return;
+// }
 
