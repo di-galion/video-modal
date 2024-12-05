@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    base: '/platform/apps/online/',
+    base: '/platform/apps/games/',
     css: {
         preprocessorOptions: {
             scss: {
@@ -14,5 +14,10 @@ export default defineConfig({
     },
     optimizeDeps: {
         exclude: ['js-big-decimal'],
+    },
+    server: {
+        host: true,
+        strictPort: true,
+        port: 8009,
     },
 });

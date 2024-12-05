@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { accountDataReducer } from './account-data/accountData';
 import { apiMiddleware } from './apiMiddleware';
 import { lessonsDataReducer } from './lessons-data/lessonsData';
-import { accountDataReducer } from './account-data/accountData';
 import { sectionDataReducer } from './section-data/sectionData';
 import { apiDataReducer } from './api-status-data/apiStatusData';
 import { gameDataReducer } from './game-data/gamesData';

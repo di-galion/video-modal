@@ -10,7 +10,7 @@ import { useLessonId } from './lessons';
 import { useAccount } from './account';
 
 export const useConnection = () => {
-    //console.log('useConnection');
+    console.log('useConnection');
     const [searchParams] = useSearchParams();
     const { setMultiplayer, setAccountData } = useActions();
     const { connect } = useWebSocket();
@@ -47,11 +47,11 @@ export const useConnection = () => {
     const id = useLessonId();
 
     useEffect(() => {
-        //console.log('1');
+        console.log('1');
         if (!id) {
             return;
         }
-        //console.log('2');
+        console.log('2');
 
         api.getUserData(id).then((data: any) => {
             console.log('data', data);
