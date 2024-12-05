@@ -6,7 +6,6 @@ import { useActions } from '../../hooks/useActions';
 import { MainPageWrapper } from './components/MainPageWrapper';
 import { useApiError } from '../../hooks/apiError';
 import { showNotification } from '../../store/account-data/accountData';
-import { useConnection } from '../../hooks/useConnection';
 import { useParams } from 'react-router-dom';
 import { useLessonId } from '../../hooks/lessons';
 
@@ -24,8 +23,6 @@ const MainPage = () => {
             });
         }
     }, [name]);
-
-    //useConnection();
 
     useEffect(() => {
         if (isError) {

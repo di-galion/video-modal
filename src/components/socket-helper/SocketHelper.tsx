@@ -9,7 +9,6 @@ import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { WsSystemAction } from '../../api/socket/constants';
 import { useLessonId, useLessonSwitcher } from '../../hooks/lessons';
-//import { useConnection } from '../../hooks/useConnection';
 import {
     getAccessToken,
     getUserIdFromStorage,

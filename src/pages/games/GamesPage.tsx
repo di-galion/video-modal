@@ -14,7 +14,6 @@ import { useGameLessonMode } from '../../hooks/lessons';
 import { Game } from '../../components/game/Game';
 import { GAME_DATA_MAP } from '../../constants/game.contants';
 import { createPath } from '../../utils/createPath';
-import { useConnection } from '../../hooks/useConnection';
 
 export const GamesPage = () => {
     const backgroundImage = {
@@ -27,8 +26,6 @@ export const GamesPage = () => {
     const { name } = useParams();
     const isReady = useWsIsReady();
     const [mode] = useGameLessonMode();
-
-    //useConnection();
 
     const { clearSettings } = useActions();
 
