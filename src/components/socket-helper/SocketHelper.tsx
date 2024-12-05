@@ -67,8 +67,9 @@ export const SocketHelper = () => {
     const id = useLessonId();
 
     useEffect(() => {
-        //console.log('1');
+        //console.log('id', id);
         if (!id) {
+            //console.log('!id');
             setRole(Role.Teacher);
             return;
         }
