@@ -11,12 +11,18 @@ export type ControlType =
     | 'speed'
     | 'items'
     | 'multiSelect'
-    | 'rankOfNumbers';
+    | 'rankOfNumbers'
     | 'theme'
     | 'underTheme';
 
+export type ThemeType =
+    | 'friends'
+    | 'brothers'
+    | 'just'
+    | 'anzan'
+    | 'friends&brothers'
+    | 'transition';
 
-export type ThemeType = 'friends' | 'brothers' | 'just' | 'anzan' | 'friends&brothers' | 'transition';
 export interface IControlSetting {
     defaultValue?: SettingValue;
     value?: number;
@@ -129,7 +135,6 @@ export type ControlProps =
     | ControlPropsOf<'tips'>
     | ControlPropsOf<'multiSelect'>
     | ControlPropsOf<'items'>
-    | ControlPropsOf<'rankOfNumbers'>;
+    | ControlPropsOf<'rankOfNumbers'>
     | ControlPropsOf<'theme'>
     | ControlPropsOf<'underTheme'>;
-
