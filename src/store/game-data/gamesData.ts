@@ -5,7 +5,7 @@ import {
     IGameState,
     IGameStateSettings,
     TimeDirection,
-    StarCalculationMode
+    StarCalculationMode,
 } from '../../typings/game.module';
 
 const initialState: IGameState = {
@@ -65,7 +65,7 @@ const gameData = createSlice({
         },
         setStarCalculationMode: (
             state,
-            action: PayloadAction<StarCalculationMode>,
+            action: PayloadAction<StarCalculationMode>
         ) => {
             state.starCalculationMode = action.payload;
         },

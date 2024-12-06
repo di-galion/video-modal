@@ -90,6 +90,9 @@ export const SelectPage = () => {
             >
                 Таблица умножения
             </Link>
+            <Link to={'/video-module/mult-table'}>
+                Таблица умножения видео модуль оффлайн
+            </Link>
             <div>
                 <button onClick={setTeacher}>TEACHER</button>
             </div>

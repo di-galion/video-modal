@@ -2,17 +2,14 @@ import classNames from 'classnames';
 import { FC, PropsWithChildren } from 'react';
 import styles from './styles.module.scss';
 
-export const TaskLessonWrap: FC<PropsWithChildren<{ disabled?: boolean }>> = ({
-    children,
-    disabled,
-}) => {
+export const StageWrap: FC<
+    PropsWithChildren<{ disabled?: boolean; title?: string }>
+> = ({ children, title = 'Реши примеры и запиши результат', disabled }) => {
     return (
         <div className={classNames(styles.content)}>
             <div className={styles.content__box}>
                 <div className={styles.content__wrap}>
-                    <p className={styles.content__text}>
-                        Реши примеры и запиши результат
-                    </p>
+                    <p className={styles.content__text}>{title}</p>
                     <div>
                         <div className={styles.content__container}>
                             <div className={styles.content__btn_wrap}>
@@ -67,11 +64,7 @@ export const TaskLessonWrap: FC<PropsWithChildren<{ disabled?: boolean }>> = ({
                                     </span>
                                 </button>
                             </div>
-                            <div className={styles.content__component_wrapper}>
-                                <div className={styles.content__table}>
-                                    {children}
-                                </div>
-                            </div>
+                            {children}
                         </div>
                     </div>
                 </div>

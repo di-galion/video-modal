@@ -19,7 +19,7 @@ const MainPage = () => {
         if (name) {
             fetchLessons({
                 theme: name,
-                id,
+                id: id || 0,
             });
         }
     }, [name]);

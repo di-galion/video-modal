@@ -9,7 +9,6 @@ import { VideoLesson } from '../components/lessons/video-lesson/VideoLesson';
 import { PanelsLesson } from '../components/lessons/panels-lesson/PanelsLesson';
 import { SignsLesson } from '../components/lessons/signs-lesson/SignsLesson';
 import { SimpleTaskLesson } from '../components/lessons/simple-task-lesson/SimpleTaskLesson';
-import { TaskLesson } from '../components/lessons/task-lesson/TaskLesson';
 import { LessonName } from '../typings/lesson.module';
 import { ImageLesson } from '../components/lessons/image-lesson/ImageLesson';
 import { TotalLesson } from '../components/lessons/total-lesson/TotalLesson';
@@ -22,7 +21,6 @@ export const LESSONS_MAP: Record<LessonName, () => JSX.Element> = {
     game: () => <GameLesson />,
     empty: () => <></>,
     image: () => <ImageLesson />,
-    task: () => <TaskLesson />,
     simpleTask: () => <SimpleTaskLesson />,
     signs: () => <SignsLesson />,
     canvas: () => <CanvasLesson />,

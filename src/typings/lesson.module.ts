@@ -1,4 +1,5 @@
 import { CloudType } from '../api/http/api';
+import { MultTableItemsType } from '../components/mult-table/MultTable';
 
 export type SimpleLessonName =
     | 'lesson1'
@@ -6,7 +7,6 @@ export type SimpleLessonName =
     | 'lesson3'
     | 'lesson4'
     | 'empty'
-    | 'task'
     | 'signs'
     | 'canvas'
     | 'MaoStatisticsLesson';
@@ -26,6 +26,9 @@ export type TotalLessonName = 'total';
 export interface PanelLessonItemBase {
     title: string;
     imageWidth?: number;
+    stage?: boolean;
+    stageTitle?: string;
+    height?: number;
 }
 
 export interface PanelLessonItemVideo extends PanelLessonItemBase {
@@ -43,10 +46,16 @@ export interface PanelLessonItemGames extends PanelLessonItemBase {
     games: string[];
 }
 
+export interface PanelLessonItemMultTable extends PanelLessonItemBase {
+    type: 'multTable';
+    itemsType: MultTableItemsType;
+}
+
 export type IPanelLessonItem =
     | PanelLessonItemVideo
     | PanelLessonItemImage
-    | PanelLessonItemGames;
+    | PanelLessonItemGames
+    | PanelLessonItemMultTable;
 
 export interface IPanelLesson extends IBaseLesson {
     name: PanelLessonName;

@@ -32,9 +32,13 @@ const initialState: ILessonState = {
 export const fetchLessons = createAsyncThunk(
     'api/fetchLessons',
     async ({ theme, id }: { theme: string; id: number }) => {
-        const data: any = await api.getLesson(id);
-        console.log('select theme: ', data?.theme_id?.order - 1);
-        return getLessons(theme, data?.theme_id?.order - 1);
+        try {
+            const data: any = await api.getLesson(id);
+            console.log('select theme: ', data?.theme_id?.order - 1);
+            return getLessons(theme, data?.theme_id?.order - 1);
+        } catch {
+            return getLessons(theme, id);
+        }
     }
 );
 

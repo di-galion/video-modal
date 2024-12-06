@@ -23,7 +23,21 @@ const LESSONS_MULT_TABLE_1: ILesson[] = [
         secondTitle: '',
         status: true,
         index: 2,
-        name: 'task',
+        name: 'panels',
+        items: [
+            {
+                type: 'multTable',
+                itemsType: 'OneDigit',
+                title: 'Реши примеры',
+                stage: true,
+            },
+            {
+                type: 'multTable',
+                itemsType: 'TwoDigits',
+                title: 'Реши примеры',
+                stage: true,
+            },
+        ],
     },
     {
         title: 'Что такое Умножение',

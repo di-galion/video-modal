@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import styles from './styles.module.scss';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
 import classNames from 'classnames';
-import { useWebSocket, useWsAction } from '../../../../api/socket/useWebSocket';
+import styles from './styles.module.scss';
 
-interface TaskLessonRowProps {
+interface MultTaleRowProps {
     title: string;
     answer: number;
     maxLength: number;
@@ -12,7 +12,7 @@ interface TaskLessonRowProps {
     panel: string;
 }
 
-export const TaskLessonRow: FC<TaskLessonRowProps> = ({
+export const MultTableRow: FC<MultTaleRowProps> = ({
     title,
     answer,
     maxLength = 2,
@@ -22,7 +22,7 @@ export const TaskLessonRow: FC<TaskLessonRowProps> = ({
 }) => {
     const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (
-            (e.keyCode < 48 || e.keyCode > 58) &&
+            !/^\d$/.test(e.key) &&
             e.key !== 'Backspace' &&
             e.key !== 'Delete'
         ) {
@@ -35,7 +35,7 @@ export const TaskLessonRow: FC<TaskLessonRowProps> = ({
 
     useWsAction((name, params = {}) => {
         if (
-            name === 'value' &&
+            name === 'multTableValue' &&
             params.index === index &&
             params.panel === panel &&
             value !== params.value
@@ -45,7 +45,7 @@ export const TaskLessonRow: FC<TaskLessonRowProps> = ({
     });
 
     useEffect(() => {
-        sendAction('value', { value, index, panel });
+        sendAction('multTableValue', { value, index, panel });
     }, [value]);
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
