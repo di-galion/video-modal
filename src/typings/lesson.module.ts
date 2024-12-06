@@ -73,6 +73,11 @@ export interface ITotalLesson extends IBaseLesson {
     items: ITotalLessonItem[];
 }
 
+export interface ITotalLesson extends IBaseLesson {
+    name: TotalLessonName;
+    items: ITotalLessonItem[];
+}
+
 export type GameLessonItem = {
     name: string;
     imgUrl: string;

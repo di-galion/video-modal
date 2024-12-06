@@ -11,7 +11,7 @@ export type ControlType =
     | 'speed'
     | 'items'
     | 'multiSelect'
-    | 'rankOfNumbers'
+    | 'rankOfNumbers';
     | 'theme'
     | 'underTheme';
 
@@ -129,7 +129,7 @@ export type ControlProps =
     | ControlPropsOf<'tips'>
     | ControlPropsOf<'multiSelect'>
     | ControlPropsOf<'items'>
-    | ControlPropsOf<'rankOfNumbers'>
+    | ControlPropsOf<'rankOfNumbers'>;
     | ControlPropsOf<'theme'>
     | ControlPropsOf<'underTheme'>;
 
