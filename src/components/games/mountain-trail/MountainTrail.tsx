@@ -279,4 +279,5 @@ export const MountainTrail = () =>
             { text: 'Тема', value: settings.theme },
             { text: 'Скорость', value: settings.speed },
         ],
+        showLevel: true,
     }));
