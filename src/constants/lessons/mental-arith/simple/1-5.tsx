@@ -69,7 +69,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: [],
+        games: ['flashCards'],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -78,7 +78,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         index: 3,
         name: 'game',
-        games: [],
+        games: ['countExamples'],
     },
     {
         title: 'Игра с флешкартами',
@@ -95,7 +95,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         index: 5,
         name: 'game',
-        games: [],
+        games: ['countExamples'],
     },
     {
         title: 'Игра на общее развитие',
@@ -103,7 +103,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         index: 6,
         name: 'game',
-        games: [],
+        games: ['shadowTheater', 'dart', 'aboriginalsRiddles'],
     },
     {
         title: 'Знакомство с новой темой',
@@ -209,7 +209,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: [],
+                games: ['countExamples'],
             },
         ],
     },
@@ -227,7 +227,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         name: 'game',
         index: 12,
-        games: ['flashCards'],
+        games: ['countExamples'],
     },
     {
         title: 'Игра на счет',

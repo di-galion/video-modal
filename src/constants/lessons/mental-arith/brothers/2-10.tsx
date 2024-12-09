@@ -33,7 +33,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -43,7 +43,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 3,
         name: 'game',
-        games: ['flashCards'],
+        games: ['countExamples'],
         //реальные игры['countExamples']
     },
     {
@@ -61,7 +61,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 5,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards'],
         //реальные игры ['flashCards', 'treasureValley', 'pearlDivers','antiqueShop']
     },
 
@@ -71,7 +71,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 6,
         name: 'game',
-        games: ['flashCards'],
+        games: ['countExamples'],
         //реальные игры['countExamples']
     },
 
@@ -142,7 +142,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 9,
         name: 'game',
-        games: ['flashCards'],
+        games: ['countExamples'],
         //реальные игры['countExamples']
     },
 
@@ -152,7 +152,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_10: ILesson[] = [
         status: true,
         index: 10,
         name: 'game',
-        games: ['flashCards', 'flashCards', 'flashCards', 'flashCards'],
+        games: ['flashCards'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 

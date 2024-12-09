@@ -72,7 +72,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: ['flashCards'],
+                games: ['puzzleAbacus'],
             },
         ],
     },
@@ -224,7 +224,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: [],
+                games: ['countExamples'],
             },
         ],
     },
@@ -263,7 +263,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         name: 'game',
         index: 8,
-        games: ['flashCards'],
+        games: ['countExamples'],
     },
     {
         title: 'Игра на счет',

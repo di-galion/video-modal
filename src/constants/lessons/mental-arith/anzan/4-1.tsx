@@ -20,7 +20,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: [],
+        games: ['flashCards'],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -28,7 +28,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: [],
+        games: ['countExamples'],
     },
     {
         title: 'Счет на воображаемом абакусе',
@@ -36,7 +36,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 3,
         name: 'game',
-        games: [],
+        games: ['countExamples'],
     },
     {
         title: 'Игра на общее развитие',
@@ -161,7 +161,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: ['puzzleAbacus'],
+                games: ['countExamples'],
             },
         ],
     },
@@ -183,7 +183,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
             {
                 title: 'Игра',
                 type: 'games',
-                games: [],
+                games: ['countExamples'],
             },
         ],
     },
@@ -193,7 +193,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 11,
         name: 'game',
-        games: [],
+        games: ['flashCards'],
     },
     {
         title: 'Заключение',
