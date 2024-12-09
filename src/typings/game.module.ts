@@ -36,6 +36,7 @@ export type GameData = {
     start: StartGameProps;
     startTable?: { text: string; value: SettingValue }[];
     starCalculationMode?: StarCalculationMode;
+    showLevel?: boolean;
 };
 
 export interface IGameState {
@@ -63,4 +64,5 @@ export interface IGameState {
         name: string;
         params: Record<string, any>;
     }>;
+    level?: number;
 }

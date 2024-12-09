@@ -30,6 +30,7 @@ const initialState: IGameState = {
     data: {},
     syncStorage: {},
     syncAction: {},
+    level: undefined,
 };
 
 const gameData = createSlice({
@@ -38,6 +39,12 @@ const gameData = createSlice({
     reducers: {
         clearSettings: (state) => {
             state.settings = {};
+        },
+        setLevel: (state, action: PayloadAction<number>) => {
+            state.level = action.payload;
+        },
+        resetLevel: (state) => {
+            state.level = undefined;
         },
         addNewSetting: (state, action: PayloadAction<IGameStateSettings>) => {
             state.settings = { ...state.settings, ...action.payload };
