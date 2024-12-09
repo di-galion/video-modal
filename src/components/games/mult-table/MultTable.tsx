@@ -163,7 +163,7 @@ const MultTableGame = () => {
                         <input
                             className={styles.input}
                             value={value}
-                            onChange={/*handleChange*/ () => {}}
+                            onChange={() => {}}
                         />
                         <button
                             className={styles.btn}

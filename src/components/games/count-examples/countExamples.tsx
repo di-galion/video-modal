@@ -7,6 +7,8 @@ import { NextIcon } from '../mult-table/components/NextIcon.tsx'
 import { RepeatIcon } from '../mult-table/components/RepeatIcon.tsx'
 import { FinishIcon } from '../mult-table/components/FinishIcon.tsx'
 import { register } from "../../../providers/game/register.tsx";
+import {createAll} from "../mult-table/functions.ts";
+import {useSyncStorage} from "../../../api/socket/useSyncStorage.ts";
 
 export const CountExamplesGame = () => {
     const [inputValue, setInputValue] = useState('');
@@ -17,13 +19,18 @@ export const CountExamplesGame = () => {
     const [currentStage, setCurrentStage] = useState<0 | 1 | 2 | 3>(0);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
     const { level, ratios, numberOfRows, speed } = useGameSettings();
+    const { data = [], updateStorage } = useSyncStorage<{ data: number[][] }>();
+    const [numberColors, setNumberColors] = useState<{ [key: string]: string }>({});
     const [isExampleVisible, setIsExampleVisible] = useState(false);
     const [dynamicSpeed, setDynamicSpeed] = useState(speed);
     const { addAllAnswers, addCorrectAnswer} = useActions();
     const finish = useGameFinish();
+    const blueShades = ['#337CB3', '#003366', '#003B5C', '#002D4C', '#001F3C', ];
+    const redShades = ['#8B0000', '#B22222', '#9C1C1C', '#7F0000' , '#296C3B'];
 
-    const blueShades = ['#003366', '#003B5C', '#002D4C', '#001F3C'];
-    const redShades = ['#8B0000', '#B22222', '#9C1C1C', '#7F0000'];
+    // useEffect(() => {
+    //     updateStorage({ data: generateNumbers() });
+    // }, []);
 
     const generateNumbers = () => {
         const rank = parseInt((Array.isArray(ratios) ? ratios[0] : ratios) as string, 10);
@@ -36,13 +43,12 @@ export const CountExamplesGame = () => {
             { min: 1000, max: 9999, resultMax: 9999 },
         ];
 
-        const {min, max, resultMax} = ranges[rank - 1] || {};
+        const { min, max, resultMax } = ranges[rank - 1] || {};
         let num1, num2, result;
 
         do {
             num1 = Math.floor(Math.random() * (max - min + 1)) + min;
             num2 = Math.floor(Math.random() * (max - min + 1)) + min;
-            if (Math.random() > 0.5) num1 *= -1;
             if (Math.random() > 0.5) num2 *= -1;
             result = num1 + num2;
         } while (result <= -1 || result > resultMax);
@@ -50,13 +56,23 @@ export const CountExamplesGame = () => {
         setFirstNumber(num1);
         setSecondNumber(num2);
         setCorrectAnswer(result);
+
+        setNumberColors({
+            [num1]: num1 >= 0
+                ? redShades[Math.floor(Math.random() * redShades.length)]
+                : blueShades[Math.floor(Math.random() * blueShades.length)],
+            [num2]: num2 >= 0
+                ? redShades[Math.floor(Math.random() * redShades.length)]
+                : blueShades[Math.floor(Math.random() * blueShades.length)],
+        });
     };
 
+
     const formatNumber = (num: number) => {
-        const color = num >= 0
+        const color = numberColors[num] || (num >= 0
             ? redShades[Math.floor(Math.random() * redShades.length)]
-            : blueShades[Math.floor(Math.random() * blueShades.length)];
-        return <span style={{color}}>{num >= 0 ? `+${num}` : `${num}`}</span>;
+            : blueShades[Math.floor(Math.random() * blueShades.length)]);
+        return <span style={{ color }}>{num >= 0 ? `+${num}` : `${num}`}</span>;
     };
 
     const restartThisExample = () => {

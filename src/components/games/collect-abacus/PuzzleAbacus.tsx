@@ -32,49 +32,37 @@ const shapes = [
 ];
 
 const getImageByType = (type: string) => {
-    switch (type) {
-        case 'bigGem':
-            return bigGem;
-        case 'topStick':
-            return topStick;
-        case 'bottomStick':
-            return bottomStick;
-        case 'horizonteStripe':
-            return horizonteStripe;
-        case 'verticalLine':
-            return verticalLine;
-        case 'octagonLeft':
-            return octagonLeft;
-        case 'octagonRight':
-            return octagonRight;
-        case 'bigPullGem':
-            return bigPullGem;
-        default:
-            return '';
-    }
+    const images = {
+        bigGem,
+        bigPullGem,
+        topStick,
+        bottomStick,
+        horizonteStripe,
+        verticalLine,
+        octagonLeft,
+        octagonRight,
+    };
+    return images[type] || '';
 };
 
 const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumOfBeads }) => {
     const { numberOfRows, tips } = useGameSettings();
-    const { addAllAnswers, addCorrectAnswer} = useActions();
+    const { addAllAnswers, addCorrectAnswer } = useActions();
     const finish = useGameFinish();
-    const initialBeads = shapes.slice(0, initialNumOfBeads).map((shape) => ({
-        id: shape.id,
-        position: -1,
-        isPlaced: false,
-        type: shape.type,
-        rowIndex: undefined
-    }));
 
-    const [beads, setBeads] = useState<Bead[]>(initialBeads);
+    const [rows, setRows] = useState<Array<{ rowIndex: number; beads: Bead[] }>>(
+        Array.from({ length: numberOfRows }).map((_, rowIndex) => ({
+            rowIndex,
+            beads: shapes.slice(0, initialNumOfBeads).map((shape) => ({
+                ...shape,
+                position: -1,
+                rowIndex,
+            })),
+        }))
+    );
     const [draggingBeadId, setDraggingBeadId] = useState<number | null>(null);
     const [status, setStatus] = useState<'game' | 'finish'>('game');
     const [gameTime, setGameTime] = useState(0);
-    const [slotWidth, setSlotWidth] = useState<string>('100%');
-    const [slotHeight, setSlotHeight] = useState<string>('100%');
-    const [, setImageWidth] = useState<string>('100%');
-    const [, setsStickLength] = useState<string>('100%');
-    const [, setHorizonteStripe] = useState<string>('100%');
 
     useEffect(() => {
         if (status === 'game') {
@@ -84,194 +72,128 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
     }, [status]);
 
     useEffect(() => {
-        if (beads.every((bead) => bead.isPlaced)) {
-            finish()
-        }
-    }, [beads,  gameTime]);
+        if (rows.every((row) => row.beads.every((bead) => bead.isPlaced))) finish();
+    }, [rows]);
 
     const handleDrop = (targetSlot: number, targetRow: number) => {
-        if (!draggingBeadId) {
+        if (draggingBeadId === null) return;
+
+        const draggedBead = rows.flatMap(row => row.beads).find(bead => bead.id === draggingBeadId);
+        const targetSlotBead = rows[targetRow].beads[targetSlot];
+
+        if (draggedBead && draggedBead.type !== targetSlotBead.type) {
             return;
         }
 
-        const beadIdString = String(draggingBeadId);
-        const idParts = beadIdString.split('-');
-        if (idParts.length !== 3 || idParts[0] !== 'bead') {
-            return;
-        }
+        setRows((prevRows) =>
+            prevRows.map((row) => {
+                if (row.rowIndex !== targetRow) return row;
 
-        const beadId = parseInt(idParts[2], 10);
-        const beadToPlace = beads.find((bead) => bead.id === beadId);
-
-        if (!beadToPlace) {
-            return;
-        }
-
-        const isAlreadyPlacedInSlot = beadToPlace.position === targetSlot;
-        if (isAlreadyPlacedInSlot) {
-
-            return;
-        }
-
-        setBeads((prevBeads) =>
-            prevBeads.map((bead) => {
-                if (bead.id === beadId) {
-                    return {
-                        ...bead,
-                        position: targetSlot,
-                        rowIndex: targetRow,
-                        isPlaced: true,
-                    };
-                }
-                return bead;
+                return {
+                    ...row,
+                    beads: row.beads.map((bead) =>
+                        bead.id === draggingBeadId
+                            ? { ...bead, position: targetSlot, isPlaced: true }
+                            : bead
+                    ),
+                };
             })
         );
 
         setDraggingBeadId(null);
     };
-    const handleDragStart = (beadId) => {
 
+    const handleDragStart = (beadId: number) => {
         setDraggingBeadId(beadId);
+        const draggedElement = document.getElementById(`${beadId}`);
+        const draggedSlot = document.getElementById(`slot-bead-${beadId}`);
 
-        const beadElement = document.getElementById(beadId);
-        if (beadElement) {
-            beadElement.style.zIndex = '10';
+        if (draggedElement) {
+            draggedElement.style.setProperty('z-index', '9999');
+        }
+
+        if (draggedSlot) {
+            draggedSlot.style.setProperty('z-index', '9999');
         }
     };
 
     const handleDragEnd = () => {
-        if (draggingBeadId !== null) {
-            const beadElement = document.getElementById(draggingBeadId);
-            if (beadElement) {
-                beadElement.style.zIndex = '';
-            }
-        }
-
-        const slots = document.querySelectorAll<HTMLElement>(`.${styles.slot}`);
-        slots.forEach((slot) => {
+        setDraggingBeadId(null);
+        document.querySelectorAll<HTMLElement>(`.${styles.slot}`).forEach((slot) => {
             slot.style.opacity = '1';
         });
-
         addAllAnswers();
         addCorrectAnswer();
-        setDraggingBeadId(null);
+
+        const draggedElement = document.getElementById(`${draggingBeadId}`);
+        const draggedSlot = document.getElementById(`slot-bead-${draggingBeadId}`);
+
+        if (draggedElement) {
+            draggedElement.style.setProperty('z-index', '');
+        }
+
+        if (draggedSlot) {
+            draggedSlot.style.setProperty('z-index', '');
+        }
     };
 
-    const updateSlotDimensions = () => {
-        const baseHeight = 100;
-        const baseWidth = 100;
+    const getSlotStyles = (bead: Bead) => {
+        if (tips === 1 && draggingBeadId === bead.id) {
+            return {
+                opacity: 0.5,
+                filter: 'none',
+            };
+        }
 
-        setSlotHeight(`${baseHeight * numberOfRows}px`);
-        setSlotWidth(`${baseWidth * numberOfRows}px`);
-        document.documentElement.style.setProperty('--slot-height', `${baseHeight * numberOfRows}px`);
-    };
-
-    useEffect(() => {
-        updateSlotDimensions();
-    }, [numberOfRows]);
-
-    const updateSlotDimensionsByImage = () => {
-        const beadImage = new Image();
-        beadImage.src = getImageByType(shapes[0].type);
-        beadImage.onload = () => {
-            setSlotHeight(`${beadImage.height ?? 0}px`);
-            setSlotWidth(`${beadImage.width ?? 0}px`);
+        return {
+            opacity: bead.isPlaced && bead.position === bead.position ? 1 : 0.5,
+            filter: bead.isPlaced && bead.position === bead.position ? 'none' : 'grayscale(100%)',
         };
     };
-    useEffect(() => {
-        updateSlotDimensionsByImage();
-    }, []);
 
-    const updateSlotDimensionsByRows = () => {
-        const imageContHeight = 135;
-        const slotsContWidth = 100;
-        const stickLength = 64
-        const horizonteStripe = 48
-
-
-        const imageWidth = imageContHeight * numberOfRows;
-        const slotsWidth = slotsContWidth * numberOfRows;
-        const stickWidth = stickLength * numberOfRows
-        const stripeWidth = horizonteStripe * numberOfRows
-
-        setSlotWidth(`${slotsWidth}px`);
-        setImageWidth(`${imageWidth}px`);
-        setsStickLength(`${stickWidth}px`)
-        setHorizonteStripe(`${stripeWidth}px`)
-
-
-        document.documentElement.style.setProperty('--container-width', `${slotsWidth}px`);
-        document.documentElement.style.setProperty('--image-width', `${imageWidth}px`);
-        document.documentElement.style.setProperty('--stick-width', `${stickWidth}px`);
-        document.documentElement.style.setProperty('--stripe-width', `${stripeWidth}px`);
-    };
-
-
-    useEffect(() => {
-        updateSlotDimensionsByRows();
-    }, [numberOfRows]);
+    const paddingRight = `${84 * numberOfRows}px`
 
 
     return (
         <div className={`${styles.collectAbacus}`}>
             <div className={styles.abacus}>
                 <div className={styles.container}>
-                    <div className={styles.slotsWrapper}>
-                        {Array.from({length: numberOfRows}).map((_, rowIndex) => {
-                            const containerBeads = beads.map(bead => ({...bead}));
+                    <div className={styles.slotsWrapper} style={{ paddingRight: paddingRight }}>
+                        {Array.from({ length: numberOfRows }).map((_, rowIndex) => {
+                            const containerBeads = rows[rowIndex].beads;
                             return (
-                                <div key={`container-${rowIndex}`} style={{
-                                    transform: `translateX(${99 * rowIndex}px)`,
-                                    flexShrink: 0,
-                                    position: 'relative',
-                                }}>
+                                <div
+                                    key={`container-${rowIndex}`}
+                                    style={{
+                                        transform: `translateX(${99 * rowIndex}px)`,
+                                        flexShrink: 0,
+                                        position: 'relative',
+                                    }}
+                                >
                                     {containerBeads.map((bead, index) => (
                                         <div
                                             key={`slot-${rowIndex}-${index}`}
                                             id={`slot-bead-${rowIndex}-${index}`}
                                             className={`${styles.slot} ${styles[`slot${index + 1}`]}`}
                                             onDragOver={(e) => e.preventDefault()}
-                                            onDrop={() => handleDrop(index, rowIndex, rowIndex)}
-                                            style={{
-                                                width: slotWidth,
-                                                height: slotHeight,
-                                            }}
+                                            onDrop={() => handleDrop(index, rowIndex)}
+
                                         >
-                                            {bead.isPlaced && bead.position === index ? (
-                                                <img
-                                                    src={getImageByType(bead.type)}
-                                                    alt={bead.type}
-                                                    style={{
-                                                        filter:
-                                                            bead.isPlaced && bead.position === index
-                                                                ? 'none'
-                                                                : 'grayscale(100%)',
-                                                        backgroundColor:
-                                                            bead.type === 'octagon' && bead.id === 7
-                                                                ? '#fbc130'
-                                                                : 'transparent',
-                                                    }}
-                                                />
-                                            ) : (
-                                                <img
-                                                    src={getImageByType(bead.type)}
-                                                    alt={bead.type}
-                                                    style={{
-                                                        opacity: bead.isPlaced && bead.position === index ? 1 : 0.5,
-                                                        filter: bead.isPlaced && bead.position === index || draggingBeadId === bead.id && tips === 1 ? 'none' : 'grayscale(100%)',
-                                                        backgroundColor: bead.type === 'octagon' && bead.id === 7 ? '#fbc130' : 'transparent',
-                                                    }}
-                                                />
-                                            )}
+                                            <img
+                                                src={getImageByType(bead.type)}
+                                                alt={bead.type}
+                                                style={getSlotStyles(bead)}
+                                            />
                                         </div>
                                     ))}
                                 </div>
                             );
                         })}
                     </div>
+
                     <div className={styles.beadContainer}>
-                        {Array.from({length: numberOfRows}).map((_, rowIndex) => {
-                            const containerBeads = beads.map(bead => ({...bead}));
+                        {Array.from({ length: numberOfRows }).map((_, rowIndex) => {
+                            const containerBeads = rows[rowIndex].beads;
                             return (
                                 <div
                                     key={`container-row-${rowIndex}`}
@@ -285,16 +207,18 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
                                         <div
                                             key={`bead-${rowIndex}-${index}`}
                                             id={`bead-${rowIndex}-${index}-${bead.id}`}
-                                            className={`${styles.bead} ${styles[`bead${index + 1}`]} ${draggingBeadId === `bead-${rowIndex}-${index}` ? styles.dragging : ''} ${bead.isPlaced ? styles.placed : ''}`}
+                                            className={`${styles.bead} ${styles[`bead${index + 1}`]} ${
+                                                draggingBeadId === bead.id ? styles.dragging : ''
+                                            } ${bead.isPlaced ? styles.placed : ''}`}
                                             draggable
-                                            onDragStart={() => handleDragStart(`bead-${rowIndex}-${index}`)}
+                                            onDragStart={() => handleDragStart(bead.id)}
                                             onDragEnd={handleDragEnd}
                                             style={{
                                                 visibility: bead.isPlaced ? 'hidden' : 'visible',
                                                 marginLeft: `${120 * rowIndex}px`,
                                             }}
                                         >
-                                            <img src={getImageByType(bead.type)} alt={bead.type}/>
+                                            <img src={getImageByType(bead.type)} alt={bead.type} />
                                         </div>
                                     ))}
                                 </div>
@@ -305,7 +229,7 @@ const PuzzleAbacusGame: React.FC<{ initialNumOfBeads: number }> = ({ initialNumO
             </div>
         </div>
     );
-}
+};
 export const PuzzleAbacus = () => register(() => <PuzzleAbacusGame initialNumOfBeads={10}/>, (settings) => ({
     timeDirection: 'right',
     starCalculationMode: 'correct',
@@ -363,9 +287,14 @@ export const PuzzleAbacus = () => register(() => <PuzzleAbacusGame initialNumOfB
             },
         },
     ],
-    start: {
+    start: settings.level === 1 ? {
         title: 'Собери абакус',
         subTitle1: 'Перетаскивай элементы абакуса на свои места.',
+        titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+    } : {
+        title: 'Собери абакус',
+        subTitle1: 'Перетаскивай элементы абакуса на свои места.',
+        subTitle2: 'Собери абакус на время!',
         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
     },
 }))
