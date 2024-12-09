@@ -94,15 +94,19 @@ export class SocketApi {
     }
 
     sendMessage(data: Record<string, string>) {
-        if (this.socket && this.ready) {
+        if (this.socket && this.ready && this.socket.readyState === 1) {
             this.socket.send(JSON.stringify({ type: 'message', data }));
+        } else if (this.socket?.readyState !== 1) {
+            console.log(`[readyState] ${this.socket?.readyState}`);
         }
         this.onMessage(data);
     }
 
     sendAction(name: string, params?: Record<string, any>, self = true) {
-        if (this.socket && this.ready) {
+        if (this.socket && this.ready && this.socket.readyState === 1) {
             this.socket.send(JSON.stringify({ type: 'action', name, params }));
+        } else if (this.socket?.readyState !== 1) {
+            console.log(`[readyState] ${this.socket?.readyState}`);
         }
         if (self) {
             this.onAction(name, params);

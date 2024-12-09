@@ -26,12 +26,9 @@ interface IAccountState {
 
 const initialState: IAccountState = {
     role: Role.None,
-    teacher: { id: 1, name: 'Иван Михайлов', online: false },
-    me: { id: 1, name: 'Иван Михайлов', online: true },
-    students: [
-        { id: 1, name: 'Иван Михайлов', online: false },
-        { id: 2, name: 'Михаил Иванов', online: false },
-    ],
+    teacher: { id: 1, name: 'Загрузка...', online: false },
+    me: { id: 1, name: 'Загрузка...', online: true },
+    students: [{ id: 1, name: 'Загрузка...', online: false }],
     ready: false,
     notification: { show: false, text: '', type: 'info' },
     userCount: 0,
