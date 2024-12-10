@@ -7,7 +7,6 @@ import { NextIcon } from '../mult-table/components/NextIcon.tsx';
 import { RepeatIcon } from '../mult-table/components/RepeatIcon.tsx';
 import { FinishIcon } from '../mult-table/components/FinishIcon.tsx';
 import { register } from '../../../providers/game/register.tsx';
-import { createAll } from '../mult-table/functions.ts';
 import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
 import { useGameAccess } from '../../../hooks/account.ts';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket.ts';
@@ -17,25 +16,17 @@ export const CountExamplesGame = () => {
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<null | boolean>(
         null
     );
-    /*const [firstNumber, setFirstNumber] = useState(0);
-    const [secondNumber, setSecondNumber] = useState(0);
-    const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
-    const [numberColors, setNumberColors] = useState<{ [key: string]: string }>(
-        {}
-    );*/
-
     const [currentStage, setCurrentStage] = useState<0 | 1 | 2 | 3>(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
     const { level, ratios, numberOfRows, speed } = useGameSettings<number>();
     const {
-        firstNumber = 0,
-        secondNumber = 0,
+        numbers = [],
         correctAnswer = null,
         numberColors = {},
         updateStorage,
     } = useSyncStorage<{
-        firstNumber: number;
-        secondNumber: number;
+        numbers: number[];
         correctAnswer: number | null;
         numberColors: { [key: string]: string };
     }>();
@@ -46,10 +37,6 @@ export const CountExamplesGame = () => {
     const finish = useGameFinish();
     const blueShades = ['#337CB3', '#003366', '#003B5C', '#002D4C', '#001F3C'];
     const redShades = ['#8B0000', '#B22222', '#9C1C1C', '#7F0000', '#296C3B'];
-
-    // useEffect(() => {
-    //     updateStorage({ data: generateNumbers() });
-    // }, []);
 
     const isGameAccess = useGameAccess();
 
@@ -68,39 +55,38 @@ export const CountExamplesGame = () => {
                 { min: 1000, max: 9999, resultMax: 9999 },
             ];
 
-            const { min, max, resultMax } = ranges[rank - 1] || {};
-            let num1, num2, result;
+            const { min, max } = ranges[rank - 1] || {};
+            const generatedNumbers = [];
+            let currentResult = 0;
 
-            do {
-                num1 = Math.floor(Math.random() * (max - min + 1)) + min;
-                num2 = Math.floor(Math.random() * (max - min + 1)) + min;
-                if (Math.random() > 0.5) num2 *= -1;
-                result = num1 + num2;
-            } while (result <= -1 || result > resultMax);
+            for (let i = 0; i < numberOfRows; i++) {
+                let num;
+                do {
+                    num = Math.floor(Math.random() * (max - min + 1)) + min;
+                    if (Math.random() > 0.5) num *= -1;
+                } while (currentResult + num <= -1 || currentResult + num > max);
+
+                currentResult += num;
+                generatedNumbers.push(num);
+            }
 
             updateStorage({
-                firstNumber: num1,
-                secondNumber: num2,
-                correctAnswer: result,
-
-                numberColors: {
-                    [num1]:
-                        num1 >= 0
-                            ? redShades[
-                                  Math.floor(Math.random() * redShades.length)
-                              ]
-                            : blueShades[
-                                  Math.floor(Math.random() * blueShades.length)
-                              ],
-                    [num2]:
-                        num2 >= 0
-                            ? redShades[
-                                  Math.floor(Math.random() * redShades.length)
-                              ]
-                            : blueShades[
-                                  Math.floor(Math.random() * blueShades.length)
-                              ],
-                },
+                numbers: generatedNumbers,
+                correctAnswer: currentResult,
+                numberColors: generatedNumbers.reduce(
+                    (acc, num) => ({
+                        ...acc,
+                        [num]:
+                            num >= 0
+                                ? redShades[
+                                    Math.floor(Math.random() * redShades.length)
+                                    ]
+                                : blueShades[
+                                    Math.floor(Math.random() * blueShades.length)
+                                    ],
+                    }),
+                    {}
+                ),
             });
         }
     };
@@ -121,11 +107,24 @@ export const CountExamplesGame = () => {
     const handleRestartThisExample = () => {
         setInputValue('');
         setIsAnswerCorrect(null);
+        setCorrectAnswersCount(0);
         setCurrentStage(0);
+        setCurrentIndex(0);
 
-        /*setFirstNumber(firstNumber);
-        setSecondNumber(secondNumber);
-        setCorrectAnswer(correctAnswer);*/
+        if (numbers.length > 0) {
+            let index = 0;
+            const intervalId = setInterval(() => {
+                setCurrentIndex(index);
+                index += 1;
+
+                if (index >= numbers.length) {
+                    clearInterval(intervalId);
+                    setCurrentStage(2);
+                }
+            }, dynamicSpeed * 1000);
+
+            return () => clearInterval(intervalId);
+        }
     };
 
     const showThisExample = () => {
@@ -193,24 +192,39 @@ export const CountExamplesGame = () => {
     const checkAnswer = () => {
         sendAction('check');
     };
-
-    useEffect(() => {
-        if (correctAnswersCount >= numberOfRows) {
-            finish();
-        }
-    }, [correctAnswersCount, numberOfRows, finish]);
+    //
+    // useEffect(() => {
+    //     if (correctAnswersCount >= numberOfRows) {
+    //         finish();
+    //     }
+    // }, [correctAnswersCount, numberOfRows, finish]);
 
     useEffect(() => {
         startNewExample();
     }, []);
 
+
     useEffect(() => {
         if (currentStage === 0) {
-            setTimeout(() => setCurrentStage(1), dynamicSpeed * 1000);
-        } else if (currentStage === 1) {
-            setTimeout(() => setCurrentStage(2), dynamicSpeed * 1000);
+            let index = 0;
+
+            setCurrentIndex(index);
+
+            const intervalId = setInterval(() => {
+                index += 1;
+                if (index < numbers.length) {
+                    setCurrentIndex(index);
+                } else {
+                    clearInterval(intervalId);
+                    setCurrentStage(2);
+                }
+            }, dynamicSpeed * 1000);
+
+            return () => clearInterval(intervalId);
         }
-    }, [currentStage, dynamicSpeed]);
+    }, [currentStage, dynamicSpeed, numbers]);
+
+
 
     useEffect(() => {
         console.log('Current stage changed:', currentStage);
@@ -261,123 +275,139 @@ export const CountExamplesGame = () => {
     }, [currentStage, inputValue, startNewExample, checkAnswer]);
 
     return (
-        <div className={styles.calculatorContainer}>
-            <div className={styles.displayWrapper}>
-                <div className={styles.generatedNumbers}>
-                    {currentStage === 0 && (
-                        <div className={styles.number}>
-                            {formatNumber(firstNumber)}
-                        </div>
-                    )}
-                    {currentStage === 1 && (
-                        <div className={styles.number}>
-                            {formatNumber(secondNumber)}
-                        </div>
-                    )}
-                </div>
-                {currentStage === 2 && (
-                    <>
-                        <input
-                            type="text"
-                            className={`${styles.display} ${
-                                isAnswerCorrect === false
-                                    ? styles.incorrect
-                                    : ''
-                            } ${
-                                isAnswerCorrect === true ? styles.correct : ''
-                            }`}
-                            value={inputValue}
-                            readOnly
-                        />
-                        <div className={styles.numpad}>
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map(
-                                (num) => (
-                                    <button
-                                        key={num}
-                                        className={styles.numpadBtn}
-                                        onClick={() => handleInput(String(num))}
-                                    >
-                                        {num}
-                                    </button>
-                                )
-                            )}
-                        </div>
-                        <button
-                            className={styles.checkButton}
-                            style={{
-                                backgroundColor: inputValue
-                                    ? '#FCBD11'
-                                    : '#ccc',
-                                color: inputValue ? '#c4521a' : '#666666',
-                                cursor: inputValue ? 'pointer' : 'not-allowed',
-                                transition:
-                                    'background-color 0.3s, box-shadow 0.3s',
-                                boxShadow: inputValue
-                                    ? '0 4px 8px rgba(0, 0, 0, 0.2)'
-                                    : 'none',
-                            }}
-                            onClick={checkAnswer}
-                            disabled={!inputValue}
-                        >
-                            Проверить
-                        </button>
-                    </>
-                )}
-
-                {currentStage === 3 && (
-                    <>
-                        <input
-                            type="text"
-                            className={`${styles.display} ${
-                                isAnswerCorrect === false
-                                    ? styles.incorrect
-                                    : ''
-                            } ${
-                                isAnswerCorrect === true ? styles.correct : ''
-                            }`}
-                            value={inputValue}
-                            readOnly
-                        />
-                        <div className={styles.resultInner}>
+        <div className={styles.container}>
+            <div className={styles.calculatorContainer}>
+                <div className={styles.displayWrapper}>
+                    <div className={styles.generatedNumbers}>
+                        {currentStage === 0 && (
                             <div
-                                className={styles.result}
-                                data-correct={Number(isAnswerCorrect)}
+                                className={`${styles.number}`}
+                                style={{
+                                    color: numberColors[numbers[currentIndex]] || '#000',
+                                }}
                             >
+                                {formatNumber(numbers[currentIndex])}
+                            </div>
+                        )}
+                    </div>
+                    {currentStage === 2 && (
+                        <>
+                            <input
+                                type="text"
+                                className={`${styles.display} ${
+                                    isAnswerCorrect === false
+                                        ? styles.incorrect
+                                        : ''
+                                } ${
+                                    isAnswerCorrect === true ? styles.correct : ''
+                                }`}
+                                value={inputValue}
+                                readOnly
+                            />
+                            <div className={styles.numpad}>
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 'C', 0, '⌫'].map(
+                                    (num) => (
+                                        <button
+                                            key={num}
+                                            className={styles.numpadBtn}
+                                            onClick={() => handleInput(String(num))}
+                                        >
+                                            {num}
+                                        </button>
+                                    )
+                                )}
+                            </div>
+                            <button
+                                className={styles.checkButton}
+                                style={{
+                                    backgroundColor: inputValue
+                                        ? '#FCBD11'
+                                        : '#ccc',
+                                    color: inputValue ? '#c4521a' : '#666666',
+                                    cursor: inputValue ? 'pointer' : 'not-allowed',
+                                    transition:
+                                        'background-color 0.3s, box-shadow 0.3s',
+                                    boxShadow: inputValue
+                                        ? '0 4px 8px rgba(0, 0, 0, 0.2)'
+                                        : 'none',
+                                }}
+                                onClick={checkAnswer}
+                                disabled={!inputValue}
+                            >
+                                Проверить
+                            </button>
+                        </>
+                    )}
+
+                    {currentStage === 3 && (
+                        <>
+                            <input
+                                type="text"
+                                className={`${styles.display} ${
+                                    isAnswerCorrect === false
+                                        ? styles.incorrect
+                                        : ''
+                                } ${
+                                    isAnswerCorrect === true ? styles.correct : ''
+                                }`}
+                                value={inputValue}
+                                readOnly
+                            />
+                            <div className={styles.resultInner}>
+                                <div
+                                    className={styles.result}
+                                    data-correct={Number(isAnswerCorrect)}
+                                >
                                 <span>
                                     {isAnswerCorrect ? 'Верно' : 'Не верно'}
                                 </span>
+                                </div>
+                                <div className={styles.buttons}>
+                                    <button
+                                        className={styles.button_big}
+                                        onClick={() => restartThisExample()}
+                                    >
+                                    <span>
+                                        <RepeatIcon/>
+                                    </span>
+                                    </button>
+                                    <button
+                                        className={styles.button_big}
+                                        onClick={() => showThisExample()}
+                                    >
+                                    <span>
+                                        <ExampleIcon/>
+                                    </span>
+                                    </button>
+                                    <button
+                                        className={styles.button_big}
+                                        onClick={() => startNewExample()}
+                                    >
+                                    <span>
+                                        <NextIcon/>
+                                    </span>
+                                    </button>
+                                </div>
                             </div>
-                            <div className={styles.buttons}>
-                                <button
-                                    className={styles.button_big}
-                                    onClick={() => restartThisExample()}
-                                >
-                                    <span>
-                                        <RepeatIcon />
-                                    </span>
-                                </button>
-                                <button
-                                    className={styles.button_big}
-                                    onClick={() => showThisExample()}
-                                >
-                                    <span>
-                                        <ExampleIcon />
-                                    </span>
-                                </button>
-                                <button
-                                    className={styles.button_big}
-                                    onClick={() => startNewExample()}
-                                >
-                                    <span>
-                                        <NextIcon />
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                )}
+                        </>
+                    )}
+                </div>
+                <div
+                    className={styles.example}
+                    style={{
+                        visibility: isExampleVisible && currentStage === 3 ? 'visible' : 'hidden',
+                    }}
+                >
+                    {numbers.map((num, index) => (
+                        <span key={index}>
+            {index > 0 && num >= 0 ? ' + ' : ' '}
+                            {num >= 0 ? `${num}` : `${num}`}
+        </span>
+                    ))}
+                    {' = '}
+                    {correctAnswer}
+                </div>
             </div>
-
             <div className={styles.finish_btn}>
                 {currentStage === 3 && (
                     <button
@@ -385,22 +415,10 @@ export const CountExamplesGame = () => {
                         onClick={() => finish()}
                     >
                         <span>
-                            <FinishIcon />
+                            <FinishIcon/>
                         </span>
                     </button>
                 )}
-            </div>
-
-            <div
-                className={styles.example}
-                style={{
-                    visibility:
-                        isExampleVisible === true && currentStage === 3
-                            ? 'visible'
-                            : 'hidden',
-                }}
-            >
-                {`${firstNumber} + ${secondNumber} = ${correctAnswer}`}
             </div>
         </div>
     );
@@ -485,13 +503,13 @@ export const CountExamples = () =>
             },
             {
                 type: 'numberOfRows',
-                title: 'Количество ответов',
+                title: 'Количество действий',
                 reduxKey: 'numberOfRows',
                 settings: {
                     max: 100,
-                    min: 1,
+                    min: 2,
                     step: 1,
-                    defaultValue: 5,
+                    defaultValue: 2,
                 },
             },
             {
