@@ -1,19 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export const enum StudentInterfaceAccess {
+    Full = 1,
+    Observer = 2,
+}
+
 interface CommonSettings {
     ABACUS_SETTINGS: Record<string, number | boolean>;
     REGIME_SETTINGS: Record<string, number | boolean>;
-    INTERFACE_SETTINGS: Record<string, number | boolean>;
     START_SETTINGS: Record<string, number | boolean>;
 }
 
-const initialState: { common: CommonSettings; sound: number } = {
+const initialState: {
+    common: CommonSettings;
+    sound: number;
+    interface: number;
+    video: boolean;
+    withoutStudent: boolean;
+} = {
     common: {
         ABACUS_SETTINGS: { '1': 1, '2': 0, '3': 0 },
         REGIME_SETTINGS: { '1': 0, '2': 0, '3': 0 },
-        INTERFACE_SETTINGS: { '1': 0, '2': 0, '3': 0 },
-        START_SETTINGS: { '1': 0, '2': 0 },
+        START_SETTINGS: { '1': 1, '2': 1 },
     },
+    video: true,
+    interface: 1,
+    withoutStudent: false,
     sound: 20,
 };
 
@@ -40,8 +52,32 @@ const settingsData = createSlice({
             };
         },
 
+        setExternalSettings: (
+            state,
+            action: PayloadAction<{ video: boolean; interface: number }>
+        ) => {
+            if (action.payload.interface !== undefined) {
+                state.interface = action.payload.interface;
+            }
+            if (action.payload.video !== undefined) {
+                state.video = action.payload.video;
+            }
+        },
+
         setSettingSound: (state, action: PayloadAction<number>) => {
             state.sound = action.payload;
+        },
+
+        setSettingInterface: (state, action: PayloadAction<number>) => {
+            state.interface = action.payload;
+        },
+
+        setSettingVideo: (state, action: PayloadAction<boolean>) => {
+            state.video = action.payload;
+        },
+
+        setSettingWithoutSudent: (state, action: PayloadAction<boolean>) => {
+            state.withoutStudent = action.payload;
         },
     },
 });

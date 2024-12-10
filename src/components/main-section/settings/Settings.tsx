@@ -6,6 +6,10 @@ import Switch from '../../switch/Switch';
 import styles from './styles.module.scss';
 import { useTypedSelector } from '../../../hooks/useTypedSelector';
 import { useActions } from '../../../hooks/useActions';
+import { useCurrentRole } from '../../../hooks/account';
+import { isTeacher } from '../../../utils';
+import { useWebSocket } from '../../../api/socket/useWebSocket';
+import { WsSystemAction } from '../../../api/socket/constants';
 
 const ABACUS_SETTINGS = [
     { title: 'Web-абакус', key: '1' },
@@ -22,12 +26,7 @@ const REGIME_SETTINGS = [
 const INTERFACE_SETTINGS = [
     { title: 'Полное', key: '1' },
     { title: 'Наблюдает', key: '2' },
-    { title: 'Отключено', key: '3' },
-];
-
-const START_SETTINGS = [
-    { title: 'Самостоятельный запуск видео', key: '1' },
-    { title: 'Запуск игр без студента', key: '2' },
+    //{ title: 'Отключено', key: '3' },
 ];
 
 const Settings = () => {
@@ -37,7 +36,38 @@ const Settings = () => {
         setIsOpen(false);
     };
 
-    const { setSettingCommon, setSettingSound } = useActions();
+    const { sendAction } = useWebSocket();
+
+    const {
+        setSettingSound,
+        setSettingInterface,
+        setSettingVideo,
+        setSettingWithoutSudent,
+    } = useActions();
+
+    const role = useCurrentRole();
+
+    const handleSetInterface = (value: number) => {
+        setSettingInterface(value);
+        if (isTeacher(role)) {
+            sendAction(
+                WsSystemAction.SetAccessSettings,
+                { interface: value },
+                false
+            );
+        }
+    };
+
+    const handleSetVideo = (value: boolean) => {
+        setSettingVideo(value);
+        if (isTeacher(role)) {
+            sendAction(
+                WsSystemAction.SetAccessSettings,
+                { video: value },
+                false
+            );
+        }
+    };
 
     const settings = useTypedSelector((state) => state.settingsData);
 
@@ -57,7 +87,7 @@ const Settings = () => {
                         </span>
                         <div className={styles.main}>
                             <div>
-                                <div>
+                                {/*<div>
                                     <p className={styles.abacusTitle}>
                                         Состояние абакуса
                                         <span
@@ -118,34 +148,47 @@ const Settings = () => {
                                         </div>
                                     );
                                 })}
-                                <div className={styles.divider}> </div>
-                                <div className={styles.section}>
-                                    <p className={styles.title}>
-                                        Взаимодействие студента с интерфейсом
-                                        игры
-                                    </p>
-                                    <div className={styles.buttons}>
-                                        {INTERFACE_SETTINGS.map((item) => {
-                                            return (
-                                                <button
-                                                    key={item.key}
-                                                    className={classNames(
-                                                        styles.buttons__button,
-                                                        {
-                                                            [styles.buttons__button_active]:
-                                                                true,
-                                                        }
-                                                    )}
-                                                >
-                                                    {item.title}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                                {START_SETTINGS.map((item) => {
-                                    return (
-                                        <div key={item.key}>
+                                <div className={styles.divider}> </div>*/}
+                                {isTeacher(role) && (
+                                    <>
+                                        <div className={styles.section}>
+                                            <p className={styles.title}>
+                                                Взаимодействие студента с
+                                                интерфейсом игры
+                                            </p>
+                                            <div className={styles.buttons}>
+                                                {INTERFACE_SETTINGS.map(
+                                                    (item) => {
+                                                        return (
+                                                            <button
+                                                                key={item.key}
+                                                                onClick={() =>
+                                                                    handleSetInterface(
+                                                                        Number(
+                                                                            item.key
+                                                                        )
+                                                                    )
+                                                                }
+                                                                className={classNames(
+                                                                    styles.buttons__button,
+                                                                    {
+                                                                        [styles.buttons__button_active]:
+                                                                            settings.interface ===
+                                                                            Number(
+                                                                                item.key
+                                                                            ),
+                                                                    }
+                                                                )}
+                                                            >
+                                                                {item.title}
+                                                            </button>
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div>
                                             <div
                                                 className={styles.switchWrapper}
                                             >
@@ -154,27 +197,43 @@ const Settings = () => {
                                                         styles.switchWrapper__title
                                                     }
                                                 >
-                                                    {item.title}
+                                                    Самостоятельный запуск видео
                                                 </span>
                                                 <Switch
                                                     defaultValue={
-                                                        !!settings.common
-                                                            .START_SETTINGS[
-                                                            item.key
-                                                        ]
+                                                        !!settings.video
                                                     }
                                                     onChange={(value) =>
-                                                        setSettingCommon({
-                                                            group: 'START_SETTINGS',
-                                                            key: item.key,
-                                                            value,
-                                                        })
+                                                        handleSetVideo(value)
                                                     }
                                                 />
                                             </div>
                                         </div>
-                                    );
-                                })}
+                                        <div>
+                                            <div
+                                                className={styles.switchWrapper}
+                                            >
+                                                <span
+                                                    className={
+                                                        styles.switchWrapper__title
+                                                    }
+                                                >
+                                                    Запуск игр без студента
+                                                </span>
+                                                <Switch
+                                                    defaultValue={
+                                                        !!settings.withoutStudent
+                                                    }
+                                                    onChange={(value) =>
+                                                        setSettingWithoutSudent(
+                                                            value
+                                                        )
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                                 <div className={styles.divider}> </div>
                                 <div className={styles.section}>
                                     <p className={styles.title}>

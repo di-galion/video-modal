@@ -446,5 +446,15 @@ export const PuzzleAbacus = () =>
                           titleBottom:
                               'Не допускай ошибок для успешного завершения игры.',
                       },
+            useImages: [
+                topStick,
+                bottomStick,
+                horizonteStripe,
+                verticalLine,
+                bigPullGem,
+                bigGem,
+                octagonLeft,
+                octagonRight,
+            ],
         })
     );

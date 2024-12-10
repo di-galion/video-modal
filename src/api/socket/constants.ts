@@ -6,4 +6,5 @@ export const enum WsSystemAction {
     'GameStatus' = 'GameStatus',
     'Settings' = 'Settings',
     'SelectLesson' = 'SelectLesson',
+    'SetAccessSettings' = 'SetAccessSettings',
 }

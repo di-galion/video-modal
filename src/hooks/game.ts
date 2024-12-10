@@ -108,3 +108,8 @@ export function useTimeDirection() {
     const { timeDirection = 'left' } = useGameData();
     return timeDirection;
 }
+
+export const useImages = () => {
+    const { useImages: images } = useGameData();
+    return images;
+};
