@@ -4,6 +4,9 @@ import { wsApi } from './api';
 import { GameStatus } from '../../typings/game.module';
 import { GameLessonMode } from '../../typings/lesson.module';
 import { WsSystemAction } from './constants';
+import { useCurrentRole } from '../../hooks/account';
+import { isTeacher } from '../../utils';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export function useWebSocket() {
     const { syncStorage: storage = {} } = useGame();
@@ -12,12 +15,23 @@ export function useWebSocket() {
         wsApi.sendMessage(data);
     };
 
+    const role = useCurrentRole();
+
+    const settings = useTypedSelector((state) => state.settingsData);
+
     const sendAction = (
         name: string,
         params?: Record<string, any>,
         self = true
     ) => {
-        wsApi.sendAction(name, params, self);
+        if (
+            name === WsSystemAction.UserEnter ||
+            name === 'playVideo' ||
+            isTeacher(role) ||
+            settings.interface === 1
+        ) {
+            wsApi.sendAction(name, params, self);
+        }
     };
 
     const connect = (room: string) => {

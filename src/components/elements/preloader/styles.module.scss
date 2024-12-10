@@ -1,188 +1,22 @@
-.wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: end;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 10;
-}
-
-.bg {
-	&_main {
-		background: url('/assets/img/main/bg.png') no-repeat,
-			linear-gradient(180deg, #00a3fe 0%, #bb2cff 100%);
-	}
-	&_arithmetic {
-		background: linear-gradient(126.99deg, #c64eff 24.89%, #ffd336 84.95%);
-	}
-	&_geometry {
-		background: linear-gradient(180deg, #28d9cb 0%, #383b98 100%);
-	}
-	&_tasks {
-		background: linear-gradient(
-			197.53deg,
-			#3092ff 7.99%,
-			#f2a392 39.19%,
-			#fee1a7 68.5%
-		);
-	}
-}
-
 .loader {
-	position: absolute;
-	top: 30px;
-	right: 30px;
+    width: 60px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 50%;
+    animation: l3 1s infinite linear;
 }
-
-.mainBlock {
-	position: relative;
-	width: 400px;
-	height: 400px;
-	margin-bottom: 2rem;
-	overflow: visible;
-	// animation: mover 2s infinite alternate;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	width: 400px;
-	height: 400px;
-	background-image: url('/assets/img/interface/person.png');
-
-	&_main {
-		background-image: url('/assets/img/main/max.png');
-	}
-
-	&__ground {
-		position: absolute;
-		bottom: -60px;
-		left: 0;
-		right: 0;
-		z-index: -1;
-		width: 100%;
-		height: 300px;
-		background-size: contain;
-
-		&_main {
-			background: url('/assets/img/main/preloader-bg.png') no-repeat center;
-		}
-		&_arithmetic {
-			background: url('/assets/img/subjects/arithmetic/preloader-bg.png')
-				no-repeat center;
-		}
-		&_geometry {
-			background: url('/assets/img/subjects/geometry/preloader-bg.png')
-				no-repeat center;
-		}
-		&_tasks {
-			background: url('/assets/img/subjects/tasks/preloader-bg.png') no-repeat
-				center;
-		}
-	}
-}
-.sphere {
-	position: absolute;
-	width: 70px;
-	height: 70px;
-	top: 18%;
-	left: 20%;
-	animation: mover 1.5s infinite alternate;
-
-	&_arithmetic {
-		background: url('/assets/img/subjects/arithmetic/sphere.png') no-repeat;
-		background-size: contain;
-	}
-	&_geometry {
-		background: url('/assets/img/subjects/geometry/sphere.png') no-repeat;
-		background-size: contain;
-	}
-	&_tasks {
-		background: url('/assets/img/subjects/tasks/sphere.png') no-repeat;
-		background-size: contain;
-	}
-}
-
-@keyframes mover {
-	0% {
-		transform: translateY(-50px);
-	}
-
-	100% {
-		transform: translateY(0px);
-	}
-}
-
-.hideAnimation {
-	animation: no_visible 1s 1 alternate;
-}
-
-@keyframes no_visible {
-	0% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 0;
-	}
-	100% {
-		display: none !important;
-	}
-}
-
-// spinner
-.spinner {
-	position: absolute;
-	transform: translateX(25%);
-	width: 300px;
-	background-color: beige;
-	height: 300px;
-}
-
-.spin {
-	position: absolute;
-	// top: 25%;
-	// left: 50%;
-	margin: 50px;
-	animation: orbit 4s forwards infinite;
-	animation-timing-function: linear;
-
-	&_1 {
-		transform: rotate(90deg) translateX(100px);
-		top: 50%;
-		left: 50%;
-	}
-	&_2 {
-		top: 50%;
-		left: 50%;
-	}
-	&_3 {
-		top: 0;
-		right: 0;
-	}
-	&_4 {
-		top: 66%;
-		right: 25%;
-	}
-	&_4 {
-		bottom: 25%;
-		right: 66%;
-	}
-	&_5 {
-		top: 66%;
-		left: -25%;
-	}
-	&_6 {
-		bottom: 25%;
-		right: 66%;
-	}
-}
-
-@-webkit-keyframes orbit {
-	from {
-		-webkit-transform: rotate(0deg) translateX(200px) rotate(0deg);
-	}
-	to {
-		-webkit-transform: rotate(360deg) translateX(200px) rotate(-360deg);
-	}
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%;
+    }
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%;
+    }
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%;
+    }
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%;
+    }
 }

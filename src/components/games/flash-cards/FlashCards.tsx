@@ -421,4 +421,5 @@ export const FlashCards = () =>
             },
             { text: 'Стартовая скорость', value: settings.speed },
         ],
+        useImages: [slot, gem],
     }));

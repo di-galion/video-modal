@@ -39,7 +39,8 @@ export const SocketHelper = () => {
     );
 
     const [searchParams] = useSearchParams();
-    const { setMultiplayer, setAccountData, setRole } = useActions();
+    const { setMultiplayer, setAccountData, setRole, setExternalSettings } =
+        useActions();
     const { connect } = useWebSocket();
     const account = useAccount();
 
@@ -74,26 +75,28 @@ export const SocketHelper = () => {
         }
         //console.log('2');
 
-        api.getUserData(id).then((data: any) => {
-            console.log('data', data);
-            const teacher = parseUserData(data.teacher_id.user_id);
-            const students: any[] = data.students.map((student: any) =>
-                parseUserData(student.student_id.user_id)
-            );
-            let role;
-            let me;
-            if (getUserIdFromStorage() === teacher.id) {
-                role = Role.Teacher;
-                me = teacher;
-            } else {
-                role = Role.Student;
-                me = students.find(
-                    (student) => student.id === getUserIdFromStorage()
+        api.getUserData(id)
+            .then((data: any) => {
+                console.log('data', data);
+                const teacher = parseUserData(data.teacher_id.user_id);
+                const students: any[] = data.students.map((student: any) =>
+                    parseUserData(student.student_id.user_id)
                 );
-            }
-            console.log('ACCOUNT_DATA', { teacher, students, me, role });
-            setAccountData({ teacher, students, me, role });
-        });
+                let role;
+                let me;
+                if (getUserIdFromStorage() === teacher.id) {
+                    role = Role.Teacher;
+                    me = teacher;
+                } else {
+                    role = Role.Student;
+                    me = students.find(
+                        (student) => student.id === getUserIdFromStorage()
+                    );
+                }
+                console.log('ACCOUNT_DATA', { teacher, students, me, role });
+                setAccountData({ teacher, students, me, role });
+            })
+            .catch();
     }, [id]);
 
     useWsAction((name, params = {}) => {
@@ -124,6 +127,12 @@ export const SocketHelper = () => {
             case WsSystemAction.SelectLesson:
                 selectLesson(params.index);
                 break;
+            case WsSystemAction.SetAccessSettings:
+                setExternalSettings({
+                    interface: params.interface,
+                    video: params.video,
+                });
+                break;
         }
     });
 
@@ -143,12 +152,21 @@ export const SocketHelper = () => {
         }
     }, [userCount, multiPlayer]);
 
+    const settings = useTypedSelector((state) => state.settingsData);
+
     useWsOnReady(() => {
         if (isTeacher(role) && multiPlayer) {
             showNotification({
                 text: 'Пользователь вошел в комнату. Можно начинать игру',
                 type: 'info',
             });
+        }
+        if (isTeacher(role)) {
+            sendAction(
+                WsSystemAction.SetAccessSettings,
+                { interface: settings.interface, video: settings.video },
+                false
+            );
         }
     });
 

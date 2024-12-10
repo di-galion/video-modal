@@ -2,6 +2,9 @@ import { FC, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import api, { CloudType } from '../../../api/http/api';
 import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket';
+import { isTeacher } from '../../../utils';
+import { useCurrentRole } from '../../../hooks/account';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
 
 export const Video: FC<
     React.VideoHTMLAttributes<HTMLVideoElement> & {
@@ -26,12 +29,27 @@ export const Video: FC<
     }, [url]);
 
     useWsAction((name, params = {}) => {
-        if (name === 'playVideo' && params.src === src) {
-            setAutoPlay(true);
+        if (name === 'playVideo') {
+            const src1 = params.src.split('?')[0];
+            const src2 = src.split('?')[0];
+            if (src1 === src2) {
+                console.log('autoplay');
+                setAutoPlay(true);
+            }
         }
     });
 
     const { sendAction } = useWebSocket();
+
+    const settings = useTypedSelector((state) => state.settingsData);
+
+    const role = useCurrentRole();
+
+    const handlePlay = () => {
+        if (isTeacher(role) || settings.video) {
+            sendAction('playVideo', { src }, false);
+        }
+    };
 
     return (
         <div className={styles.videoWrapper}>
@@ -39,7 +57,7 @@ export const Video: FC<
                 <video
                     {...props}
                     autoPlay={autoPlay}
-                    onPlay={() => sendAction('playVideo', { src }, false)}
+                    onPlay={handlePlay}
                     src={src}
                     className={styles.videoWrapper__video}
                 />

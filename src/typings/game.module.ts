@@ -37,6 +37,7 @@ export type GameData = {
     startTable?: { text: string; value: SettingValue }[];
     starCalculationMode?: StarCalculationMode;
     showLevel?: boolean;
+    useImages?: string[];
 };
 
 export interface IGameState {
