@@ -25,7 +25,7 @@ const initialState: {
     },
     video: true,
     interface: 1,
-    withoutStudent: true,
+    withoutStudent: false,
     sound: 20,
 };
 
@@ -56,8 +56,12 @@ const settingsData = createSlice({
             state,
             action: PayloadAction<{ video: boolean; interface: number }>
         ) => {
-            state.interface = action.payload.interface;
-            state.video = action.payload.video;
+            if (action.payload.interface !== undefined) {
+                state.interface = action.payload.interface;
+            }
+            if (action.payload.video !== undefined) {
+                state.video = action.payload.video;
+            }
         },
 
         setSettingSound: (state, action: PayloadAction<number>) => {

@@ -4,6 +4,9 @@ import { useActions } from '../../../hooks/useActions';
 import { useImages } from '../../../hooks/game';
 import { useEffect, useState } from 'react';
 import Preloader from '../../elements/preloader/Preloader';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { isTeacher } from '../../../utils';
+import { useCurrentRole } from '../../../hooks/account';
 
 export const Waiting = () => {
     const { setPageStatus } = useActions();
@@ -30,12 +33,18 @@ export const Waiting = () => {
     });
 
     const wsready = useWsIsReady();
+    const role = useCurrentRole();
+
+    const settings = useTypedSelector((state) => state.settingsData);
 
     useEffect(() => {
-        if (wsready && ready) {
+        if (
+            (wsready || (isTeacher(role) && settings.withoutStudent)) &&
+            ready
+        ) {
             setPageStatus('game');
         }
-    }, [ready, wsready]);
+    }, [ready, wsready, settings.withoutStudent]);
 
     return (
         <div className={styles.waiting}>
