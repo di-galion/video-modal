@@ -68,8 +68,7 @@ const MountainTrailGame = () => {
 
     const { data, updateStorage } = useSyncStorage<{ data: ShapeProps[] }>();
 
-    const getConstant = (step: number) =>
-        (theme as number[])[Math.floor(step / count)] || 1;
+    const getConstant = (step: number) => theme[Math.floor(step / count)] || 1;
 
     const getNumber = useCallback((step: number) => (step % count) + 1, []);
 
@@ -94,7 +93,11 @@ const MountainTrailGame = () => {
         }
     });
 
+    const { setLevel } = useActions();
+
     useEffect(() => {
+        setLevel(getNumber(step));
+
         if (step > length - 1) {
             finishGame();
         }

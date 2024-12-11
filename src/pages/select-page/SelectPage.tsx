@@ -88,8 +88,9 @@ export const SelectPage = () => {
                     '/games/mult-table?lesson=' + import.meta.env.VITE_LESSON_ID
                 }
             >
-                Таблица умножения
+                Таблица умножения игры
             </Link>
+            <Link to={'/games/mult-table'}>Таблица умножения игры оффлайн</Link>
             <Link to={'/video-module/mult-table'}>
                 Таблица умножения видео модуль оффлайн
             </Link>
