@@ -72,6 +72,7 @@ export const SelectPage = () => {
             <button type="button" onClick={goToMA}>
                 Go
             </button>
+            <Link to={'/janus'}>Janus</Link>
             <Link
                 to={
                     '/games/mental-arithmetics?lesson=' +
