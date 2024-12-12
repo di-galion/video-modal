@@ -238,6 +238,8 @@ class JanusAdapter {
                             media: {
                                 audioSend: false,
                                 videoSend: false,
+                                audioRecv: true,
+                                videoRecv: true,
                                 data: true,
                             },
                             success: (answer: string) => {
@@ -357,7 +359,7 @@ export const JanusPage = () => {
                 id: 1,
                 room: Number(room),
                 onLocalStream: (stream) => {
-                    /*const video = document.querySelector(
+                    const video = document.querySelector(
                         'video'
                     ) as HTMLVideoElement;
                     if ('srcObject' in video) {
@@ -366,7 +368,7 @@ export const JanusPage = () => {
                         (video as any).src = window.URL.createObjectURL(
                             stream as any
                         );
-                    }*/
+                    }
                 },
                 onRemoteStream: (stream: MediaStream) => {
                     //console.log('mid', mid);
