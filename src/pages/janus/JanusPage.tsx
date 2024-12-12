@@ -401,13 +401,13 @@ export const JanusPage = () => {
             .then();
     };
 
-    const publish = () => {
+    const publish = (isCreateRoom: boolean) => {
         navigator.mediaDevices
             .getUserMedia({ audio: true, video: true })
             .then((stream) => {
                 create().then(() =>
                     jasusAdapter.current
-                        .publish(stream, PUBLISHER_ID, createRoom)
+                        .publish(stream, PUBLISHER_ID, isCreateRoom)
                         .then()
                 );
             });
@@ -422,7 +422,7 @@ export const JanusPage = () => {
     return (
         <div>
             <div style={{ position: 'fixed', top: 20, right: 20 }}>
-                <button onClick={publish}>Publish</button>
+                <button onClick={() => publish(createRoom)}>Publish</button>
                 <input value={room} onChange={(e) => setRoom(e.target.value)} />
                 Create room
                 <input
