@@ -1,4 +1,4 @@
-import Janus from 'janus-gateway';
+import Janus from 'janus';
 import { useLayoutEffect, useRef, useState } from 'react';
 import adapter from 'webrtc-adapter';
 
@@ -32,7 +32,7 @@ class JanusAdapter {
     public init(config: InitConfig): Promise<void> {
         return new Promise((resolve, reject) => {
             Janus.init({
-                dependencies: Janus.useDefaultDependencies({ adapter }),
+                //dependencies: Janus.useDefaultDependencies({ adapter }),
 
                 callback: () => {
                     const janus = new Janus({
