@@ -1,5 +1,5 @@
 import Janus from 'janus-gateway';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import adapter from 'webrtc-adapter';
 
 interface InitConfig {
@@ -24,7 +24,7 @@ class JanusAdapter {
         console.log(message);
     }
 
-    private remoteTracks: MediaStreamTrack[] = [];
+    //private remoteTracks: MediaStreamTrack[] = [];
     private localTracks: MediaStreamTrack[] = [];
     private remoteVideoTrack?: MediaStreamTrack;
     private remoteAudioTrack?: MediaStreamTrack;
@@ -60,7 +60,11 @@ class JanusAdapter {
         });
     }
 
-    public publish(stream: MediaStream, id: number): Promise<void> {
+    public publish(
+        stream: MediaStream,
+        id: number,
+        isCreateRoom: boolean
+    ): Promise<void> {
         console.log('publish');
         return new Promise((resolve, reject) => {
             // Attach the videoroom plugin
@@ -73,13 +77,15 @@ class JanusAdapter {
                     // Set the SFU object
                     this.publisherSfu = pluginHandle;
 
-                    var createRoom = {
-                        request: 'create',
-                        record: true,
-                        room: 1,
-                        publishers: 1,
-                    };
-                    this.publisherSfu.send({ message: createRoom });
+                    if (isCreateRoom) {
+                        var createRoom = {
+                            request: 'create',
+                            record: true,
+                            room: this.janusConfig!.room,
+                            publishers: 1,
+                        };
+                        this.publisherSfu.send({ message: createRoom });
+                    }
 
                     // Request to join the room
                     let request: { [key: string]: any } = {
@@ -117,6 +123,7 @@ class JanusAdapter {
                             mediaConfig = {
                                 audioSend: true,
                                 videoSend: true,
+                                data: true,
                             };
                         }
 
@@ -268,21 +275,28 @@ class JanusAdapter {
                         });
                     }
                 },
-                onremotetrack: (
-                    track: any,
-                    mid: any,
-                    on: any,
-                    metadata: any
-                ) => {
+                onremotetrack: (track, mid, on, metadata) => {
                     console.log('onremotetrack', track, mid, on, metadata);
 
-                    if (metadata.reason === 'created') {
-                        console.log('GO');
-                        this.remoteTracks.push(track);
-                        this.janusConfig!.onRemoteStream(
-                            new MediaStream(this.remoteTracks)
-                        );
+                    if (on) {
+                        if (mid === 'audio') {
+                            this.remoteAudioTrack = track;
+                        } else if (mid === 'video') {
+                            this.remoteVideoTrack = track;
+                        }
+                        if (this.remoteAudioTrack && this.remoteVideoTrack) {
+                            console.log('MediaStream ready');
+                            this.janusConfig!.onRemoteStream &&
+                                this.janusConfig!.onRemoteStream(
+                                    new MediaStream([
+                                        this.remoteAudioTrack,
+                                        this.remoteVideoTrack,
+                                    ])
+                                );
+                        }
                     }
+
+                    //}
 
                     /*if (track.kind === 'video' && track.muted === false) {
                         this.remoteVideoTrack = track;
@@ -332,13 +346,16 @@ const SUBSCRIBER_ID = 1;
 export const JanusPage = () => {
     //const [src, setSrc] = useState<MediaStream | undefined>();
 
-    const adapter = useRef(new JanusAdapter());
+    const jasusAdapter = useRef(new JanusAdapter());
 
-    useLayoutEffect(() => {
-        adapter.current
+    const [room, setRoom] = useState('100');
+    const [createRoom, setCreateRoom] = useState(true);
+
+    const create = () => {
+        return jasusAdapter.current
             .init({
                 id: 1,
-                room: 1,
+                room: Number(room),
                 onLocalStream: (stream) => {
                     /*const video = document.querySelector(
                         'video'
@@ -382,26 +399,41 @@ export const JanusPage = () => {
                 },*/
             })
             .then();
-    }, []);
+    };
 
     const publish = () => {
         navigator.mediaDevices
             .getUserMedia({ audio: true, video: true })
-            .then(function (stream) {
-                adapter.current.publish(stream, PUBLISHER_ID).then();
+            .then((stream) => {
+                create().then(() =>
+                    jasusAdapter.current
+                        .publish(stream, PUBLISHER_ID, createRoom)
+                        .then()
+                );
             });
     };
 
     const watch = () => {
-        adapter.current.subscribe(SUBSCRIBER_ID).then();
+        create().then(() =>
+            jasusAdapter.current.subscribe(SUBSCRIBER_ID).then()
+        );
     };
 
     return (
         <div>
+            <div style={{ position: 'fixed', top: 20, right: 20 }}>
+                <button onClick={publish}>Publish</button>
+                <input value={room} onChange={(e) => setRoom(e.target.value)} />
+                Create room
+                <input
+                    type="checkbox"
+                    checked={createRoom}
+                    onChange={(e) => setCreateRoom(e.target.checked)}
+                />
+                <br />
+                <button onClick={watch}>Watch</button>
+            </div>
             <video id="video" autoPlay width="800" height="600"></video>
-            <button onClick={publish}>Publish</button>
-            <br />
-            <button onClick={watch}>Watch</button>
         </div>
     );
 };
