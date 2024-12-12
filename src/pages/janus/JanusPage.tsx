@@ -25,20 +25,25 @@ class JanusAdapter {
     }
 
     private remoteTracks: MediaStreamTrack[] = [];
+    private localTracks: MediaStreamTrack[] = [];
+    private remoteVideoTrack?: MediaStreamTrack;
+    private remoteAudioTrack?: MediaStreamTrack;
 
     public init(config: InitConfig): Promise<void> {
         return new Promise((resolve, reject) => {
             Janus.init({
                 dependencies: Janus.useDefaultDependencies({ adapter }),
+
                 callback: () => {
                     const janus = new Janus({
                         server: SERVER_URL,
+                        apisecret: 'janusrocks',
                         success: () => {
                             this.janusInstance = janus;
                             this.janusConfig = config;
                             //if (typeof config.debug === 'undefined')
                             //   this.janusConfig.debug = false;
-                            this.debug('Janus initialized successfully!');
+                            console.log('Janus initialized successfully!');
                             resolve();
                         },
                         error: (err: string) => {
@@ -55,24 +60,33 @@ class JanusAdapter {
         });
     }
 
-    public publish(stream: MediaStream): Promise<void> {
+    public publish(stream: MediaStream, id: number): Promise<void> {
+        console.log('publish');
         return new Promise((resolve, reject) => {
             // Attach the videoroom plugin
+            console.log('attach');
             this.janusInstance!.attach!({
                 plugin: 'janus.plugin.videoroom',
                 opaqueId: Janus.randomString(12),
                 success: (pluginHandle: any) => {
-                    this.debug('Publisher plugin attached!');
-                    this.debug(pluginHandle);
+                    console.log('Publisher plugin attached!');
                     // Set the SFU object
                     this.publisherSfu = pluginHandle;
+
+                    var createRoom = {
+                        request: 'create',
+                        record: true,
+                        room: 1,
+                        publishers: 1,
+                    };
+                    this.publisherSfu.send({ message: createRoom });
 
                     // Request to join the room
                     let request: { [key: string]: any } = {
                         request: 'join',
                         room: this.janusConfig!.room,
                         ptype: 'publisher',
-                        id: this.janusConfig!.id,
+                        id, //this.janusConfig!.id,
                     };
                     //if (this.janusConfig!.display)
                     //  request.display = this.janusConfig!.display;
@@ -81,14 +95,14 @@ class JanusAdapter {
                 },
                 onmessage: async (message: any, jsep: any) => {
                     if (jsep) {
-                        this.debug({ message, jsep });
+                        console.log({ message, jsep });
                     } else {
-                        this.debug(message);
+                        console.log(message);
                     }
 
                     if (message.videoroom === 'joined') {
                         // Joined successfully, create SDP Offer with our stream
-                        this.debug('Joined room! Creating offer...');
+                        console.log('Joined room! Creating offer...');
 
                         //if (this.janusConfig!.onJoined) this.janusConfig!.onJoined(message.description);
 
@@ -110,15 +124,17 @@ class JanusAdapter {
                             mediaConfig = { ...mediaConfig, data: true };
                         }
 
-                        this.debug('Media Configuration for Publisher set! ->');
-                        this.debug(mediaConfig);
+                        console.log(
+                            'Media Configuration for Publisher set! ->'
+                        );
+                        console.log(mediaConfig);
 
                         this.publisherSfu.createOffer({
                             media: mediaConfig,
                             stream: stream ? stream : undefined,
                             success: (sdpAnswer: string) => {
                                 // SDP Offer answered, publish our stream
-                                this.debug(
+                                console.log(
                                     'Offer answered! Start publishing...'
                                 );
                                 let publish = {
@@ -132,10 +148,11 @@ class JanusAdapter {
                                     jsep: sdpAnswer,
                                 });
                             },
+                            error: (err: string) => console.log(err),
                         });
                     } else if (message.videoroom === 'destroyed') {
                         // Room has been destroyed, time to leave...
-                        this.debug('Room destroyed! Time to leave...');
+                        console.log('Room destroyed! Time to leave...');
                         //if(this.janusConfig!.onDestroy)
                         //  this.janusConfig!.onDestroy();
                         resolve();
@@ -144,7 +161,7 @@ class JanusAdapter {
                     if (message.unpublished) {
                         // We've gotten unpublished (disconnected, maybe?), leaving...
                         if (message.unpublished === 'ok') {
-                            this.debug(
+                            console.log(
                                 "We've gotten disconnected, hanging up..."
                             );
                             this.publisherSfu.hangup();
@@ -156,22 +173,24 @@ class JanusAdapter {
                     }
 
                     if (jsep) {
-                        this.debug('Handling remote JSEP SDP');
-                        this.debug(jsep);
+                        console.log('Handling remote JSEP SDP');
+                        console.log(jsep);
                         this.publisherSfu.handleRemoteJsep({ jsep: jsep });
                     }
                 },
                 onlocaltrack: (localTrack: MediaStreamTrack) => {
-                    this.debug('Successfully published local track');
+                    console.log('Successfully published local track');
+                    console.log(localTrack);
+                    this.localTracks.push(localTrack);
                     if (this.janusConfig!.onLocalStream) {
                         this.janusConfig!.onLocalStream(
-                            new MediaStream([localTrack])
+                            new MediaStream(this.localTracks)
                         );
                     }
                 },
                 error: (err: string) => {
-                    this.debug('Publish: Janus VideoRoom Plugin Error!', true);
-                    this.debug(err, true);
+                    console.log('Publish: Janus VideoRoom Plugin Error!', true);
+                    console.log(err, true);
                     reject();
                 },
             });
@@ -186,8 +205,8 @@ class JanusAdapter {
                 plugin: 'janus.plugin.videoroom',
                 opaqueId: Janus.randomString(12),
                 success: (pluginHandle: any) => {
-                    this.debug('Remote Stream Plugin attached.');
-                    this.debug(pluginHandle);
+                    console.log('Remote Stream Plugin attached.');
+                    console.log(pluginHandle);
 
                     sfu = pluginHandle;
                     sfu.send({
@@ -196,12 +215,14 @@ class JanusAdapter {
                             room: this.janusConfig!.room,
                             feed: id,
                             ptype: 'subscriber',
+                            streams: [{ feed: id }],
                         },
+                        error: (err: string) => console.log(err),
                     });
                 },
                 onmessage: (message: any, jsep: any) => {
                     if (message.videoroom === 'attached' && jsep) {
-                        this.debug(
+                        console.log(
                             'Attached as subscriber and got SDP Offer! \nCreating answer...'
                         );
 
@@ -220,40 +241,93 @@ class JanusAdapter {
                                     },
                                     jsep: answer,
                                     success: () => {
-                                        this.debug('Answer sent successfully!');
+                                        console.log(
+                                            'Answer sent successfully!'
+                                        );
+                                        /*sfu.send({
+                                            message: {
+                                                request: 'subscribe',
+                                                streams: [{ feed: 1 }],
+                                            },
+                                            success: () => {
+                                                console.log('uccessfully!');
+                                            },
+                                            error: (err) => {
+                                                console.log('error!', err);
+                                            },
+                                        });*/
                                     },
                                     error: (err: string) => {
-                                        this.debug(
+                                        console.log(
                                             'Error answering to received SDP offer...'
                                         );
-                                        this.debug(err, true);
+                                        console.log(err, true);
                                     },
                                 });
                             },
                         });
                     }
                 },
-                onremotetrack: (track) => {
-                    this.remoteTracks.push(track);
+                onremotetrack: (
+                    track: any,
+                    mid: any,
+                    on: any,
+                    metadata: any
+                ) => {
+                    console.log('onremotetrack', track, mid, on, metadata);
 
-                    if (this.janusConfig!.onRemoteStream) {
+                    if (metadata.reason === 'created') {
+                        console.log('GO');
+                        this.remoteTracks.push(track);
                         this.janusConfig!.onRemoteStream(
                             new MediaStream(this.remoteTracks)
                         );
                     }
+
+                    /*if (track.kind === 'video' && track.muted === false) {
+                        this.remoteVideoTrack = track;
+                    }
+                    if (track.kind === 'audio' && track.muted === false) {
+                        this.remoteAudioTrack = track;
+                    }
+
+                    if (
+                        this.janusConfig!.onRemoteStream &&
+                        this.remoteVideoTrack &&
+                        this.remoteAudioTrack
+                    ) {
+                        this.janusConfig!.onRemoteStream(
+                            new MediaStream([
+                                this.remoteVideoTrack,
+                                this.remoteAudioTrack,
+                            ])
+                        );
+                    }*/
                 },
+                /*onlocaltrack: (localTrack: MediaStreamTrack) => {
+                    console.log('Successfully published local track');
+                    this.localTracks.push(localTrack);
+                    if (this.janusConfig!.onLocalStream) {
+                        this.janusConfig!.onLocalStream(
+                            new MediaStream(this.localTracks)
+                        );
+                    }
+                },*/
                 error: (err: string) => {
-                    this.debug(
+                    console.log(
                         'Remote Feed: Janus VideoRoom Plugin Error!',
                         true
                     );
-                    this.debug(err, true);
+                    console.log(err, true);
                     reject(err);
                 },
             });
         });
     }
 }
+
+const PUBLISHER_ID = 1;
+const SUBSCRIBER_ID = 1;
 
 export const JanusPage = () => {
     //const [src, setSrc] = useState<MediaStream | undefined>();
@@ -265,7 +339,36 @@ export const JanusPage = () => {
             .init({
                 id: 1,
                 room: 1,
-                onRemoteStream: (stream) => {
+                onLocalStream: (stream) => {
+                    /*const video = document.querySelector(
+                        'video'
+                    ) as HTMLVideoElement;
+                    if ('srcObject' in video) {
+                        video.srcObject = stream;
+                    } else {
+                        (video as any).src = window.URL.createObjectURL(
+                            stream as any
+                        );
+                    }*/
+                },
+                onRemoteStream: (stream: MediaStream) => {
+                    //console.log('mid', mid);
+
+                    const video = document.querySelector(
+                        'video'
+                    ) as HTMLVideoElement;
+                    //remoteTracks[mid] = stream;
+                    //Janus.warn('Created remote video stream:', mid);
+                    //if (mid == 'v1') {
+                    Janus.attachMediaStream(video, stream);
+                    /*} else if (mid == 'v2') {
+                        Janus.attachMediaStream(video, stream);
+                    } else if (mid == 'v3') {
+                        Janus.attachMediaStream(video, stream);
+                    }*/
+                },
+
+                /*onRemoteStream: (stream) => {
                     const video = document.querySelector(
                         'video'
                     ) as HTMLVideoElement;
@@ -276,7 +379,7 @@ export const JanusPage = () => {
                             stream as any
                         );
                     }
-                },
+                },*/
             })
             .then();
     }, []);
@@ -285,17 +388,17 @@ export const JanusPage = () => {
         navigator.mediaDevices
             .getUserMedia({ audio: true, video: true })
             .then(function (stream) {
-                adapter.current.publish(stream).then();
+                adapter.current.publish(stream, PUBLISHER_ID).then();
             });
     };
 
     const watch = () => {
-        adapter.current.subscribe(1).then();
+        adapter.current.subscribe(SUBSCRIBER_ID).then();
     };
 
     return (
         <div>
-            <video id="video" autoPlay></video>
+            <video id="video" autoPlay width="800" height="600"></video>
             <button onClick={publish}>Publish</button>
             <br />
             <button onClick={watch}>Watch</button>
