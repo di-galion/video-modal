@@ -1,6 +1,7 @@
 import Janus from 'janus-gateway';
 import { useLayoutEffect, useRef, useState } from 'react';
 import adapter from 'webrtc-adapter';
+import VideoRoom from './Janus';
 
 interface InitConfig {
     room: number;
@@ -38,6 +39,7 @@ class JanusAdapter {
                     const janus = new Janus({
                         server: SERVER_URL,
                         apisecret: 'janusrocks',
+                        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }],
                         success: () => {
                             this.janusInstance = janus;
                             this.janusConfig = config;
@@ -114,18 +116,19 @@ class JanusAdapter {
 
                         let mediaConfig = {};
 
-                        if (stream === null || typeof stream === 'undefined') {
+                        /*if (stream === null || typeof stream === 'undefined') {
                             mediaConfig = {
                                 audioSend: false,
                                 videoSend: false,
                             };
-                        } else {
-                            mediaConfig = {
-                                audioSend: true,
-                                videoSend: true,
-                                data: true,
-                            };
-                        }
+                        } else {*/
+                        mediaConfig = {
+                            audioSend: true,
+                            videoSend: true,
+
+                            //data: true,
+                            //      };
+                        };
 
                         if (typeof this.janusConfig!.onData === 'function') {
                             mediaConfig = { ...mediaConfig, data: true };
@@ -137,6 +140,32 @@ class JanusAdapter {
                         console.log(mediaConfig);
 
                         this.publisherSfu.createOffer({
+                            tracks: [
+                                { type: 'audio', capture: true, recv: true },
+                                { type: 'video', capture: true, recv: true },
+                                { type: 'data' },
+                            ],
+                            success: (jsep) => {
+                                console.log('jsep', jsep);
+                                const publish = {
+                                    request: 'configure',
+                                    jsep: jsep,
+                                    audio: true,
+                                    video: true,
+                                    data: true,
+                                };
+                                this.publisherSfu.send({
+                                    message: publish,
+                                    jsep: jsep,
+                                    error: (err) => console.log(err),
+                                });
+                            },
+                            error: (error) => {
+                                console.error('Error creating offer:', error);
+                            },
+                        });
+
+                        /*this.publisherSfu.createOffer({
                             media: mediaConfig,
                             stream: stream ? stream : undefined,
                             success: (sdpAnswer: string) => {
@@ -146,6 +175,7 @@ class JanusAdapter {
                                 );
                                 let publish = {
                                     request: 'configure',
+                                    //request: 'publish',
                                     audio: true,
                                     video: true,
                                     data: true,
@@ -153,10 +183,11 @@ class JanusAdapter {
                                 this.publisherSfu.send({
                                     message: publish,
                                     jsep: sdpAnswer,
+                                    error: (err: string) => console.log(err),
                                 });
                             },
                             error: (err: string) => console.log(err),
-                        });
+                        });*/
                     } else if (message.videoroom === 'destroyed') {
                         // Room has been destroyed, time to leave...
                         console.log('Room destroyed! Time to leave...');
@@ -235,14 +266,18 @@ class JanusAdapter {
 
                         sfu.createAnswer({
                             jsep: jsep,
-                            media: {
+                            tracks: [
+                                { type: 'audio' },
+                                { type: 'video' },
+                                { type: 'data' },
+                            ],
+                            /*media: {
                                 audioSend: false,
                                 videoSend: false,
-                                audioRecv: true,
-                                videoRecv: true,
-                                data: true,
-                            },
+                                //data: true,
+                            },*/
                             success: (answer: string) => {
+                                console.log('answrer', answer);
                                 sfu.send({
                                     message: {
                                         request: 'start',
@@ -274,11 +309,23 @@ class JanusAdapter {
                                     },
                                 });
                             },
+                            error: (err: string) => console.log(err),
                         });
                     }
                 },
                 onremotetrack: (track, mid, on, metadata) => {
                     console.log('onremotetrack', track, mid, on, metadata);
+
+                    /*if (track.kind === 'video') {
+                        track.onunmute = () => {
+                            console.log('onunmute');
+                            const video = document.querySelector(
+                                'video'
+                            ) as HTMLVideoElement;
+
+                            video.srcObject = new MediaStream([track]);
+                        };
+                    }*/
 
                     if (on) {
                         if (mid === 'audio') {
@@ -345,6 +392,8 @@ class JanusAdapter {
 const PUBLISHER_ID = 1;
 const SUBSCRIBER_ID = 1;
 
+let localStream: MediaStream;
+
 export const JanusPage = () => {
     //const [src, setSrc] = useState<MediaStream | undefined>();
 
@@ -359,6 +408,8 @@ export const JanusPage = () => {
                 id: 1,
                 room: Number(room),
                 onLocalStream: (stream) => {
+                    localStream = stream;
+                    console.log('localStream', localStream);
                     const video = document.querySelector(
                         'video'
                     ) as HTMLVideoElement;
@@ -404,15 +455,15 @@ export const JanusPage = () => {
     };
 
     const publish = (isCreateRoom: boolean) => {
-        navigator.mediaDevices
+        /*navigator.mediaDevices
             .getUserMedia({ audio: true, video: true })
-            .then((stream) => {
-                create().then(() =>
-                    jasusAdapter.current
-                        .publish(stream, PUBLISHER_ID, isCreateRoom)
-                        .then()
-                );
-            });
+            .then((stream) => {*/
+        create().then(() =>
+            jasusAdapter.current
+                .publish(localStream, PUBLISHER_ID, isCreateRoom)
+                .then()
+        );
+        //    });
     };
 
     const watch = () => {
