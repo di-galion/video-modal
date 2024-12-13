@@ -73,6 +73,9 @@ export const SelectPage = () => {
                 Go
             </button>
             <Link to={'/janus'}>Janus</Link>
+            <Link to={'/janus?lesson=' + import.meta.env.VITE_LESSON_ID}>
+                Janus Sync
+            </Link>
             <Link
                 to={
                     '/games/mental-arithmetics?lesson=' +
