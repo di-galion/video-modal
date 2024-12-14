@@ -3,6 +3,9 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import adapter from 'webrtc-adapter';
 import { JanusAdapter } from '../../api/janus/janus.class';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
+import { useWsOnReady } from '../../api/socket/useWsReady';
+import { useCurrentRole } from '../../hooks/account';
+import { isTeacher } from '../../utils';
 /*
 interface InitConfig {
     room: number;
@@ -279,7 +282,10 @@ const SUBSCRIBER_ID = 1;
 
 let localStream: MediaStream;*/
 
-const jasusAdapter = new JanusAdapter();
+const jasusAdapter1 = new JanusAdapter();
+const jasusAdapter2 = new JanusAdapter();
+
+let localStream: MediaStream;
 
 export const JanusPage = () => {
     //const [src, setSrc] = useState<MediaStream | undefined>();
@@ -333,10 +339,24 @@ export const JanusPage = () => {
         );
     };*/
 
+    const muteAudio = () => {
+        for (let i = 0; i < localStream.getAudioTracks().length; i++) {
+            localStream.getAudioTracks()[i].enabled = false;
+        }
+    };
+
+    const unmuteAudio = () => {
+        for (let i = 0; i < localStream.getAudioTracks().length; i++) {
+            localStream.getAudioTracks()[i].enabled = true;
+        }
+    };
+
     const onLocalStream = (stream: MediaStream) => {
         const video = document.querySelector(
             '#video-local'
         ) as HTMLVideoElement;
+
+        localStream = stream;
 
         Janus.attachMediaStream(video, stream);
 
@@ -353,34 +373,55 @@ export const JanusPage = () => {
         console.log('onRemoteStream', stream, video);
     };
 
-    const publish = (isCreateRoom: boolean) => {
-        jasusAdapter.publish(1, Number(room), () => {});
-    };
-
-    const watch = () => {
-        jasusAdapter.subscribe(1, Number(room), onRemoteStream);
-    };
-
     const { sendAction } = useWebSocket();
 
-    const teacher = () => {
-        jasusAdapter.publish(1, Number(room), onLocalStream);
-        jasusAdapter.subscribe(2, Number(room), onRemoteStream);
-        sendAction('janus', {}, false);
+    const teacherPublish = async () => {
+        return await jasusAdapter1.publish(1, Number(room), onLocalStream);
+        //sendAction('janus', {}, false);
+    };
+
+    const teacherSubscribe = async () => {
+        return await jasusAdapter2.subscribe(2, Number(room), onRemoteStream);
+        //sendAction('janus', {}, false);
     };
 
     useWsAction((name) => {
         switch (name) {
-            case 'janus':
-                student();
+            case 'janus_teacher_published':
+                studentSubscribe()
+                    .then(() => studentPublish())
+                    .then(() => {
+                        sendAction('janus_student_published', {}, false);
+                    });
+                break;
+            case 'janus_student_published':
+                teacherSubscribe();
                 break;
         }
     });
 
-    const student = () => {
-        jasusAdapter.publish(2, Number(room), onLocalStream, false);
-        jasusAdapter.subscribe(1, Number(room), onRemoteStream);
+    const studentPublish = async () => {
+        return await jasusAdapter1.publish(
+            2,
+            Number(room),
+            onLocalStream,
+            false
+        );
     };
+
+    const studentSubscribe = async () => {
+        return await jasusAdapter2.subscribe(1, Number(room), onRemoteStream);
+    };
+
+    const role = useCurrentRole();
+
+    useWsOnReady(() => {
+        if (isTeacher(role)) {
+            teacherPublish().then(() =>
+                sendAction('janus_teacher_published', {}, false)
+            );
+        }
+    });
 
     return (
         <div>
@@ -393,20 +434,17 @@ export const JanusPage = () => {
                     border: '2px solid black',
                 }}
             >
-                <button onClick={teacher}>Teacher</button>
+                <button onClick={teacherPublish}>Teacher publish</button>
+                <button onClick={teacherSubscribe}>Teacher subscribe</button>
                 <br />
-                <button onClick={student}>Student</button>
+                <button onClick={studentPublish}>Student publish</button>
+                <button onClick={studentSubscribe}>Student subscribe</button>
                 <br />
-                <button onClick={() => publish(createRoom)}>Publish</button>
+                <button onClick={muteAudio}>mute audio</button>
+                <br />
+                <button onClick={unmuteAudio}>unmute audio</button>
+                <br />
                 <input value={room} onChange={(e) => setRoom(e.target.value)} />
-                Create room
-                <input
-                    type="checkbox"
-                    checked={createRoom}
-                    onChange={(e) => setCreateRoom(e.target.checked)}
-                />
-                <br />
-                <button onClick={watch}>Watch</button>
             </div>
             <div style={{ display: 'flex' }}>
                 <div>

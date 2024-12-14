@@ -6,16 +6,16 @@ interface RemoteTrackMetadata {
 }
 
 const SERVER_URL = import.meta.env.VITE_JANUS_URL;
-const API_SECRET = 'janusrocks';
+const API_SECRET = import.meta.env.VITE_JANUS_API_SECRET;
 
 export class JanusAdapter {
     private janusInstance: Janus | null = null;
     private remoteAudioTrack: MediaStreamTrack | null = null;
     private remoteVideoTrack: MediaStreamTrack | null = null;
-    private localTracks: MediaStreamTrack[] = [];
+    private localVideoTrack: MediaStreamTrack | null = null;
 
     constructor() {
-        this.init();
+        //this.init();
     }
 
     public init(): Promise<void> {
@@ -111,8 +111,25 @@ export class JanusAdapter {
                 request.id = id;
             } else {
                 request.feed = id;
-                request.streams = [{ feed: id }];
             }
+
+            handle.send({
+                message: request,
+                success: () => resolve(),
+                error: (err) => {
+                    console.error(err);
+                    reject(err);
+                },
+            });
+        });
+    }
+
+    public subscribeTo(handle: JanusJS.PluginHandle, id: number) {
+        return new Promise<void>((resolve, reject) => {
+            const request: any = {
+                request: 'subscribe',
+                streams: [{ feed: id }],
+            };
 
             handle.send({
                 message: request,
@@ -131,49 +148,77 @@ export class JanusAdapter {
         countPublishers = 2
     ) {
         return new Promise<void>((resolve, reject) => {
+            const existsRoom = {
+                request: 'exists',
+                room: roomId,
+            };
+
             const createRoom = {
                 request: 'create',
                 record: true,
                 room: roomId,
                 publishers: countPublishers,
             };
+
             handle.send({
-                message: createRoom,
-                error: () => {
-                    console.log(
-                        "can't create room. maybe it exists. it will be removed"
-                    );
-
-                    const destroyRoom = {
-                        request: 'destroy',
-                        room: roomId,
-                        permanent: true,
-                    };
-
-                    handle.send({
-                        message: destroyRoom,
-                        error: (err) => {
-                            console.error("can't destroy room");
-                            reject(err);
-                        },
-                        success: () => {
-                            handle.send({
-                                message: createRoom,
-                                error: (err) => {
-                                    console.log(
-                                        "can't create room. maybe it is exists. will remove"
-                                    );
-                                    console.error(
-                                        "can't create room on second loop"
-                                    );
-                                    reject(err);
-                                },
-                                success: () => resolve(),
-                            });
-                        },
-                    });
+                message: existsRoom,
+                error: (err) => {
+                    console.error("can't create room on second loop");
+                    reject(err);
                 },
-                success: () => resolve(),
+                success: ({ exists }) => {
+                    if (exists) {
+                        console.log('room exists. will removed');
+                        const destroyRoom = {
+                            request: 'destroy',
+                            room: roomId,
+                            permanent: true,
+                        };
+
+                        handle.send({
+                            message: destroyRoom,
+                            error: (err) => {
+                                console.error("can't destroy room");
+                                reject(err);
+                            },
+                            success: () => {
+                                handle.send({
+                                    message: createRoom,
+                                    error: (err) => {
+                                        console.log(
+                                            "can't create room. maybe it is exists. will remove"
+                                        );
+                                        console.error(
+                                            "can't create room on second loop"
+                                        );
+                                        reject(err);
+                                    },
+                                    success: () => {
+                                        console.log(
+                                            'room destroyed and created'
+                                        );
+                                        resolve();
+                                    },
+                                });
+                            },
+                        });
+                    } else {
+                        console.log('room not exists. will created');
+
+                        handle.send({
+                            message: createRoom,
+                            error: () => {
+                                console.log(
+                                    "can't create room. maybe it exists. it will be removed"
+                                );
+                            },
+                            success: () => {
+                                console.log('room created');
+                                resolve();
+                            },
+                        });
+                    }
+                },
             });
         });
     }
@@ -184,9 +229,10 @@ export class JanusAdapter {
         onLocalStream: (track: MediaStream) => void,
         isCreateRoom = true
     ): Promise<void> {
-        //await this.init();
+        await this.init();
         const handle = await this.attach({
             onMessage: (handle, message, jsep) => {
+                console.log('message', message);
                 if (message.videoroom === 'joined') {
                     console.log('Joined room! Creating offer...');
 
@@ -198,11 +244,10 @@ export class JanusAdapter {
                         success: (jsep) => {
                             console.log('jsep', jsep);
                             const publish = {
-                                request: 'configure',
+                                request: 'publish',
                                 jsep: jsep,
                                 audio: true,
                                 video: true,
-                                data: true,
                             };
                             handle.send({
                                 message: publish,
@@ -239,16 +284,18 @@ export class JanusAdapter {
                 }
             },
             onLocalTrack: (track, on) => {
-                this.localTracks.push(track);
-                if (onLocalStream) {
-                    onLocalStream(new MediaStream(this.localTracks));
+                if (on && track.kind === 'video') {
+                    this.localVideoTrack = track;
+                    if (onLocalStream) {
+                        onLocalStream(new MediaStream([this.localVideoTrack]));
+                    }
                 }
             },
         });
-        await this.join(handle, room, id, 'publisher');
         if (isCreateRoom) {
             await this.createRoom(handle, room);
         }
+        await this.join(handle, room, id, 'publisher');
     }
 
     public async subscribe(
@@ -256,9 +303,10 @@ export class JanusAdapter {
         room: number,
         onRemoteStream: (stream: MediaStream) => void
     ) {
-        //await this.init();
+        await this.init();
         const handle = await this.attach({
             onMessage: (handle, message, jsep) => {
+                console.log('message', message);
                 if (message.videoroom === 'attached' && jsep) {
                     console.log(
                         'Attached as subscriber and got SDP Offer! \nCreating answer...'
@@ -313,6 +361,7 @@ export class JanusAdapter {
                 }
             },
         });
+        //await this.subscribeTo(handle, id);
         await this.join(handle, room, id, 'subscriber');
     }
 }
