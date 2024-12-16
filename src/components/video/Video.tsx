@@ -7,7 +7,7 @@ import { useWsIsReady } from '../../api/socket/useWsReady';
 import { useCurrentRole } from '../../hooks/account';
 import { useLessonId } from '../../hooks/lessons';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import * as Janus from '../../janus';
+import { default as Janus } from '../../janus.js';
 import { isTeacher } from '../../utils';
 import styles from './styles.module.scss';
 

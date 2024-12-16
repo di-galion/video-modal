@@ -1,6 +1,7 @@
 import adapter from 'webrtc-adapter';
-import * as Janus from '../../janus.js';
-const { JanusJS } = Janus;
+import { default as Janus } from '../../janus.js';
+
+const JanusJS = {};
 
 interface RemoteTrackMetadata {
     reason: 'created' | 'ended' | 'mute' | 'unmute';

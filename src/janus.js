@@ -1,5 +1,4 @@
-'use strict';
-
+import adapter from 'webrtc-adapter';
 /*
 	The MIT License (MIT)
 
@@ -25,15 +24,17 @@
  */
 
 // eslint-disable-next-line no-unused-vars
-var Janus = (function (factory) {
+let Janus = function (factory) {
     if (typeof define === 'function' && define.amd) {
         define(factory);
     } else if (typeof module === 'object' && module.exports) {
-        module.exports = factory();
+        // module.exports = factory();
     } else if (typeof window === 'object') {
         return factory();
     }
-})(function () {
+};
+
+function s() {
     // List of sessions
     Janus.sessions = new Map();
 
@@ -4290,4 +4291,6 @@ var Janus = (function (factory) {
     }
 
     return Janus;
-});
+}
+
+export default s();

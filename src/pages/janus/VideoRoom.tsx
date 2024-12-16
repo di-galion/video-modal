@@ -3,7 +3,7 @@ import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useCurrentRole } from '../../hooks/account';
 import { useLessonId } from '../../hooks/lessons';
-import * as Janus from '../../janus';
+import { default as Janus } from '../../janus.js';
 import { isTeacher } from '../../utils';
 
 const jasusPublisher = new JanusAdapter();
