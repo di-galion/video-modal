@@ -70,7 +70,9 @@ export const SocketHelper = () => {
         //console.log('id', id);
         if (!id) {
             //console.log('!id');
-            //setRole(Role.Teacher);
+            if (!multiPlayer) {
+                setRole(Role.Teacher);
+            }
             return;
         }
         //console.log('2');
