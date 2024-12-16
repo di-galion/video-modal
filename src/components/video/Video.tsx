@@ -124,6 +124,8 @@ const Video = () => {
                         <video
                             className={styles.video__video}
                             id="video-remote"
+                            width={318}
+                            height={236}
                         ></video>
                     </div>
                     <div className={styles.video__bg}></div>
@@ -132,6 +134,8 @@ const Video = () => {
                         <video
                             className={styles.video__video}
                             id="video-local"
+                            width={127}
+                            height={94}
                         ></video>
                     </div>
                 </div>
