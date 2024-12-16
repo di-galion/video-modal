@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useLessonId } from '../../hooks/lessons';
 import { useCurrentRole } from '../../hooks/account';
-import { useWsOnReady } from '../../api/socket/useWsReady';
+import { useWsIsReady, useWsOnReady } from '../../api/socket/useWsReady';
 import { isTeacher } from '../../utils';
 import { FiCamera, FiCameraOff } from 'react-icons/fi';
 import { TbVolume, TbVolumeOff } from 'react-icons/tb';
@@ -76,6 +76,24 @@ const Video = () => {
         return await jasusSubscriber.subscribe(2, room, onRemoteStream);
     };
 
+    const userCount = useTypedSelector((state) => state.accountData.userCount);
+
+    const isReady = useWsIsReady();
+
+    const [teacherReady, setTeacherReady] = useState(false);
+
+    useEffect(() => {
+        if (isReady && teacherReady) {
+            sendAction('janus_teacher_published', {}, false);
+        }
+    }, [isReady, teacherReady]);
+
+    useEffect(() => {
+        if (userCount === 1 && isTeacher(role)) {
+            teacherPublish().then(() => setTeacherReady(true));
+        }
+    }, [userCount]);
+
     useWsAction((name) => {
         switch (name) {
             case 'janus_teacher_published':
@@ -100,21 +118,6 @@ const Video = () => {
     };
 
     const role = useCurrentRole();
-
-    //const userCount = useTypedSelector((state) => state.accountData.userCount);
-
-    /*useEffect(() => {
-        if (userCount === 1) {
-        }
-    }, [userCount]);*/
-
-    useWsOnReady(() => {
-        if (isTeacher(role)) {
-            teacherPublish().then(() =>
-                sendAction('janus_teacher_published', {}, false)
-            );
-        }
-    });
 
     return (
         <div className={styles.video}>
