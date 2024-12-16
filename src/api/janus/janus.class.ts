@@ -229,73 +229,80 @@ export class JanusAdapter {
         onLocalStream: (track: MediaStream) => void,
         isCreateRoom = true
     ): Promise<void> {
-        await this.init();
-        const handle = await this.attach({
-            onMessage: (handle, message, jsep) => {
-                console.log('message', message);
-                if (message.videoroom === 'joined') {
-                    console.log('Joined room! Creating offer...');
+        return new Promise(async (res) => {
+            await this.init();
+            const handle = await this.attach({
+                onMessage: (handle, message, jsep) => {
+                    console.log('message', message);
+                    if (message.videoroom === 'joined') {
+                        console.log('Joined room! Creating offer...');
 
-                    handle.createOffer({
-                        tracks: [
-                            { type: 'audio', capture: true, recv: true },
-                            { type: 'video', capture: true, recv: true },
-                        ],
-                        success: (jsep) => {
-                            console.log('jsep', jsep);
-                            const publish = {
-                                request: 'publish',
-                                jsep: jsep,
-                                audio: true,
-                                video: true,
-                            };
-                            handle.send({
-                                message: publish,
-                                jsep: jsep,
-                                error: (err) => console.log(err),
-                            });
-                        },
-                        error: (error) => {
-                            console.error('Error creating offer:', error);
-                        },
-                    });
-                } else if (message.videoroom === 'destroyed') {
-                    // Room has been destroyed, time to leave...
-                    console.log('Room destroyed! Time to leave...');
-                    //if(this.janusConfig!.onDestroy)
-                    //  this.janusConfig!.onDestroy();
-                }
-
-                if (message.unpublished) {
-                    // We've gotten unpublished (disconnected, maybe?), leaving...
-                    if (message.unpublished === 'ok') {
-                        console.log("We've gotten disconnected, hanging up...");
-                        handle.hangup();
-                    } else {
-                        //if (this.janusConfig!.onLeave)
-                        //    this.janusConfig!.onLeave(message.unpublished);
+                        handle.createOffer({
+                            tracks: [
+                                { type: 'audio', capture: true, recv: true },
+                                { type: 'video', capture: true, recv: true },
+                            ],
+                            success: (jsep) => {
+                                console.log('jsep', jsep);
+                                const publish = {
+                                    request: 'publish',
+                                    jsep: jsep,
+                                    audio: true,
+                                    video: true,
+                                };
+                                handle.send({
+                                    message: publish,
+                                    jsep: jsep,
+                                    error: (err) => console.log(err),
+                                    success: () => res(),
+                                });
+                            },
+                            error: (error) => {
+                                console.error('Error creating offer:', error);
+                            },
+                        });
+                    } else if (message.videoroom === 'destroyed') {
+                        // Room has been destroyed, time to leave...
+                        console.log('Room destroyed! Time to leave...');
+                        //if(this.janusConfig!.onDestroy)
+                        //  this.janusConfig!.onDestroy();
                     }
-                }
 
-                if (jsep) {
-                    console.log('Handling remote JSEP SDP');
-                    console.log(jsep);
-                    handle.handleRemoteJsep({ jsep: jsep });
-                }
-            },
-            onLocalTrack: (track, on) => {
-                if (on && track.kind === 'video') {
-                    this.localVideoTrack = track;
-                    if (onLocalStream) {
-                        onLocalStream(new MediaStream([this.localVideoTrack]));
+                    if (message.unpublished) {
+                        // We've gotten unpublished (disconnected, maybe?), leaving...
+                        if (message.unpublished === 'ok') {
+                            console.log(
+                                "We've gotten disconnected, hanging up..."
+                            );
+                            handle.hangup();
+                        } else {
+                            //if (this.janusConfig!.onLeave)
+                            //    this.janusConfig!.onLeave(message.unpublished);
+                        }
                     }
-                }
-            },
+
+                    if (jsep) {
+                        console.log('Handling remote JSEP SDP');
+                        console.log(jsep);
+                        handle.handleRemoteJsep({ jsep: jsep });
+                    }
+                },
+                onLocalTrack: (track, on) => {
+                    if (on && track.kind === 'video') {
+                        this.localVideoTrack = track;
+                        if (onLocalStream) {
+                            onLocalStream(
+                                new MediaStream([this.localVideoTrack])
+                            );
+                        }
+                    }
+                },
+            });
+            if (isCreateRoom) {
+                await this.createRoom(handle, room);
+            }
+            await this.join(handle, room, id, 'publisher');
         });
-        if (isCreateRoom) {
-            await this.createRoom(handle, room);
-        }
-        await this.join(handle, room, id, 'publisher');
     }
 
     public async subscribe(
