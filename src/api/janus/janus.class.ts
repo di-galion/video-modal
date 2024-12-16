@@ -1,5 +1,5 @@
-import * as Janus from 'janus-gateway';
 import adapter from 'webrtc-adapter';
+import * as Janus from '../../janus.js';
 const { JanusJS } = Janus;
 
 interface RemoteTrackMetadata {

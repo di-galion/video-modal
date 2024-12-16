@@ -1,10 +1,4 @@
-import Janus from 'janus-gateway';
-import { useEffect, useState } from 'react';
 import { JanusAdapter } from '../../api/janus/janus.class';
-import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
-import { useWsIsReady, useWsOnReady } from '../../api/socket/useWsReady';
-import { useCurrentRole } from '../../hooks/account';
-import { isTeacher } from '../../utils';
 import { VideoRoom } from './VideoRoom';
 
 const jasusPublisher = new JanusAdapter();

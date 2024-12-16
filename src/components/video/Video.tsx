@@ -1,15 +1,15 @@
-import Janus from 'janus-gateway';
-import { JanusAdapter } from '../../api/janus/janus.class';
-import styles from './styles.module.scss';
-import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
-import { useLessonId } from '../../hooks/lessons';
-import { useCurrentRole } from '../../hooks/account';
-import { useWsIsReady, useWsOnReady } from '../../api/socket/useWsReady';
-import { isTeacher } from '../../utils';
+import { useEffect, useState } from 'react';
 import { FiCamera, FiCameraOff } from 'react-icons/fi';
 import { TbVolume, TbVolumeOff } from 'react-icons/tb';
-import { useEffect, useState } from 'react';
+import { JanusAdapter } from '../../api/janus/janus.class';
+import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
+import { useWsIsReady } from '../../api/socket/useWsReady';
+import { useCurrentRole } from '../../hooks/account';
+import { useLessonId } from '../../hooks/lessons';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import * as Janus from '../../janus';
+import { isTeacher } from '../../utils';
+import styles from './styles.module.scss';
 
 const jasusPublisher = new JanusAdapter();
 const jasusSubscriber = new JanusAdapter();
