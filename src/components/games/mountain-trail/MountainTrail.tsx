@@ -117,7 +117,7 @@ const MountainTrailGame = () => {
 
     const shapes = useMemo(() => data || [], [data]);
 
-    const interval = useRef<NodeJS.Timeout>();
+    const interval = useRef<number>();
 
     const height = useMemo(() => {
         const fail = allAnswers - correctAnswers;
