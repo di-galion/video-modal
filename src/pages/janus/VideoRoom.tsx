@@ -1,42 +1,40 @@
 import Janus from 'janus-gateway';
-import { useEffect, useState } from 'react';
 import { JanusAdapter } from '../../api/janus/janus.class';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsIsReady, useWsOnReady } from '../../api/socket/useWsReady';
 import { useCurrentRole } from '../../hooks/account';
 import { isTeacher } from '../../utils';
-import { VideoRoom } from './VideoRoom';
+import { useLessonId } from '../../hooks/lessons';
 
 const jasusPublisher = new JanusAdapter();
 const jasusSubscriber = new JanusAdapter();
 
-let localStream: MediaStream;
+let localAudioTrack: MediaStreamTrack;
+let localVideoTrack: MediaStreamTrack;
 
-export const JanusPage = () => {
-    /*const [room, setRoom] = useState('100');
-
+export const VideoRoom = () => {
     const muteAudio = () => {
-        for (let i = 0; i < localStream.getAudioTracks().length; i++) {
-            localStream.getAudioTracks()[i].enabled = false;
-        }
+        localAudioTrack.enabled = !localAudioTrack.enabled;
     };
 
-    const unmuteAudio = () => {
-        for (let i = 0; i < localStream.getAudioTracks().length; i++) {
-            localStream.getAudioTracks()[i].enabled = true;
-        }
+    const muteVideo = () => {
+        localVideoTrack.enabled = !localVideoTrack.enabled;
     };
 
-    const onLocalStream = (stream: MediaStream) => {
+    const onLocalStream = (
+        videoTrack: MediaStreamTrack,
+        audioTrack: MediaStreamTrack
+    ) => {
         const video = document.querySelector(
             '#video-local'
         ) as HTMLVideoElement;
 
-        localStream = stream;
+        localVideoTrack = videoTrack;
+        localAudioTrack = audioTrack;
 
-        Janus.attachMediaStream(video, stream);
+        Janus.attachMediaStream(video, new MediaStream([localVideoTrack]));
 
-        console.log('onLocalStream', stream, video);
+        console.log('onLocalStream');
     };
 
     const onRemoteStream = (stream: MediaStream) => {
@@ -51,12 +49,14 @@ export const JanusPage = () => {
 
     const { sendAction } = useWebSocket();
 
+    const room = useLessonId();
+
     const teacherPublish = async () => {
-        return await jasusPublisher.publish(1, Number(room), onLocalStream);
+        return await jasusPublisher.publish(1, room, onLocalStream);
     };
 
     const teacherSubscribe = async () => {
-        return await jasusSubscriber.subscribe(2, Number(room), onRemoteStream);
+        return await jasusSubscriber.subscribe(2, room, onRemoteStream);
     };
 
     useWsAction((name) => {
@@ -75,21 +75,14 @@ export const JanusPage = () => {
     });
 
     const studentPublish = async () => {
-        return await jasusPublisher.publish(
-            2,
-            Number(room),
-            onLocalStream,
-            false
-        );
+        return await jasusPublisher.publish(2, room, onLocalStream, false);
     };
 
     const studentSubscribe = async () => {
-        return await jasusSubscriber.subscribe(1, Number(room), onRemoteStream);
+        return await jasusSubscriber.subscribe(1, room, onRemoteStream);
     };
 
     const role = useCurrentRole();
-
-    //const isWsReady = useWsIsReady();
 
     useWsOnReady(() => {
         if (isTeacher(role)) {
@@ -110,17 +103,9 @@ export const JanusPage = () => {
                     border: '2px solid black',
                 }}
             >
-                <button onClick={teacherPublish}>Teacher publish</button>
-                <button onClick={teacherSubscribe}>Teacher subscribe</button>
-                <br />
-                <button onClick={studentPublish}>Student publish</button>
-                <button onClick={studentSubscribe}>Student subscribe</button>
-                <br />
                 <button onClick={muteAudio}>mute audio</button>
                 <br />
-                <button onClick={unmuteAudio}>unmute audio</button>
-                <br />
-                <input value={room} onChange={(e) => setRoom(e.target.value)} />
+                <button onClick={muteVideo}>unmute audio</button>
             </div>
             <div style={{ display: 'flex' }}>
                 <div>
@@ -143,7 +128,5 @@ export const JanusPage = () => {
                 </div>
             </div>
         </div>
-    );*/
-
-    return <VideoRoom />;
+    );
 };

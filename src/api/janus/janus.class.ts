@@ -13,6 +13,7 @@ export class JanusAdapter {
     private remoteAudioTrack: MediaStreamTrack | null = null;
     private remoteVideoTrack: MediaStreamTrack | null = null;
     private localVideoTrack: MediaStreamTrack | null = null;
+    private localAudioTrack: MediaStreamTrack | null = null;
 
     constructor() {
         //this.init();
@@ -226,7 +227,10 @@ export class JanusAdapter {
     public async publish(
         id: number,
         room: number,
-        onLocalStream: (track: MediaStream) => void,
+        onLocalStream: (
+            videoTrack: MediaStreamTrack,
+            audioTrack: MediaStreamTrack
+        ) => void,
         isCreateRoom = true
     ): Promise<void> {
         return new Promise(async (res) => {
@@ -288,13 +292,22 @@ export class JanusAdapter {
                     }
                 },
                 onLocalTrack: (track, on) => {
-                    if (on && track.kind === 'video') {
-                        this.localVideoTrack = track;
-                        if (onLocalStream) {
-                            onLocalStream(
-                                new MediaStream([this.localVideoTrack])
-                            );
+                    if (on) {
+                        if (track.kind === 'video') {
+                            this.localVideoTrack = track;
+                        } else if (track.kind === 'audio') {
+                            this.localAudioTrack = track;
                         }
+                    }
+                    if (
+                        onLocalStream &&
+                        this.localVideoTrack &&
+                        this.localAudioTrack
+                    ) {
+                        onLocalStream(
+                            this.localVideoTrack,
+                            this.localAudioTrack
+                        );
                     }
                 },
             });
