@@ -126,6 +126,7 @@ const Video = () => {
                             id="video-remote"
                             width={318}
                             height={236}
+                            autoPlay
                         ></video>
                     </div>
                     <div className={styles.video__bg}></div>
@@ -136,6 +137,7 @@ const Video = () => {
                             id="video-local"
                             width={127}
                             height={94}
+                            autoPlay
                         ></video>
                     </div>
                 </div>
