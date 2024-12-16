@@ -140,6 +140,7 @@ const gamesList: Record<
             { game: 'completeRow' },
             { game: 'puzzleAbacus' },
             { game: 'countExamples' },
+            { game: 'bricks' },
         ],
     },
 };

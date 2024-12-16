@@ -25,6 +25,7 @@ import { PuzzleAbacus } from "../components/games/collect-abacus/PuzzleAbacus.ts
 import { CompleteRow } from "../components/games/complete-row/CompleteRow.tsx";
 import SettingRankOfNumbers from "../components/settings/setting-rank-of-numbers/SettingRankOfNumbers.tsx";
 import {CountExamples} from "../components/games/count-examples/countExamples.tsx";
+import {BricksGame} from "../components/games/bricks/Bricks.tsx";
 
 export const CONTROLS_MAP = (item: ControlProps) => ({
     level: () => (
@@ -118,6 +119,7 @@ export const GAME_MAP: Record<string, () => ReactElement> = {
     puzzleAbacus: () => <PuzzleAbacus/>,
     completeRow: () => <CompleteRow/>,
     countExamples: () => <CountExamples/>,
+    bricks: () => <BricksGame/>
 };
 
 export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
@@ -164,5 +166,9 @@ export const GAME_DATA_MAP: Record<string, { image: string; title: string }> = {
     countExamples: {
         image: createPath('/assets/img/gameCovers/countingExamples.png'),
         title: 'Счет примеров'
+    },
+    bricks: {
+        image: createPath('/assets/img/gameCovers/bricks.png'),
+        title: 'Кирпичики'
     }
 };
