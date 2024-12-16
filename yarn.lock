@@ -1526,7 +1526,7 @@ isexe@^2.0.0:
 
 janus-gateway@^1.3.0:
   version "1.3.0"
-  resolved "https://registry.npmjs.org/janus-gateway/-/janus-gateway-1.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/janus-gateway/-/janus-gateway-1.3.0.tgz#11b432f1c70d864892358233fbbedf7c6f3b315a"
   integrity sha512-EW0gl37z58IrCoCMEgUS815EO18CJHGXDVaPFEE6T+4GSHqpHjEFwTcaSF9aKNjoBBMqA3V1oBoZA1Y/VFpmhw==
   dependencies:
     webrtc-adapter "8.2.3"

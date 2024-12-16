@@ -1,10 +1,10 @@
 import Janus from 'janus-gateway';
 import { JanusAdapter } from '../../api/janus/janus.class';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
-import { useWsIsReady, useWsOnReady } from '../../api/socket/useWsReady';
+import { useWsOnReady } from '../../api/socket/useWsReady';
 import { useCurrentRole } from '../../hooks/account';
-import { isTeacher } from '../../utils';
 import { useLessonId } from '../../hooks/lessons';
+import { isTeacher } from '../../utils';
 
 const jasusPublisher = new JanusAdapter();
 const jasusSubscriber = new JanusAdapter();
