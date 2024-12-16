@@ -70,7 +70,7 @@ export const SocketHelper = () => {
         //console.log('id', id);
         if (!id) {
             //console.log('!id');
-            setRole(Role.Teacher);
+            //setRole(Role.Teacher);
             return;
         }
         //console.log('2');
