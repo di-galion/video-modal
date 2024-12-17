@@ -1,5 +1,5 @@
 import adapter from 'webrtc-adapter';
-import { default as Janus } from '../../janus.js';
+import { default as Janus, JanusJS } from './janus';
 
 interface RemoteTrackMetadata {
     reason: 'created' | 'ended' | 'mute' | 'unmute';
@@ -9,7 +9,7 @@ const SERVER_URL = import.meta.env.VITE_JANUS_URL;
 const API_SECRET = import.meta.env.VITE_JANUS_API_SECRET;
 
 export class JanusAdapter {
-    private janusInstance: Janus | null = null;
+    private janusInstance: JanusJS.Janus | null = null;
     private remoteAudioTrack: MediaStreamTrack | null = null;
     private remoteVideoTrack: MediaStreamTrack | null = null;
     private localVideoTrack: MediaStreamTrack | null = null;

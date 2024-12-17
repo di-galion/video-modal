@@ -3,11 +3,10 @@ import { FiCamera, FiCameraOff } from 'react-icons/fi';
 import { TbVolume, TbVolumeOff } from 'react-icons/tb';
 import { JanusAdapter } from '../../api/janus/janus.class';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
-import { useWsIsReady } from '../../api/socket/useWsReady';
 import { useCurrentRole } from '../../hooks/account';
 import { useLessonId } from '../../hooks/lessons';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { default as Janus } from '../../janus.js';
+import { default as Janus } from '../../api/janus/janus';
 import { isTeacher } from '../../utils';
 import styles from './styles.module.scss';
 

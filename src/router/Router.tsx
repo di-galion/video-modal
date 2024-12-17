@@ -4,7 +4,6 @@ import { GamesPage } from '../pages/games/GamesPage';
 import MainPage from '../pages/main-page/MainPage';
 import { SelectPage } from '../pages/select-page/SelectPage';
 import Layout from '../providers/Layout';
-import { JanusPage } from '../pages/janus/JanusPage';
 
 const Router: FC<PropsWithChildren> = () => {
     return (
@@ -16,7 +15,6 @@ const Router: FC<PropsWithChildren> = () => {
                         path={`/video-module/:name`}
                         element={<MainPage />}
                     />
-                    <Route path={'/janus'} element={<JanusPage />} />
                     <Route path={'/'} element={<SelectPage />} />
                 </Route>
             </Routes>
