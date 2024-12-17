@@ -88,7 +88,7 @@ export class SocketApi {
 
         if (this.socket) {
             this.socket.onerror = (error) => {
-                console.log(`error: [${error}]`);
+                console.log('error', error);
             };
         }
     }

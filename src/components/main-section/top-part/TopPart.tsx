@@ -4,9 +4,19 @@ import { TbExternalLink } from 'react-icons/tb';
 import Settings from '../settings/Settings';
 import styles from './styles.module.scss';
 import { useStudents } from '../../../hooks/account';
+import copy from 'copy-to-clipboard';
 
 const TopPart = () => {
     const students = useStudents();
+
+    const copyLink = () => {
+        copy(window.location.href.toString(), {
+            onCopy: (data) => {
+                console.log('copied', data);
+            },
+            format: 'text/plain',
+        });
+    };
 
     return (
         <div className={styles.top}>
@@ -21,7 +31,11 @@ const TopPart = () => {
                 </p>
             </div>
             <div className={styles.settingsBlock}>
-                <button className={styles.settingsBlock__lessonLink}>
+                <button
+                    className={styles.settingsBlock__lessonLink}
+                    onClick={copyLink}
+                    type="button"
+                >
                     <TbExternalLink size={15} />
                     <span>Ссылка на занятие</span>
                 </button>

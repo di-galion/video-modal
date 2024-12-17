@@ -5,6 +5,11 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [react()],
     base: '/platform/apps/games/',
+    build: {
+        rollupOptions: {
+            treeshake: false,
+        },
+    },
     css: {
         preprocessorOptions: {
             scss: {

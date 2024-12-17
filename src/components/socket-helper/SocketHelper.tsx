@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useActions } from '../../hooks/useActions';
 import { isTeacher } from '../../utils/roles';
 import { useAccount } from '../../hooks/account';
-//import { useNavigate } from 'react-router-dom';
 import { Notification } from '../notification/Notification';
 import { useWebSocket, useWsAction } from '../../api/socket/useWebSocket';
 import { useWsOnReady } from '../../api/socket/useWsReady';
@@ -13,7 +12,6 @@ import {
     getAccessToken,
     getUserIdFromStorage,
 } from '../../api/http/auth.helper';
-import { useSearchParams } from 'react-router-dom';
 import { Role } from '../../constants/roles.constants';
 import api from '../../api/http/api';
 import { parseUserData } from '../../utils/user';
@@ -38,44 +36,15 @@ export const SocketHelper = () => {
         (store) => store.accountData.multiPlayer
     );
 
-    const [searchParams] = useSearchParams();
     const { setMultiplayer, setAccountData, setRole, setExternalSettings } =
         useActions();
     const { connect } = useWebSocket();
-    const account = useAccount();
 
-    useEffect(() => {
-        if (account.role === Role.None) {
-            return;
-        }
+    const room = useLessonId();
 
-        console.log('account', account);
-
-        const token = getAccessToken();
-        const room = searchParams.get('lesson');
-
-        console.log('lesson', room, 'token', token);
-
-        if (token && room) {
-            setMultiplayer(true);
-            connect(room);
-        } else if (!room) {
-            setMultiplayer(false);
-        }
-    }, [account.role, searchParams]);
-
-    const id = useLessonId();
-
-    useEffect(() => {
-        //console.log('id', id);
-        if (!id) {
-            //console.log('!id');
-            setRole(Role.Teacher);
-            return;
-        }
-        //console.log('2');
-
-        api.getUserData(id)
+    const getAccount = () => {
+        return api
+            .getUserData(room)
             .then((data: any) => {
                 console.log('data', data);
                 const teacher = parseUserData(data.teacher_id.user_id);
@@ -97,7 +66,28 @@ export const SocketHelper = () => {
                 setAccountData({ teacher, students, me, role });
             })
             .catch();
-    }, [id]);
+    };
+
+    useEffect(() => {
+        console.log('room', room);
+        if (!room) {
+            setMultiplayer(false);
+            setRole(Role.Teacher);
+            return;
+        } else {
+            getAccount().then(() => {
+                const token = getAccessToken();
+
+                console.log('lesson', room, 'token', token);
+
+                if (token && room) {
+                    setMultiplayer(true);
+                    connect(room.toString());
+                }
+            });
+        }
+        //console.log('2');
+    }, [room]);
 
     useWsAction((name, params = {}) => {
         switch (name) {
