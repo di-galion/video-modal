@@ -104,6 +104,7 @@ export class SocketApi {
 
     sendAction(name: string, params?: Record<string, any>, self = true) {
         if (this.socket && this.ready && this.socket.readyState === 1) {
+            console.log('[sendAction]', name);
             this.socket.send(JSON.stringify({ type: 'action', name, params }));
         } else if (this.socket?.readyState !== 1) {
             console.log(`[readyState] ${this.socket?.readyState}`);

@@ -83,6 +83,7 @@ const Video = () => {
     const [teacherReady, setTeacherReady] = useState(false);
 
     useEffect(() => {
+        console.log('isReady', isReady);
         if (isReady && teacherReady) {
             sendAction('janus_teacher_published', {}, false);
         }

@@ -47,7 +47,7 @@ export const SocketHelper = () => {
             .getUserData(room)
             .then((data: any) => {
                 console.log('data', data);
-                const teacher = parseUserData(data.teacher_id.user_id);
+                const teacher = parseUserData(data.group_id.teacher_id.user_id);
                 const students: any[] = data.students.map((student: any) =>
                     parseUserData(student.student_id.user_id)
                 );

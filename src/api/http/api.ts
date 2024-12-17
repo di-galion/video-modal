@@ -20,7 +20,7 @@ class Api {
 
     async getUserData(id: number) {
         const data = await this.get(
-            `/api/lessons/${id}/?expand=teacher_id,students.student_id,students`
+            `/api/lessons/${id}/?expand=teacher_id,students.student_id,students,group_id,group_id.teacher_id`
         );
         console.log('USERS_RES', data);
         return data;
