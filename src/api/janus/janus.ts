@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import adapter from 'webrtc-adapter';
 
 export declare namespace JanusJS {
