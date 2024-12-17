@@ -6,12 +6,14 @@ import styles from './Bricks.module.scss';
 import { register } from "../../../providers/game/register.tsx";
 import { useGameSettings, useGameFinish } from "../../../hooks/game.ts";
 import { useActions } from "../../../hooks/useActions.ts";
-
+import { useSyncStorage } from '../../../api/socket/useSyncStorage.ts';
+import { useGameAccess } from '../../../hooks/account.ts';
+import { useWebSocket, useWsAction } from '../../../api/socket/useWebSocket.ts';
+import { generateNumber, generateValidBrick } from "./func.ts";
 const BricksGames = () => {
     const { level, ratios, numberOfRows, speed } = useGameSettings();
     const { addAllAnswers, addCorrectAnswer } = useActions();
     const finish = useGameFinish();
-
     const [bricks, setBricks] = useState<any[]>([]);
     const [fallingBrick, setFallingBrick] = useState<any | null>(null);
     const [answers, setAnswers] = useState<number[]>([]);
@@ -20,34 +22,65 @@ const BricksGames = () => {
     const [currentSum, setCurrentSum] = useState(0);
     const [isDestroyed, setIsDestroyed] = useState(false);
     const [answersAnimationFinished, setAnswersAnimationFinished] = useState(false);
+    const [allBricksFallen, setAllBricksFallen] = useState(false);
     const [backgroundOffset, setBackgroundOffset] = useState(0);
+    const { sendAction } = useWebSocket();
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+
+    const { updateStorage } = useSyncStorage<{
+        bricks: any[];
+        fallingBrick: any | null;
+        answers: number[];
+        round: number;
+        currentSum: number;
+        isGameOver: boolean;
+        backgroundOffset: number;
+    }>();
+
+    const isGameAccess = useGameAccess();
 
     const maxRounds = level === 1 ? 3 : level === 2 ? 5 : 7;
 
+    const generateRandomOffset = () => Math.random() * 2 - 1;
+
+    const syncStorage = () => {
+        updateStorage({
+            bricks,
+            fallingBrick,
+            answers,
+            round,
+            currentSum,
+            isGameOver,
+            backgroundOffset,
+        });
+    };
+
     const generateNumber = () => {
-        const sign = Math.random() < 0.5 ? 1 : -1;
-        if (ratios === 1) {
-            return sign * Math.floor(Math.random() * 10);
-        } else if (ratios === 2) {
-            return sign * (Math.floor(Math.random() * 90) + 10);
-        } else if (ratios === 3) {
-            return sign * (Math.floor(Math.random() * 900) + 100);
+        if (isGameAccess) {
+            const sign = Math.random() < 0.5 ? 1 : -1;
+            if (ratios === 1) {
+                return sign * Math.floor(Math.random() * 10);
+            } else if (ratios === 2) {
+                return sign * (Math.floor(Math.random() * 90) + 10);
+            } else if (ratios === 3) {
+                return sign * (Math.floor(Math.random() * 900) + 100);
+            }
         }
     };
 
-    const generateValidBrick = () => {
+    const generateValidBrick = (isFirst: boolean = false) => {
         setIsDestroyed(false);
-        let newBrickValue = generateNumber();
+        let newBrickValue = isFirst ? Math.floor(Math.random() * 10) : generateNumber();
         let newSum = 0;
+
         while (true) {
             const tempBricks = [...bricks, { value: newBrickValue }];
             newSum = tempBricks.reduce((sum, brick) => sum + brick.value, 0);
-            if (
-                newSum > 0 &&
+
+            if (newSum > 0 &&
                 ((ratios === 1 && newSum <= 9) ||
                     (ratios === 2 && newSum <= 99) ||
-                    (ratios === 3 && newSum <= 999))
-            ) {
+                    (ratios === 3 && newSum <= 999))) {
                 break;
             }
             newBrickValue = generateNumber();
@@ -58,44 +91,89 @@ const BricksGames = () => {
 
     const handleAnswer = (answer: number) => {
         if (answer === currentSum) {
-            addAllAnswers();
+            addAllAnswers()
             addCorrectAnswer();
             setRound((prev) => prev + 1);
             setAnswersAnimationFinished(true);
-
             let increment = 0;
             if (level === 1) increment = 100 / 3;
             else if (level === 2) increment = 100 / 5;
             else if (level === 3) increment = 100 / 7;
 
             setBackgroundOffset((prev) => Math.min(prev + increment, 100));
+            setCorrectAnswers((prev) => prev + 1);
+            setAnswers([]);
+            setFallingBrick(null);
+            syncStorage();
+
+            setBricks([]);
+            setCurrentSum(0);
+
+            generateBricksForRound();
         } else {
-            addAllAnswers();
+            addAllAnswers()
             setIsDestroyed(true);
+            const timer = setTimeout(() => {
+                setIsDestroyed(false);
+                setBricks([]);
+                setAnswers([]);
+                setRound(1);
+                setAnswersAnimationFinished(false);
+                syncStorage();
+            }, 1500);
+
+            return () => clearTimeout(timer);
         }
-        setAnswers([]);
     };
 
     const resetBricks = () => {
         setIsDestroyed(false);
-        setBricks([]);
         setFallingBrick(null);
         setCurrentSum(0);
-        const newBricks = Array.from({ length: numberOfRows }, () => ({
-            id: Date.now() + Math.random(),
-            value: generateValidBrick(),
-            position: 100,
-            bottom: 0,
-            isShrinking: false,
-            isNumberVisible: true,
-            width: Math.floor(Math.random() * (180 - 120 + 1)) + 120,
-            left: `${Math.random() * 6 - 3}%`,
-        }));
+
+        const newBricks = Array.from({ length: numberOfRows }, (_, index) => {
+            const isFirstBrick = index === 0;
+            return {
+                id: Date.now() + Math.random(),
+                value: generateValidBrick(isFirstBrick),
+                position: 100,
+                bottom: index * 3,
+                isShrinking: false,
+                isNumberVisible: true,
+                width: Math.floor(Math.random() * (180 - 120 + 1)) + 120,
+                left: `${Math.random() * 6 - 3}%`,
+            };
+        });
+
         setBricks(newBricks);
+        syncStorage();
     };
 
-    useEffect(() => {
-        const bricksRequired = round * numberOfRows;
+    const generateAnswers = () => {
+        if (allBricksFallen) {
+            const correctAnswer = bricks.reduce((sum, brick) => sum + brick.value, 0);
+
+            const incorrectAnswers: number[] = [];
+
+            while (incorrectAnswers.length < 2) {
+                const randomAnswer = correctAnswer + Math.floor(Math.random() * 20) - 10;
+
+                if (randomAnswer !== correctAnswer && !incorrectAnswers.includes(randomAnswer)) {
+                    incorrectAnswers.push(randomAnswer);
+                }
+            }
+
+            const allAnswers = [correctAnswer, ...incorrectAnswers];
+
+            const shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
+
+            setAnswers(shuffledAnswers);
+            setAllBricksFallen(false);
+        }
+    };
+
+    const generateBricksForRound = () => {
+        const bricksRequired = numberOfRows;
         if (!fallingBrick && bricks.length < bricksRequired && !isGameOver) {
             const newBrickValue = generateValidBrick();
             const newBrick = {
@@ -109,25 +187,52 @@ const BricksGames = () => {
                 left: `${Math.random() * 6 - 3}%`,
             };
             setFallingBrick(newBrick);
+            generateAnswers();
         }
+    };
 
-        if (bricks.length === bricksRequired && !fallingBrick && !isGameOver) {
-            const roundBricks = bricks.slice((round - 1) * numberOfRows, round * numberOfRows);
-            const correctAnswer = roundBricks.reduce((sum, brick) => sum + brick.value, 0);
+    useEffect(() => {
+        generateBricksForRound();
+    }, [bricks, fallingBrick, round, isGameOver]);
 
-            const wrongAnswers = [];
-            while (wrongAnswers.length < 2) {
-                const wrongAnswer = generateNumber();
-                if (wrongAnswer !== correctAnswer && !wrongAnswers.includes(wrongAnswer)) {
-                    wrongAnswers.push(wrongAnswer);
-                }
+
+    useEffect(() => {
+        if (allBricksFallen) {
+            console.log('Генерация ответов...');
+            const newAnswers = [];
+            const possibleAnswersCount = 3;
+            for (let i = 0; i < possibleAnswersCount; i++) {
+                newAnswers.push(generateValidBrick());
             }
-
-            const shuffledAnswers = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
-            setAnswers(shuffledAnswers);
-            setCurrentSum(correctAnswer);
+            setAnswers(newAnswers);
+            setAllBricksFallen(false);
         }
-    }, [fallingBrick, bricks, round, isGameOver, ratios, numberOfRows]);
+    }, [allBricksFallen]);
+
+    useEffect(() => {
+        if (correctAnswers >= maxRounds) {
+            finish()
+        }
+    }, [correctAnswers, maxRounds, finish]);
+
+    useEffect(() => {
+        const inactivityTimer = setTimeout(() => {
+            addAllAnswers();
+            setIsDestroyed(true);
+            const timer = setTimeout(() => {
+                setIsDestroyed(false);
+                setBricks([]);
+                setAnswers([]);
+                setRound(1);
+                setAnswersAnimationFinished(false);
+                syncStorage();
+            }, 1500);
+
+            return () => clearTimeout(timer);
+        }, 6000);
+
+        return () => clearTimeout(inactivityTimer);
+    }, [bricks, fallingBrick, answers, round]);
 
     useEffect(() => {
         if (fallingBrick) {
@@ -136,21 +241,27 @@ const BricksGames = () => {
             const interval = setInterval(() => {
                 setFallingBrick((prev) => {
                     if (!prev) return null;
-
                     if (prev.position <= prev.bottom) {
                         clearInterval(interval);
                         setBricks((prevBricks) => {
                             const newBricks = [
                                 ...prevBricks,
-                                { ...prev, position: prev.bottom, isShrinking: true, isNumberVisible: false },
+                                {
+                                    ...prev,
+                                    position: prev.bottom,
+                                    isShrinking: true,
+                                    isNumberVisible: false,
+                                    randomX: generateRandomOffset(),
+                                },
                             ];
 
-                            const newSum = newBricks.reduce((sum, brick) => sum + brick.value, 0);
-                            if (newSum <= 0 || (ratios === 1 && newSum > 9) || (ratios === 2 && newSum > 99) || (ratios === 3 && newSum > 999)) {
-                                return prevBricks;
+                            setCurrentSum(newBricks.reduce((sum, brick) => sum + brick.value, 0));
+
+                            if (newBricks.length === numberOfRows) {
+                                setAllBricksFallen(true);
+                                generateAnswers();
                             }
 
-                            setCurrentSum(newSum);
                             return newBricks;
                         });
                         setFallingBrick(null);
@@ -162,40 +273,29 @@ const BricksGames = () => {
 
             return () => clearInterval(interval);
         }
-    }, [fallingBrick, speed, ratios]);
+    }, [fallingBrick, speed, numberOfRows]);
 
-    useEffect(() => {
-        if (round > maxRounds) {
-            setIsGameOver(true);
-            finish();
-        }
-    }, [round, maxRounds, finish]);
 
-    useEffect(() => {
-        console.log("Destroyed:", isDestroyed);
-        console.log("Answers Animation Finished:", answersAnimationFinished);
-        if (isDestroyed && answersAnimationFinished) {
-            setTimeout(() => {
-                console.log("Resetting bricks...");
+    const setAnswer = (answer: number) => {
+        sendAction('setAnswer', answer);
+        handleAnswer(answer);
+    };
+    useWsAction((name, answer) => {
+        switch (name) {
+            case 'handleResetGame':
                 resetBricks();
-                setIsDestroyed(false);
-                if (bricks.length > 0) {
-                    setFallingBrick(bricks[0]);
-                }
-            }, 1000);
+                break;
+            case 'setAnswer':
+                handleAnswer(answer);
+                break;
+            case 'startNewRound':
+                setRound((prev) => prev + 1);
+                resetBricks();
+                break;
+            default:
+                console.warn(`Неизвестное действие ${name}`);
         }
-    }, [isDestroyed, answersAnimationFinished, bricks]); // Добавьте bricks в зависи
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (!isGameOver && answers.length > 0) {
-                setIsDestroyed(true);
-                setAnswers([]); // Если прошло время и ответы не выбраны
-            }
-        }, 6000); // Время до разрушения
-
-        return () => clearTimeout(timer);
-    }, [answers, isGameOver]);
+    });
 
     return (
         <div
@@ -215,24 +315,26 @@ const BricksGames = () => {
                     const randomRotateY = Math.random();
                     const randomRotateZ = Math.random();
 
+                    const brickStyles = {
+                        bottom: `${brick.position}%`,
+                        backgroundImage: `url(${brickImage})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        position: "absolute",
+                        '--random-x': randomX,
+                        '--random-y': randomY,
+                        '--random-rotate-x': randomRotateX,
+                        '--random-rotate-y': randomRotateY,
+                        '--random-rotate-z': randomRotateZ,
+                    };
+
                     return (
                         <div
                             key={brick.id}
                             className={`${styles.brick} ${isDestroyed ? styles.destroyed : ''}`}
-                            style={{
-                                bottom: `${brick.position}%`,
-                                backgroundImage: `url(${brickImage})`,
-                                backgroundSize: "cover",
-                                backgroundRepeat: "no-repeat",
-                                position: "absolute",
-                                '--random-x': randomX,
-                                '--random-y': randomY,
-                                '--random-rotate-x': randomRotateX,
-                                '--random-rotate-y': randomRotateY,
-                                '--random-rotate-z': randomRotateZ,
-                            }}
+                            style={brickStyles}
                         >
-                            {brick.isNumberVisible && (brick.value > 0 ? +`${brick.value}` : brick.value)}
+                            {brick.isNumberVisible && (brick.value > 0 ? `+${brick.value}` : brick.value)}
                         </div>
                     );
                 })}
@@ -248,7 +350,7 @@ const BricksGames = () => {
                             backgroundRepeat: "no-repeat",
                         }}
                     >
-                        {fallingBrick.value > 0 ? +`${fallingBrick.value}` : fallingBrick.value}
+                        {fallingBrick.value > 0 ? `+${fallingBrick.value}` : fallingBrick.value}
                     </div>
                 )}
 
@@ -262,9 +364,9 @@ const BricksGames = () => {
                                     backgroundImage: `url(${answersImage})`,
                                     backgroundSize: "cover",
                                     backgroundRepeat: "no-repeat",
-                                    '--animation-duration': `6s`,
+                                    '--animation-duration': '6s',
                                 }}
-                                onClick={() => handleAnswer(answer)}
+                                onClick={() => setAnswer(answer)}
                             >
                                 {answer}
                             </div>
@@ -382,6 +484,7 @@ export const BricksGame = () => register(BricksGames, (settings) => ({
                 min: 0,
                 max: 10,
                 step: 0.25,
+                defaultValue: 3,
                 update: false,
             }
         }

@@ -17,12 +17,17 @@
   color: white;
   font-weight: bold;
   border-radius: 4px;
-  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transform: translate(var(--random-x), var(--random-y)) rotateX(var(--random-rotate-x)) rotateY(var(--random-rotate-y)) rotateZ(var(--random-rotate-z));
 }
 
 .falling {
   animation: fall linear forwards;
   transform: scale(1.50);
+}
+
+.fallingWithOffset {
+  animation: fall linear forwards;
+  transform: scale(1.50) translateX(calc(-10px + (20px * var(--random-x))));
 }
 
 .shrinking {
