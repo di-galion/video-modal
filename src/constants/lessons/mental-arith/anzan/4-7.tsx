@@ -64,7 +64,7 @@ const LESSONS_MENTAL_ARITH_ANZAN: ILesson[] = [
         status: true,
         index: 6,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
     },
     {
         title: 'Заключение',

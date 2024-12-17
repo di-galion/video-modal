@@ -53,7 +53,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
@@ -180,7 +180,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_3: ILesson[] = [
         status: true,
         index: 15,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
     {
