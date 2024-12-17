@@ -192,12 +192,6 @@ export const CountExamplesGame = () => {
     const checkAnswer = () => {
         sendAction('check');
     };
-    //
-    // useEffect(() => {
-    //     if (correctAnswersCount >= numberOfRows) {
-    //         finish();
-    //     }
-    // }, [correctAnswersCount, numberOfRows, finish]);
 
     useEffect(() => {
         startNewExample();

@@ -1,0 +1,135 @@
+.gameContainer {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.brick {
+  position: absolute;
+  margin-left: 440px;
+  width: 190px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.75rem;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  transform: translate(var(--random-x), var(--random-y)) rotateX(var(--random-rotate-x)) rotateY(var(--random-rotate-y)) rotateZ(var(--random-rotate-z));
+}
+
+.falling {
+  animation: fall linear forwards;
+  transform: scale(1.50);
+}
+
+.fallingWithOffset {
+  animation: fall linear forwards;
+  transform: scale(1.50) translateX(calc(-10px + (20px * var(--random-x))));
+}
+
+.shrinking {
+  transform: scale(1);
+}
+
+@keyframes fall {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+
+.answers {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.answerBlock {
+  border: 7px solid #f1c97d;
+  width: 150px;
+  height: 40px;
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.answerBlock:hover {
+  background-color: #ff7f00;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.destroyed {
+  animation: destruction 2s ease-in-out forwards;
+  position: absolute;
+  --random-x: calc((random() - 0.5) * 2);
+  --random-y: calc((random() - 0.5) * 2);
+  --random-rotate-x: calc(random());
+  --random-rotate-y: calc(random());
+  --random-rotate-z: calc(random());
+}
+@keyframes destruction {
+  0% {
+    transform: translate(0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(calc(var(--random-x) * 10px), calc(var(--random-y) * 10px)) rotateX(calc(var(--random-rotate-x) * 30deg)) rotateY(calc(var(--random-rotate-y) * 30deg));
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(calc(var(--random-x) * 50px), 100vh) rotateX(calc(var(--random-rotate-x) * 90deg)) rotateY(calc(var(--random-rotate-y) * 90deg)) rotateZ(calc(var(--random-rotate-z) * 90deg));
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes dropDown {
+   from {
+     transform: translateY(-100vh);
+   }
+   to {
+     transform: translateY(10vh);
+   }
+ }
+
+.answerBlock {
+  position: relative;
+  animation: dropDown var(--animation-duration, 4s) ease-in-out forwards;
+}
+
+.bricksGameContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
