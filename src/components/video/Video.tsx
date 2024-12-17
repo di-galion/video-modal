@@ -77,20 +77,19 @@ const Video = () => {
     };
 
     const userCount = useTypedSelector((state) => state.accountData.userCount);
-    const multiplayer = useTypedSelector(
+    /*const multiplayer = useTypedSelector(
         (state) => state.accountData.multiPlayer
-    );
+    );*/
 
-    const isReady = useWsIsReady();
+    //const isReady = useWsIsReady();
 
     const [teacherReady, setTeacherReady] = useState(false);
 
     useEffect(() => {
-        console.log('isReady', isReady);
-        if (isReady && multiplayer && teacherReady) {
+        if (userCount > 1 && teacherReady) {
             sendAction('janus_teacher_published', {}, false);
         }
-    }, [isReady, multiplayer, teacherReady]);
+    }, [userCount, teacherReady]);
 
     useEffect(() => {
         if (userCount === 1 && isTeacher(role)) {
