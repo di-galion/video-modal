@@ -21,7 +21,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         status: true,
         index: 1,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 
@@ -134,7 +134,7 @@ const LESSONS_MENTAL_ARITH_FRIENDS_10: ILesson[] = [
         status: true,
         index: 7,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
         //реальные игры ['bricks', 'gifts', 'kaleidoscope','vitaMIX']
     },
 

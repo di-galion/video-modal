@@ -61,7 +61,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -223,7 +223,7 @@ const LESSONS_MENTAL_ARITH_SIMPLE: ILesson[] = [
         status: true,
         name: 'game',
         index: 13,
-        games: ['flashCards'],
+        games: ['bricks'],
     },
     {
         title: 'Заключение',

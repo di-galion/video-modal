@@ -31,7 +31,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         status: true,
         index: 2,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
     },
     {
         title: 'Счет на физическом абакусе',
@@ -122,7 +122,7 @@ const LESSONS_MENTAL_ARITH_BROTHER_2: ILesson[] = [
         status: true,
         index: 11,
         name: 'game',
-        games: ['flashCards'],
+        games: ['bricks'],
     },
     {
         title: 'Заключение',
