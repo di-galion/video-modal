@@ -149,6 +149,7 @@ export const CountExamplesGame = () => {
     };
 
     useWsAction((name, params = {}) => {
+        console.log(name);
         switch (name) {
             case 'startNewExample':
                 handleStartNewExample();

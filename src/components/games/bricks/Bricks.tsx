@@ -21,7 +21,7 @@ const BricksGames = () => {
     const [isGameOver, setIsGameOver] = useState(false);
     const [currentSum, setCurrentSum] = useState(0);
     const [isDestroyed, setIsDestroyed] = useState(false);
-    const [answersAnimationFinished, setAnswersAnimationFinished] = useState(false);
+    const [, setAnswersAnimationFinished] = useState(false);
     const [allBricksFallen, setAllBricksFallen] = useState(false);
     const [backgroundOffset, setBackgroundOffset] = useState(0);
     const { sendAction } = useWebSocket();
@@ -55,17 +55,23 @@ const BricksGames = () => {
         });
     };
 
-    const generateNumber = () => {
+    const generateNumberInRange = (min: number, max: number, sign: number): number => {
+        let number;
+        do {
+            number = sign * (Math.floor(Math.random() * (max - min + 1)) + min);
+        } while (number === 0);
+        return number;
+    };
+
+    const generateNumber = (): number => {
         if (isGameAccess) {
             const sign = Math.random() < 0.5 ? 1 : -1;
-            if (ratios === 1) {
-                return sign * Math.floor(Math.random() * 10);
-            } else if (ratios === 2) {
-                return sign * (Math.floor(Math.random() * 90) + 10);
-            } else if (ratios === 3) {
-                return sign * (Math.floor(Math.random() * 900) + 100);
-            }
+            if (ratios === 1) return generateNumberInRange(0, 9, sign);
+            if (ratios === 2) return generateNumberInRange(10, 99, sign);
+            if (ratios === 3) return generateNumberInRange(100, 999, sign);
         }
+        console.error("Игра не доступна, генерация чисел невозможна");
+        return 0;
     };
 
     const generateValidBrick = (isFirst: boolean = false) => {
@@ -91,10 +97,10 @@ const BricksGames = () => {
 
     const handleAnswer = (answer: number) => {
         if (answer === currentSum) {
-            addAllAnswers()
             addCorrectAnswer();
             setRound((prev) => prev + 1);
             setAnswersAnimationFinished(true);
+
             let increment = 0;
             if (level === 1) increment = 100 / 3;
             else if (level === 2) increment = 100 / 5;
@@ -104,22 +110,17 @@ const BricksGames = () => {
             setCorrectAnswers((prev) => prev + 1);
             setAnswers([]);
             setFallingBrick(null);
-            syncStorage();
-
-            setBricks([]);
-            setCurrentSum(0);
-
             generateBricksForRound();
         } else {
-            addAllAnswers()
+            addAllAnswers();
             setIsDestroyed(true);
+
             const timer = setTimeout(() => {
                 setIsDestroyed(false);
                 setBricks([]);
                 setAnswers([]);
                 setRound(1);
                 setAnswersAnimationFinished(false);
-                syncStorage();
             }, 1500);
 
             return () => clearTimeout(timer);
@@ -145,25 +146,28 @@ const BricksGames = () => {
             };
         });
 
-        setBricks(newBricks);
-        syncStorage();
+        setBricks((prevBricks) => [...prevBricks, ...newBricks]);
     };
 
     const generateAnswers = () => {
         if (allBricksFallen) {
-            const correctAnswer = bricks.reduce((sum, brick) => sum + brick.value, 0);
+            const correctAnswer = Math.abs(bricks.reduce((sum, brick) => sum + brick.value, 0));
 
-            const incorrectAnswers: number[] = [];
+            const incorrectAnswers: Set<number> = new Set();
+            while (incorrectAnswers.size < 2) {
+                const randomOffset = Math.floor(Math.random() * 20) + 1;
+                let incorrectAnswer = correctAnswer + randomOffset;
 
-            while (incorrectAnswers.length < 2) {
-                const randomAnswer = correctAnswer + Math.floor(Math.random() * 20) - 10;
-
-                if (randomAnswer !== correctAnswer && !incorrectAnswers.includes(randomAnswer)) {
-                    incorrectAnswers.push(randomAnswer);
+                if (
+                    incorrectAnswer !== correctAnswer &&
+                    incorrectAnswer > 0 &&
+                    !incorrectAnswers.has(incorrectAnswer)
+                ) {
+                    incorrectAnswers.add(incorrectAnswer);
                 }
             }
 
-            const allAnswers = [correctAnswer, ...incorrectAnswers];
+            const allAnswers = [correctAnswer, ...Array.from(incorrectAnswers)];
 
             const shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
 
@@ -171,7 +175,6 @@ const BricksGames = () => {
             setAllBricksFallen(false);
         }
     };
-
     const generateBricksForRound = () => {
         const bricksRequired = numberOfRows;
         if (!fallingBrick && bricks.length < bricksRequired && !isGameOver) {
@@ -198,16 +201,29 @@ const BricksGames = () => {
 
     useEffect(() => {
         if (allBricksFallen) {
-            console.log('Генерация ответов...');
-            const newAnswers = [];
+
+            const fallenBricks = bricks.map(brick => brick.value);
+
+            const correctAnswer = fallenBricks.reduce((sum, brick) => sum + brick, 0);
+
+            const newAnswers = new Set<number>();
+            newAnswers.add(correctAnswer);
+
             const possibleAnswersCount = 3;
-            for (let i = 0; i < possibleAnswersCount; i++) {
-                newAnswers.push(generateValidBrick());
+            while (newAnswers.size < possibleAnswersCount) {
+                let value;
+                do {
+                    value = Math.abs(generateValidBrick());
+                } while (value === 0 || newAnswers.has(value));
+                newAnswers.add(value);
             }
-            setAnswers(newAnswers);
+
+            const shuffledAnswers = [...newAnswers].sort(() => Math.random() - 0.5);
+
+            setAnswers(shuffledAnswers);
             setAllBricksFallen(false);
         }
-    }, [allBricksFallen]);
+    }, [allBricksFallen, bricks]);
 
     useEffect(() => {
         if (correctAnswers >= maxRounds) {
@@ -217,7 +233,6 @@ const BricksGames = () => {
 
     useEffect(() => {
         const inactivityTimer = setTimeout(() => {
-            addAllAnswers();
             setIsDestroyed(true);
             const timer = setTimeout(() => {
                 setIsDestroyed(false);
@@ -275,25 +290,33 @@ const BricksGames = () => {
         }
     }, [fallingBrick, speed, numberOfRows]);
 
+    useEffect(() => {
+        syncStorage();
+    }, [bricks, fallingBrick, answers, round, currentSum, backgroundOffset]);
+
 
     const setAnswer = (answer: number) => {
         sendAction('setAnswer', answer);
         handleAnswer(answer);
     };
-    useWsAction((name, answer) => {
+    useWsAction((name, params = {}) => {
+        console.log(`Получено событие: ${name}`, params);
         switch (name) {
             case 'handleResetGame':
+                console.log('Сбрасываем игру...');
                 resetBricks();
                 break;
             case 'setAnswer':
-                handleAnswer(answer);
+                console.log('Обрабатываем ответ...', params);
+                handleAnswer(params.answer);
                 break;
             case 'startNewRound':
+                console.log('Начинаем новый раунд...');
                 setRound((prev) => prev + 1);
                 resetBricks();
                 break;
             default:
-                console.warn(`Неизвестное действие ${name}`);
+                console.warn(`Неизвестное действие: ${name}`);
         }
     });
 
@@ -432,7 +455,7 @@ export const BricksGame = () => register(BricksGames, (settings) => ({
             title: 'Уровень',
             reduxKey: 'level',
             settings: {
-                max: 4,
+                max: 3,
                 min: 1,
                 step: 1,
             }
@@ -515,14 +538,14 @@ export const BricksGame = () => register(BricksGames, (settings) => ({
                     subTitle3: 'Стройка новой башни начинается с нуля',
                     titleBottom: 'Не допускай ошибок для успешного завершения игры.',
                 };
-            case 4:
-                return {
-                    title: 'Кирпичики',
-                    subTitle1: 'Выполни действие на кирпичиках и выбери правильный ответ чтобы построить башню.',
-                    subTitle2: 'Для завершения игры необходимо построить 2 башни одновременно',
-                    subTitle3: 'Стройка новой башни начинается с нуля',
-                    titleBottom: 'Не допускай ошибок для успешного завершения игры.',
-                };
+            // case 4:
+            //     return {
+            //         title: 'Кирпичики',
+            //         subTitle1: 'Выполни действие на кирпичиках и выбери правильный ответ чтобы построить башню.',
+            //         subTitle2: 'Для завершения игры необходимо построить 2 башни одновременно',
+            //         subTitle3: 'Стройка новой башни начинается с нуля',
+            //         titleBottom: 'Не допускай ошибок для успешного завершения игры.',
+            //     };
             default:
                 return {
                     title: 'Неизвестный уровень',
