@@ -62,6 +62,8 @@ const MountainTrailGame = () => {
     const { speed = 3, count = 5 } = useGameSettings<number>();
     const { theme = [1] } = useGameSettings<number[]>();
 
+    const realSpeed = useMemo(() => speed * 1.5, [speed]);
+
     const finishGame = useGameFinish();
 
     const { sendAction } = useWebSocket();
@@ -72,10 +74,7 @@ const MountainTrailGame = () => {
 
     const getNumber = useCallback((step: number) => (step % count) + 1, []);
 
-    const length = useMemo(
-        () => (count as number) * theme.length || 1,
-        [theme]
-    );
+    const length = useMemo(() => count * theme.length || 1, [count, theme]);
 
     useWsAction((name, params) => {
         switch (name) {
@@ -96,7 +95,7 @@ const MountainTrailGame = () => {
     const { setLevel } = useActions();
 
     useEffect(() => {
-        setLevel(getNumber(step));
+        setLevel(getNumber(step) * getConstant(step));
 
         if (step > length - 1) {
             finishGame();
@@ -146,7 +145,7 @@ const MountainTrailGame = () => {
             if (step <= length - 1) {
                 interval.current = setInterval(() => {
                     setMode('bad');
-                }, speed * 1000);
+                }, realSpeed * 1000);
             }
         } else {
             clearInterval(interval.current);
@@ -201,7 +200,7 @@ const MountainTrailGame = () => {
                         className={classNames(styles.shapes, {
                             [styles.run]: runned,
                         })}
-                        style={{ animationDuration: `${speed}s` }}
+                        style={{ animationDuration: `${realSpeed}s` }}
                     >
                         {shapes.map((shape: ShapeProps) => (
                             <Shape
@@ -239,11 +238,11 @@ export const MountainTrail = () =>
         ],
         settings: [
             {
-                type: 'range',
+                type: 'speed',
                 title: 'Скорость',
                 reduxKey: 'speed',
                 settings: {
-                    max: 5,
+                    max: 20,
                     min: 1,
                     step: 0.5,
                     defaultValue: 3,

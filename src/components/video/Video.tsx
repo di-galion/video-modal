@@ -76,11 +76,6 @@ const Video = () => {
     };
 
     const userCount = useTypedSelector((state) => state.accountData.userCount);
-    /*const multiplayer = useTypedSelector(
-        (state) => state.accountData.multiPlayer
-    );*/
-
-    //const isReady = useWsIsReady();
 
     const [teacherReady, setTeacherReady] = useState(false);
 
@@ -102,7 +97,7 @@ const Video = () => {
                 studentSubscribe()
                     .then(() => studentPublish())
                     .then(() => {
-                        sendAction('janus_student_published', {}, false);
+                        sendAction('janus_student_published', {}, false, true);
                     });
                 break;
             case 'janus_student_published':

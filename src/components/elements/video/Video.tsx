@@ -47,7 +47,7 @@ export const Video: FC<
 
     const handlePlay = () => {
         if (isTeacher(role) || settings.video) {
-            sendAction('playVideo', { src }, false);
+            sendAction('playVideo', { src }, false, true);
         }
     };
 

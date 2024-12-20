@@ -22,12 +22,13 @@ export function useWebSocket() {
     const sendAction = (
         name: string,
         params?: Record<string, any>,
-        self = true
+        self = true,
+        force = false
     ) => {
         if (
             name === WsSystemAction.UserEnter ||
-            name === 'playVideo' ||
             isTeacher(role) ||
+            force ||
             settings.interface === 1
         ) {
             wsApi.sendAction(name, params, self);
